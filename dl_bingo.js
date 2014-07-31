@@ -126,6 +126,7 @@ DL.bingo = ( function($) {
 	*/
 	function bingo_caller() {
         var number_board = documnet.getElementByID("number-board"),
+        	called_number = document.getElementByID("called-number"),
         	bingo_balls = [],
         	class_list_arry = [],
             numbers_arry = [],
@@ -138,9 +139,15 @@ DL.bingo = ( function($) {
             if(numbers_arry.length < 73){
                 curr_letter = letters[random_num(1,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
-                bingo_balls = number_board.childnodes.
+                bingo_balls = number_board.childnodes;
+                called_number.innerHTML(curr_letter + curr_number);
                 for(i = 0; i < bingo_balls; i++){
                 	class_list_arry = bingo_balls[i].classList.toString().split(" ");
+                	if(class_list_arry[i] === curr_letter + curr_number){
+                		class_list_arry.push("called");
+                		class_list_arry = class_list_arry.toString();
+                		bingo_balls[i].className = class_list_arry;
+                	}
 
                 }
             }
