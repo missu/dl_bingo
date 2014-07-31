@@ -1,4 +1,6 @@
-/*jslint plusplus: true, white: true */
+/*jslint browser: true plusplus: true, white: true */
+/*global DL */
+
 
 /*
 -bingo card
@@ -11,7 +13,7 @@
 'use strict';
 
 var DL = DL || {};
-DL.bingo = ( function($) {
+DL.bingo = ( function() {
     var letters = ['B', 'I', 'N', 'G', 'O'];
 
     /*
@@ -42,7 +44,7 @@ DL.bingo = ( function($) {
     */
 	Bingo_card.prototype.bingo_row = function() {
 		var bingo_obj = {},
-			cell = null,
+			cell_dom = null,
             i,
             row = document.createElement("div");
 
@@ -60,9 +62,9 @@ DL.bingo = ( function($) {
 		for(i = 0; i < letters.length; i++){
 			bingo_obj.letter = letters[i];
 			bingo_obj.num = bingo_numbers(letters[i],this.card_numbers);
-			cell = new Bingo_cell(bingo_obj);
+			cell_dom = new Bingo_cell(bingo_obj);
 		}
-        row.appendChild(cell);
+        row.appendChild(cell_dom);
         return row;
 	};
 
@@ -125,7 +127,7 @@ DL.bingo = ( function($) {
 		Returns: none
 	*/
 	function bingo_caller() {
-        var number_board = documnet.getElementByID("number-board"),
+        var number_board = document.getElementByID("number-board"),
         	called_number = document.getElementByID("called-number"),
         	bingo_balls = [],
         	class_list_arry = [],
@@ -137,10 +139,11 @@ DL.bingo = ( function($) {
 
         interval_ID = setInterval(function() {
             if(numbers_arry.length < 73){
-                curr_letter = letters[random_num(1,5)];
+                curr_letter = letters[randon_num(1,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
                 bingo_balls = number_board.childnodes;
                 called_number.innerHTML(curr_letter + curr_number);
+
                 for(i = 0; i < bingo_balls; i++){
                 	class_list_arry = bingo_balls[i].classList.toString().split(" ");
                 	if(class_list_arry[i] === curr_letter + curr_number){
@@ -158,4 +161,4 @@ DL.bingo = ( function($) {
     }
 	 
 	
-}(jQuery));
+}());
