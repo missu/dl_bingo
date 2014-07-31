@@ -14,6 +14,12 @@ var DL = DL || {};
 DL.bingo = ( function($) {
     var letters = ['B', 'I', 'N', 'G', 'O'];
 
+    /*
+    	Function Object: Bingo_card
+    	Parameter(s): none
+		Description: creates a Bingo card
+		Returns: a dom object
+    */
 	function Bingo_card() {
         this.card_numbers = [];
         var card = document.createElement("div"),
@@ -26,6 +32,14 @@ DL.bingo = ( function($) {
 
         return card;
     }
+
+    /*
+    	Method: bingo_row
+    	Belongs to: Bingo_card
+    	Parameter(s): none
+		Description: creates a Bingo card
+		Returns: a dom object
+    */
 	Bingo_card.prototype.bingo_row = function() {
 		var bingo_obj = {},
 			cell = null,
@@ -52,10 +66,22 @@ DL.bingo = ( function($) {
         return row;
 	};
 
+	/*
+    	Function: random_num
+    	Parameter(s): number, number
+		Description: get a random number from a user specified range
+		Returns: a number
+    */
     function randon_num(min,max) {
         return Math.floor(Math.random() * (max-min) + min);
     }
     
+    /*
+    	Function: bingo_number
+    	Parameter(s): string, array
+		Description: creates a Bingo number
+		Returns: a number
+    */
 	function bingo_numbers(letter, num_arry) {
 		/* 	B 1-15
 			I 16-30
@@ -92,23 +118,36 @@ DL.bingo = ( function($) {
 		} 		
 	}
 	
+	/*
+		Function: bingo_caller
+		Parameter(s): none
+		Description: Update the bingo board of called numbers
+		Returns: none
+	*/
 	function bingo_caller() {
         var number_board = documnet.getElementByID("number-board"),
+        	bingo_balls = [],
+        	class_list_arry = [],
             numbers_arry = [],
-            curr_letter = "",\
+            curr_letter = "",
             curr_number = null,
-            interval_ID = null;
+            interval_ID = null,
+            i;
 
-        interval_ID = setInterval(function(){
-            if(numbers_arry.length =< 72){
+        interval_ID = setInterval(function() {
+            if(numbers_arry.length < 73){
                 curr_letter = letters[random_num(1,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
+                bingo_balls = number_board.childnodes.
+                for(i = 0; i < bingo_balls; i++){
+                	class_list_arry = bingo_balls[i].classList.toString().split(" ");
+
+                }
             }
             else{
                  clearInterval(interval_ID);   
             }
-        },
-        4000);
+        }, 4000);
     }
 	 
 	
