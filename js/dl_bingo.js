@@ -138,7 +138,7 @@ DL.bingo = ( function() {
             i;
 
         interval_ID = setInterval(function() {
-            if(numbers_arry.length < 73){
+            if(numbers_arry.length < 75){
                 curr_letter = letters[randon_num(1,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
                 bingo_balls = number_board.childnodes;
@@ -146,10 +146,8 @@ DL.bingo = ( function() {
 
                 for(i = 0; i < bingo_balls; i++){
                 	class_list_arry = bingo_balls[i].classList.toString().split(" ");
-                	if(class_list_arry[i] === curr_letter + curr_number){
-                		class_list_arry.push("called");
-                		class_list_arry = class_list_arry.toString();
-                		bingo_balls[i].className = class_list_arry;
+                	if(class_list_arry[i] === (curr_letter + curr_number){
+                		bingo_balls[i].classList.add("called");
                 	}
 
                 }
