@@ -127,8 +127,8 @@ DL.bingo = ( function() {
 		Returns: none
 	*/
 	function bingo_caller() {
-        var number_board = document.getElementByID("number-board"),
-        	called_number = document.getElementByID("called-number"),
+        var number_board = document.getElementById("number-board"),
+        	called_number = document.getElementById("called-number"),
         	bingo_balls = [],
         	class_list_arry = [],
             numbers_arry = [],
@@ -146,7 +146,7 @@ DL.bingo = ( function() {
 
                 for(i = 0; i < bingo_balls; i++){
                 	class_list_arry = bingo_balls[i].classList.toString().split(" ");
-                	if(class_list_arry[i] === (curr_letter + curr_number){
+                	if(class_list_arry[i] === (curr_letter + curr_number)){
                 		bingo_balls[i].classList.add("called");
                 	}
 
@@ -157,6 +157,27 @@ DL.bingo = ( function() {
             }
         }, 4000);
     }
+
+    function start_game() {
+        var game_card = new Bingo_card,
+            card_table = document.getElementById("card-table");
+        card_table.appendChild(game_card);
+        bingo_caller();
+    }
+
+    /*
+        Function: init
+        Parameter(s): none
+        Description: This is the function that is called on dom ready to initialize the game.
+        Returns: none
+    */
+    function init() {
+        var start_button = document.getElementById("start-button");
+
+        start_button.addEventListener("click", start_game, false);
+        start_button.addEventListener("touchend", start_game, false);
+
+    }
 	 
-	
+	document.addEventListener("DOMContentLoaded", init, false);
 }());

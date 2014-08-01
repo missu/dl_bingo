@@ -3,26 +3,25 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Ulina Small's Website">
+		<meta name="description" content="Digital Ladybug Bingo">
 		<meta name="author" content="Ulina Small">
 		<title>Digital Ladybug Bingo</title>
 
-		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" type="text/css" href="css/dl.css" media="screen">
+		<link rel="stylesheet" href="css/main.css">
 		<link href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic|Flamenco' rel='stylesheet' type='text/css'>
 
 		<script type="text/javascript" src="js/dl_bingo.js" ></script>
 	</head>
 
 	<body>
-		<article>
-			<header>
+		<article class="bingo-game">
+			<header class="main-header">
 				<h1>let's Play Bingo!</h1>
 			</header>
 			<section class="bingo-stage">
 				<section id="caller-table">
 					<div id="bingo-caller-container">
-						<header>
+						<header class="caller-header">
 							<span id="called-number"></span>
 							<span>B</span><span>I</span><span>N</span><span>G</span><span>O</span>
 						</header>
@@ -35,7 +34,7 @@
 							<span class="b-col b6">6</span><span class="i-col i21">21</span><span class="n-col n36">36</span><span class="g-col g51">51</span><span class="o-col o66">66</span>
 							<span class="b-col b7">7</span><span class="i-col i22">22</span><span class="n-col n37">37</span><span class="g-col g52">52</span><span class="o-col o67">67</span>
 							<span class="b-col b8">8</span><span class="i-col i23">23</span><span class="n-col n38">38</span><span class="g-col g53">53</span><span class="o-col o68">68</span>
-							<span class="b-col b9">9</span><span class="i- o69">69</span>
+							<span class="b-col b9">9</span><span class="i-col i24">24</span><span class="n-col n39">39</span><span class="g-col g54">54</span><span class="o-col i69">69</span>
 							<span class="b-col b10">10</span><span class="i-col i25">25</span><span class="n-col n40">40</span><span class="g-col g55">55</span><span class="o-col o70">70</span>
 							<span class="b-col b11">11</span><span class="i-col i26">26</span><span class="n-col n42">41</span><span class="g-col g56">56</span><span class="o-col o71">71</span>
 							<span class="b-col b12">12</span><span class="i-col i27">27</span><span class="n-col n42">42</span><span class="g-col g57">57</span><span class="o-col o72">72</span>
@@ -44,11 +43,12 @@
 							<span class="b-col b15">15</span><span class="i-col i30">30</span><span class="n-col n45">45</span><span class="g-col g60">60</span><span class="o-col o75">75</span>
 						</div>
 					</div>
+					<button id="start-button">Start Game</button>
 				</section>
 				<section id="card-table"></section>
 			</section>
 		</article>
-		<footer>
+		<footer class="bingo-game-footer">
 		<p>Copyright 2014</p>
 		</footer>
 		<script type="text/javascript">

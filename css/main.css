@@ -1,0 +1,127 @@
+*, html * {
+	margin: 0px;
+	padding: 0px;
+	-moz-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	box-sizing: border-box;
+}
+body{
+	color: #222;
+}
+
+.bingo-game,
+.bingo-game-footer {
+	width: 960px;
+	margin: 0 auto;
+
+}
+
+.bingo-game-footer{
+	text-align: center;
+	font-size: 10px;
+}
+
+.bingo-game .main-header{
+	padding: 20px 0px;
+}
+
+.bingo-game .main-header h1{
+	font-size: 32px;
+	text-align: center;
+}
+
+#caller-table,
+#card-table{
+	display: inline-block;
+}
+
+/* Caller Table */
+
+#caller-table{
+	width: 250px;
+
+}
+
+#bingo-caller-container{
+
+
+}
+
+#bingo-caller-container span{
+	display: inline-block;
+}
+
+#bingo-caller-container .caller-header{
+	
+}
+
+#bingo-caller-container .caller-header #called-number{
+	color: #ffaaaa;
+	display: block;
+	font-size: 20px;
+}
+
+#bingo-caller{
+
+}
+
+#bingo-caller .b-col,
+#bingo-caller .i-col,
+#bingo-caller .n-col,
+#bingo-caller .g-col,
+#bingo-caller .o-col,
+#bingo-caller-container .caller-header span:not(#called-number){
+	display: inline-block;
+	padding: 3px 0px;
+	text-align: center;
+	width: 50px;
+}
+
+#bingo-caller .b-col,
+#bingo-caller .i-col,
+#bingo-caller .n-col,
+#bingo-caller .g-col,
+#bingo-caller .o-col{
+	color: #fefefe;
+}
+
+#bingo-caller .b-col,
+#bingo-caller .n-col,
+#bingo-caller .o-col{
+	background-color: #e0e0e0;
+
+}
+
+#bingo-caller .i-col,
+#bingo-caller .g-col{
+	background-color: #efefef;
+
+}
+#bingo-caller .b-col.called,
+#bingo-caller .i-col.called,
+#bingo-caller .n-col.called,
+#bingo-caller .g-col.called,
+#bingo-caller .o-col.called{
+	color: #222;
+}
+
+#start-button{
+	border: 1px solid;
+	border-color: #bcc1c8 #bababa #adb2bb;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #eff0f3;
+	background: -moz-linear-gradient(top, #f7f8fa, #e7e9ec);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f8fa), color-stop(100%, #e7e9ec));
+	background: -webkit-linear-gradient(top, #f7f8fa, #e7e9ec);
+	background: -o-linear-gradient(top, #f7f8fa, #e7e9ec);
+	background: -ms-linear-gradient(top, #f7f8fa, #e7e9ec);
+	background: linear-gradient(top, #f7f8fa, #e7e9ec);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f8fa', endColorstr='#e7e9ec',GradientType=0);
+	height: 30px;
+	width: 80px;
+	margin-top: 20px;
+}
+
+
