@@ -63,8 +63,9 @@ DL.bingo = ( function() {
 			bingo_obj.letter = letters[i];
 			bingo_obj.num = bingo_numbers(letters[i],this.card_numbers);
 			cell_dom = new Bingo_cell(bingo_obj);
+            row.appendChild(cell_dom);
 		}
-        row.appendChild(cell_dom);
+        
         return row;
 	};
 
