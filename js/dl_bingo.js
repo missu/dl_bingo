@@ -28,8 +28,8 @@ DL.bingo = ( function() {
             i,
             header = document.createElement("header");
         header.className = "card-header";
-        header.innerHTML = '<span class="bingo-cell">B</span><span class="bingo-cell">I</span><span class="bingo-cell">N</span>'
-                            + '<span class="bingo-cell">G</span><span class="bingo-cell">O</span>';
+        header.innerHTML =  '<span class="bingo-cell-title">B</span><span class="bingo-cell-title">I</span><span class="bingo-cell-title">N</span>'
+                            + '<span class="bingo-cell-title">G</span><span class="bingo-cell-title">O</span>';
         
         card.className = "bingo-card";
         card.appendChild(header);
@@ -149,7 +149,8 @@ DL.bingo = ( function() {
                 curr_letter = letters[randon_num(0,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
                 number_board_children = number_board.childNodes;
-                called_number.innerHTML = curr_letter + curr_number;
+                // called_number.innerHTML = curr_letter + curr_number;
+                called_number.value =  curr_letter + curr_number;
                 console.log("inside bingo caller"); console.log(curr_letter + curr_number);
                 for(i = 0, j=0; i < number_board_children.length; i++){
                     if(number_board_children[i].nodeType === Node.ELEMENT_NODE){
