@@ -44,7 +44,6 @@ body{
 
 #bingo-caller{
 
-
 }
 
 #bingo-caller span{
@@ -56,9 +55,11 @@ body{
 }
 
 #bingo-caller .caller-header #called-number{
-	color: #ffaaaa;
+	color: #ff7777;
 	display: block;
-	font-size: 20px;
+	font-size: 24px;
+	margin: 0px auto;
+	width: 40px;
 }
 
 #numbers-board{
@@ -131,18 +132,31 @@ body{
 }
 
 #card-table .bingo-card{
-	max-width: 600px;
+	max-width: 350px;
+	border: 1px solid #7777FF;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#card-table .bingo-card .card-header{
+	color: #7777ff;
+	text-align: center;
 }
 
 #card-table .bingo-card .bingo-row{
 	width: 100%;
 }
 
-#card-table .bingo-card .bingo-row .bingo-cell{
+#card-table .bingo-card .bingo-row .bingo-cell,
+#card-table .bingo-card .card-header .bingo-cell{
 	display: inline-block;
 	padding: 4px 3px;
 	text-align: center;
+	height: 70px;
+	vertical-align: middle;
 	width: 20%;
+	
 
 }
 
