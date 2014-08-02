@@ -54,12 +54,30 @@ body{
 	
 }
 
+#bingo-caller .caller-header .called-number-title{
+	display: block;
+	font-size: 26px;
+	border: 1px solid #ff7777;
+	border-bottom: 1px dotted #ff7777;
+	text-align: center;
+	width: 100%;
+}
+
 #bingo-caller .caller-header #called-number{
+	border: 1px solid #ff7777;
+	border-top: none;
 	color: #ff7777;
 	display: block;
 	font-size: 24px;
+	font-weight: bold;
 	margin: 0px auto;
-	width: 40px;
+	/*width: 40px;*/
+	text-align: center;
+	width: 100%;
+}
+
+#bingo-caller .caller-header .letter{
+	margin-top: 20px;
 }
 
 #numbers-board{
@@ -71,7 +89,7 @@ body{
 #numbers-board .n-col,
 #numbers-board .g-col,
 #numbers-board .o-col,
-#bingo-caller .caller-header span:not(#called-number){
+#bingo-caller .caller-header .letter{
 	display: inline-block;
 	padding: 3px 0px;
 	text-align: center;
@@ -144,19 +162,34 @@ body{
 	text-align: center;
 }
 
+#card-table .bingo-card .card-header .bingo-cell-title{
+	border-left: 1px solid #7777FF;
+}
+
+#card-table .bingo-card .card-header .bingo-cell-title:first-child{
+	border-left: none;
+}
+
 #card-table .bingo-card .bingo-row{
+	border-top: 1px solid #222;
 	width: 100%;
 }
 
 #card-table .bingo-card .bingo-row .bingo-cell,
-#card-table .bingo-card .card-header .bingo-cell{
+#card-table .bingo-card .card-header .bingo-cell-title{
 	display: inline-block;
-	padding: 4px 3px;
-	text-align: center;
 	height: 70px;
+	padding: 25px 0px;
+	text-align: center;
 	vertical-align: middle;
 	width: 20%;
-	
+}
 
+#card-table .bingo-card .bingo-row .bingo-cell{
+	border-right: 1px solid #222;
+}
+
+#card-table .bingo-card .bingo-row .bingo-cell:last-child{
+	border-right: none;
 }
 
