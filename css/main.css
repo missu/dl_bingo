@@ -38,70 +38,70 @@ body{
 /* Caller Table */
 
 #caller-table{
+	vertical-align: top;
 	width: 250px;
+}
+
+#bingo-caller{
+
 
 }
 
-#bingo-caller-container{
-
-
-}
-
-#bingo-caller-container span{
+#bingo-caller span{
 	display: inline-block;
 }
 
-#bingo-caller-container .caller-header{
+#bingo-caller .caller-header{
 	
 }
 
-#bingo-caller-container .caller-header #called-number{
+#bingo-caller .caller-header #called-number{
 	color: #ffaaaa;
 	display: block;
 	font-size: 20px;
 }
 
-#bingo-caller{
+#numbers-board{
 
 }
 
-#bingo-caller .b-col,
-#bingo-caller .i-col,
-#bingo-caller .n-col,
-#bingo-caller .g-col,
-#bingo-caller .o-col,
-#bingo-caller-container .caller-header span:not(#called-number){
+#numbers-board .b-col,
+#numbers-board .i-col,
+#numbers-board .n-col,
+#numbers-board .g-col,
+#numbers-board .o-col,
+#bingo-caller .caller-header span:not(#called-number){
 	display: inline-block;
 	padding: 3px 0px;
 	text-align: center;
 	width: 50px;
 }
 
-#bingo-caller .b-col,
-#bingo-caller .i-col,
-#bingo-caller .n-col,
-#bingo-caller .g-col,
-#bingo-caller .o-col{
+#numbers-board .b-col,
+#numbers-board .i-col,
+#numbers-board .n-col,
+#numbers-board .g-col,
+#numbers-board .o-col{
 	color: #fefefe;
 }
 
-#bingo-caller .b-col,
-#bingo-caller .n-col,
-#bingo-caller .o-col{
+#numbers-board .b-col,
+#numbers-board .n-col,
+#numbers-board .o-col{
 	background-color: #e0e0e0;
 
 }
 
-#bingo-caller .i-col,
-#bingo-caller .g-col{
+#numbers-board .i-col,
+#numbers-board .g-col{
 	background-color: #efefef;
 
 }
-#bingo-caller .b-col.called,
-#bingo-caller .i-col.called,
-#bingo-caller .n-col.called,
-#bingo-caller .g-col.called,
-#bingo-caller .o-col.called{
+#numbers-board .b-col.called,
+#numbers-board .i-col.called,
+#numbers-board .n-col.called,
+#numbers-board .g-col.called,
+#numbers-board .o-col.called{
 	color: #222;
 }
 
@@ -124,4 +124,25 @@ body{
 	margin-top: 20px;
 }
 
+/* CARD TABLE */
+#card-table{
+	width: 705px;
+	vertical-align: top;
+}
+
+#card-table .bingo-card{
+	max-width: 600px;
+}
+
+#card-table .bingo-card .bingo-row{
+	width: 100%;
+}
+
+#card-table .bingo-card .bingo-row .bingo-cell{
+	display: inline-block;
+	padding: 4px 3px;
+	text-align: center;
+	width: 20%;
+
+}
 
