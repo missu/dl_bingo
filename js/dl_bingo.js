@@ -25,9 +25,14 @@ DL.bingo = ( function() {
 	function Bingo_card() {
         this.card_numbers = [];
         var card = document.createElement("div"),
-            i;
+            i,
+            header = document.createElement("header");
+        header.className = "card-header";
+        header.innerHTML = '<span class="bingo-cell">B</span><span class="bingo-cell">I</span><span class="bingo-cell">N</span>'
+                            + '<span class="bingo-cell">G</span><span class="bingo-cell">O</span>';
         
         card.className = "bingo-card";
+        card.appendChild(header);
         for(i = 0; i < 5; i++){
             card.appendChild(this.bingo_row());
         }
@@ -53,8 +58,7 @@ DL.bingo = ( function() {
 
             cell.className = "bingo-cell";
             cell.setAttribute('data-number', obj.letter+obj.num);
-            cell.innerHTML = '<span class="bingo-letter">' + obj.letter + '</span>'
-							+ '<span class="bingo-num">' + obj.num + '</span>'; 
+            cell.innerHTML = '<span class="bingo-num">' + obj.num + '</span>'; 
             return cell;
         }
         
@@ -96,19 +100,19 @@ DL.bingo = ( function() {
 			
 		switch (letter){
 			case "B":
-				bingo_num = randon_num(1,15);
+				bingo_num = randon_num(1,16);
 				break;
 			case "I": 
-				bingo_num = randon_num(16,30);
+				bingo_num = randon_num(16,31);
 				break;
 			case "N":
-				bingo_num = randon_num(31,45);
+				bingo_num = randon_num(31,46);
 				break;
 			case "G":
-				bingo_num = randon_num(46,60);
+				bingo_num = randon_num(46,61);
 				break;
 			case "O":
-				bingo_num = randon_num(61,75);
+				bingo_num = randon_num(61,76);
 				break;
 		}
 			
@@ -142,11 +146,11 @@ DL.bingo = ( function() {
 
         interval_ID = setInterval(function() {
             if(numbers_arry.length < 75){
-                curr_letter = letters[randon_num(1,5)];
+                curr_letter = letters[randon_num(0,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
                 number_board_children = number_board.childNodes;
                 called_number.innerHTML = curr_letter + curr_number;
-
+                console.log("inside bingo caller"); console.log(curr_letter + curr_number);
                 for(i = 0, j=0; i < number_board_children.length; i++){
                     if(number_board_children[i].nodeType === Node.ELEMENT_NODE){
                         bingo_balls[j] = number_board_children[i];
