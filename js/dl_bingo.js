@@ -58,7 +58,7 @@ DL.bingo = ( function() {
             return cell;
         }
         
-        row.className = "bingo_row";
+        row.className = "bingo-row";
 		for(i = 0; i < letters.length; i++){
 			bingo_obj.letter = letters[i];
 			bingo_obj.num = bingo_numbers(letters[i],this.card_numbers);
@@ -113,7 +113,7 @@ DL.bingo = ( function() {
 		}
 			
 		if(num_arry && num_arry.indexOf(bingo_num) !== -1){
-			bingo_numbers(letter,num_arry);
+			return bingo_numbers(letter,num_arry); 
 		}
 		else{
 			num_arry.push(bingo_num);
@@ -128,29 +128,40 @@ DL.bingo = ( function() {
 		Returns: none
 	*/
 	function bingo_caller() {
-        var number_board = document.getElementById("number-board"),
+        var number_board = document.getElementById("numbers-board"),
         	called_number = document.getElementById("called-number"),
         	bingo_balls = [],
         	class_list_arry = [],
             numbers_arry = [],
+            number_board_children = [],
             curr_letter = "",
             curr_number = null,
             interval_ID = null,
-            i;
+            i,
+            j;
 
         interval_ID = setInterval(function() {
             if(numbers_arry.length < 75){
                 curr_letter = letters[randon_num(1,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
-                bingo_balls = number_board.childnodes;
-                called_number.innerHTML(curr_letter + curr_number);
+                number_board_children = number_board.childNodes;
+                called_number.innerHTML = curr_letter + curr_number;
 
-                for(i = 0; i < bingo_balls; i++){
+                for(i = 0, j=0; i < number_board_children.length; i++){
+                    if(number_board_children[i].nodeType === Node.ELEMENT_NODE){
+                        bingo_balls[j] = number_board_children[i];
+                        j++;
+                    }
+
+                }
+
+                for(i = 0; i < bingo_balls.length; i++){
                 	class_list_arry = bingo_balls[i].classList.toString().split(" ");
-                	if(class_list_arry[i] === (curr_letter + curr_number)){
-                		bingo_balls[i].classList.add("called");
-                	}
-
+                    for(j = 0; j < class_list_arry.length; j++){
+                        if(class_list_arry[j] === (curr_letter + curr_number)){
+                            bingo_balls[i].classList.add("called");
+                        }  
+                    }
                 }
             }
             else{
@@ -160,7 +171,7 @@ DL.bingo = ( function() {
     }
 
     function start_game() {
-        var game_card = new Bingo_card,
+        var game_card = new Bingo_card(),
             card_table = document.getElementById("card-table");
         card_table.appendChild(game_card);
         bingo_caller();
