@@ -193,3 +193,8 @@ body{
 	border-right: none;
 }
 
+#card-table .bingo-card .bingo-row .bingo-cell.clicked{
+	background-color: #7777FF;
+	color: #FFFFFF;
+}
+

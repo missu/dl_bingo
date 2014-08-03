@@ -24,6 +24,10 @@ DL.bingo = ( function() {
     */
 	function Bingo_card() {
         this.card_numbers = [];
+    }
+
+    Bingo_card.prototype.create_card = function(class_name) {
+
         var card = document.createElement("div"),
             i,
             header = document.createElement("header");
@@ -32,13 +36,15 @@ DL.bingo = ( function() {
                             + '<span class="bingo-cell-title">G</span><span class="bingo-cell-title">O</span>';
         
         card.className = "bingo-card";
+        if(class_name) card.classList.add(class_name);
         card.appendChild(header);
         for(i = 0; i < 5; i++){
             card.appendChild(this.bingo_row());
         }
 
         return card;
-    }
+
+    };
 
     /*
     	Method: bingo_row
@@ -72,6 +78,75 @@ DL.bingo = ( function() {
         
         return row;
 	};
+
+    /*
+        Method: toggle_cell
+        Belongs to: Bingo_card
+        Parameter(s): event
+        Description: toggle the styling of the bingo cell
+        Returns: none
+    */
+    Bingo_card.prototype.toggle_cell = function(e) {
+        var e_target = e.target || e.srcElement;
+        console.log(e);
+        console.log("type of attributes");
+        console.log(typeof e_target.attributes);
+
+        if(e_target.className === "bingo-cell" || e_target.className === "bingo-num"  ){
+            if(e_target.className === "bingo-cell"){
+                e_target.classList.add("clicked");
+            }
+            else if(e_target.className === "bingo-num"){
+                if(e_target.parentNode.classList.length < 2){
+                    e_target.parentNode.classList.add("clicked");
+                }
+                else{
+                    e_target.parentNode.classList.remove("clicked");
+                }   
+            }
+        }
+        else if (e_target.className.indexOf("clicked") !== -1){
+            e_target.classList.remove("clicked");
+        }
+    };
+
+    /*
+        Method: call_bingo
+        Belongs to: Bingo_card
+        Parameter(s): event
+        Description: checks to see if the user has a bingo
+        Returns: none
+    */
+    Bingo_card.prototype.call_bingo = function(e) {
+        var e_target = e.target || e.srcElement,
+            e_parent = e_target.parentNode,
+            click_cells = [];
+        
+        console.log(e);
+
+        /*
+        - first check which row is filled
+        - check if the numbers in filled row have been called
+        - if yes, return true, else return false
+        */
+
+        click_cells = e_parent.getElementsByClassname("clicked");
+
+        for(i=0; i < click_cells.length; i++ ){
+
+        }
+
+        // forward diaganol check
+
+        // backwards diaganol check
+
+        // top to bottom check
+
+        // left to right check
+
+        
+        
+    };
 
 	/*
     	Function: random_num
@@ -175,10 +250,23 @@ DL.bingo = ( function() {
         }, 4000);
     }
 
-    function start_game() {
+    /*
+        Function: start_game
+        Parameter(s): event
+        Description: runs all the functions to start the game. Invoked by an event.
+        Returns: none
+    */
+    function start_game(event) {
+        event.stopPropagation();
         var game_card = new Bingo_card(),
+            game_card_dom = game_card.create_card(),
             card_table = document.getElementById("card-table");
-        card_table.appendChild(game_card);
+ 
+        game_card_dom.addEventListener("click", game_card.toggle_cell, false); 
+        card_table.appendChild(game_card_dom);
+       
+
+        
         bingo_caller();
     }
 
