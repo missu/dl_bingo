@@ -14,7 +14,8 @@
 
 var DL = DL || {};
 DL.bingo = ( function() {
-    var letters = ['B', 'I', 'N', 'G', 'O'];
+    var letters = ['B', 'I', 'N', 'G', 'O'],
+        bingo_caller_interval_ID = null;
 
     /*
     	Function Object: Bingo_card
@@ -30,17 +31,33 @@ DL.bingo = ( function() {
 
         var card = document.createElement("div"),
             i,
-            header = document.createElement("header");
+            j,
+            card_row = null,
+            header = document.createElement("header"),
+            footer = document.createElement("footer");
+
         header.className = "card-header";
         header.innerHTML =  '<span class="bingo-cell-title">B</span><span class="bingo-cell-title">I</span><span class="bingo-cell-title">N</span>'
                             + '<span class="bingo-cell-title">G</span><span class="bingo-cell-title">O</span>';
         
         card.className = "bingo-card";
-        if(class_name) card.classList.add(class_name);
+        if(class_name) {
+            card.classList.add(class_name);
+        }
         card.appendChild(header);
         for(i = 0; i < 5; i++){
-            card.appendChild(this.bingo_row());
+            card_row = this.bingo_row();
+            for(j = 0; j < card_row.childNodes.length; j++){
+                card_row.childNodes[j].setAttribute("data-position", letters[j]+(i+1));
+            }
+            card.appendChild(card_row);
+            
         }
+
+
+        footer.className = "card-footer";
+        footer.innerHTML = '<button class="call-bingo">Yell Bingo!</button>';
+        card.appendChild(footer);
 
         return card;
 
@@ -119,8 +136,22 @@ DL.bingo = ( function() {
     */
     Bingo_card.prototype.call_bingo = function(e) {
         var e_target = e.target || e.srcElement,
-            e_parent = e_target.parentNode,
-            click_cells = [];
+            e_card = e_target.parentNode.parentNode,
+            i,
+            click_cells = [],
+            fwd_diagonal_cells = [],
+            bkwd_diagonal_cells = [],
+            b_col_cells = [],
+            i_col_cells = [],
+            n_col_cells = [],
+            g_col_cells = [],
+            o_col_cells = [],
+            row_one_cells = [],
+            row_two_cells = [],
+            row_three_cells = [],
+            row_four_cells = [],
+            row_five_cells = [],
+            has_bingo = false;
         
         console.log(e);
 
@@ -130,21 +161,106 @@ DL.bingo = ( function() {
         - if yes, return true, else return false
         */
 
-        click_cells = e_parent.getElementsByClassname("clicked");
+        click_cells = e_card.getElementsByClassName("clicked");
 
         for(i=0; i < click_cells.length; i++ ){
 
+            if(click_cells[i].dataset.position === "B1" || click_cells[i].dataset.position === "I2" || click_cells[i].dataset.position === "G4" || click_cells[i].dataset.position === "O5"){
+                // forward diagonal check
+                fwd_diagonal_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "O1" || click_cells[i].dataset.position === "G2" || click_cells[i].dataset.position === "I4" || click_cells[i].dataset.position === "B5") {
+                // backwards diagonal check
+                bkwd_diagonal_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "B1" || click_cells[i].dataset.position === "B2" || click_cells[i].dataset.position === "B3" || click_cells[i].dataset.position === "B4" || click_cells[i].dataset.position === "B5") {
+                // top to bottom check
+                b_col_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "I1" || click_cells[i].dataset.position === "I2" || click_cells[i].dataset.position === "I3" || click_cells[i].dataset.position === "I4" || click_cells[i].dataset.position === "I5") {
+                // top to bottom check
+                i_col_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "N1" || click_cells[i].dataset.position === "N2" || click_cells[i].dataset.position === "N4" || click_cells[i].dataset.position === "N5") {
+                // top to bottom check
+                n_col_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "G1" || click_cells[i].dataset.position === "G2" || click_cells[i].dataset.position === "G3" || click_cells[i].dataset.position === "G4" || click_cells[i].dataset.position === "G5") {
+                // top to bottom check
+                g_col_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "O1" || click_cells[i].dataset.position === "O2" || click_cells[i].dataset.position === "O3" || click_cells[i].dataset.position === "O4" || click_cells[i].dataset.position === "O5") {
+                // top to bottom check
+                o_col_cells.push(click_cells[i]);
+            }
+
+            else if(click_cells[i].dataset.position === "B1" || click_cells[i].dataset.position === "I1" || click_cells[i].dataset.position === "N1" || click_cells[i].dataset.position === "G1" || click_cells[i].dataset.position === "O1") {
+                // left to right check
+                row_one_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "B2" || click_cells[i].dataset.position === "I2" || click_cells[i].dataset.position === "N2" || click_cells[i].dataset.position === "G2" || click_cells[i].dataset.position === "O2") {
+                // left to right check
+                row_two_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "B3" || click_cells[i].dataset.position === "I3" || click_cells[i].dataset.position === "G3" || click_cells[i].dataset.position === "O3") {
+                // left to right check
+                row_three_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "B4" || click_cells[i].dataset.position === "I4" || click_cells[i].dataset.position === "N4" || click_cells[i].dataset.position === "G4" || click_cells[i].dataset.position === "O4") {
+                // left to right check
+                row_four_cells.push(click_cells[i]);
+            }
+            else if(click_cells[i].dataset.position === "B5" || click_cells[i].dataset.position === "I5" || click_cells[i].dataset.position === "N5" || click_cells[i].dataset.position === "G5" || click_cells[i].dataset.position === "O5") {
+                // left to right check
+                row_five_cells.push(click_cells[i]);
+            }
         }
 
-        // forward diaganol check
+        // forward diagonal check
+        if(fwd_diagonal_cells.length > 4 && this.card_numbers[fwd_diagonal_cells[0]] && this.card_numbers[fwd_diagonal_cells[1]] && this.card_numbers[fwd_diagonal_cells[2]] && this.card_numbers[fwd_diagonal_cells[3]]){
+            has_bingo = true;
+        }
+        else if(bkwd_diagonal_cells.length > 4 && this.card_numbers[bkwd_diagonal_cells[0]] && this.card_numbers[bkwd_diagonal_cells[1]] && this.card_numbers[bkwd_diagonal_cells[2]] && this.card_numbers[bkwd_diagonal_cells[3]]) {
+            has_bingo = true;
+        }
+        else if(b_col_cells.length > 5 && this.card_numbers[b_col_cells[0]] && this.card_numbers[b_col_cells[1]] && this.card_numbers[b_col_cells[2]] && this.card_numbers[b_col_cells[3]] && this.card_numbers[b_col_cells[4]]) {
+            has_bingo = true;
+        }
+        else if(i_col_cells.length > 5 && this.card_numbers[i_col_cells[0]] && this.card_numbers[i_col_cells[1]] && this.card_numbers[i_col_cells[2]] && this.card_numbers[i_col_cells[3]] && this.card_numbers[i_col_cells[4]]) {
+            has_bingo = true;
+        }
+        else if(n_col_cells.length > 4 && this.card_numbers[n_col_cells[0]] && this.card_numbers[n_col_cells[1]] && this.card_numbers[n_col_cells[2]] && this.card_numbers[n_col_cells[3]]) {
+            has_bingo = true;
+        }
+        else if(g_col_cells.length > 5 && this.card_numbers[g_col_cells[0]] && this.card_numbers[g_col_cells[1]] && this.card_numbers[g_col_cells[2]] && this.card_numbers[g_col_cells[3]] && this.card_numbers[g_col_cells[4]]) {
+            has_bingo = true;
+        }
+        else if(o_col_cells.length > 5 && this.card_numbers[o_col_cells[0]] && this.card_numbers[o_col_cells[1]] && this.card_numbers[o_col_cells[2]] && this.card_numbers[o_col_cells[3]] && this.card_numbers[o_col_cells[4]]) {
+            has_bingo = true;
+        }
+        else if(row_one_cells.length > 5 && this.card_numbers[row_one_cells[0]] && this.card_numbers[row_one_cells[1]] && this.card_numbers[row_one_cells[2]] && this.card_numbers[row_one_cells[3]] && this.card_numbers[row_one_cells[4]]) {
+            has_bingo = true;
+        }
+        else if(row_two_cells.length > 5 && this.card_numbers[row_two_cells[0]] && this.card_numbers[row_two_cells[1]] && this.card_numbers[row_two_cells[2]] && this.card_numbers[row_two_cells[3]] && this.card_numbers[row_two_cells[4]]) {
+            has_bingo = true;
+        }
+        else if(row_three_cells.length > 4 && this.card_numbers[row_three_cells[0]] && this.card_numbers[row_three_cells[1]] && this.card_numbers[row_three_cells[2]] && this.card_numbers[row_three_cells[3]]) {
+            has_bingo = true;
+        }
+        else if(row_four_cells.length > 5 && this.card_numbers[row_four_cells[0]] && this.card_numbers[row_four_cells[1]] && this.card_numbers[row_four_cells[2]] && this.card_numbers[row_four_cells[3]] && this.card_numbers[row_four_cells[4]]) {
+            has_bingo = true;
+        }
+        else if(row_five_cells.length > 5 && this.card_numbers[row_five_cells[0]] && this.card_numbers[row_five_cells[1]] && this.card_numbers[row_five_cells[2]] && this.card_numbers[row_five_cells[3]] && this.card_numbers[row_five_cells[4]]) {
+            has_bingo = true;
+        }
 
-        // backwards diaganol check
+        // backwards diagonal check
 
         // top to bottom check
 
         // left to right check
-
-        
+        display_results(e, has_bingo);
+        // return has_bingo;
         
     };
 
@@ -191,10 +307,10 @@ DL.bingo = ( function() {
 				break;
 		}
 			
-		if(num_arry && num_arry.indexOf(bingo_num) !== -1){
+		if(num_arry && num_arry.indexOf(bingo_num) !== -1) {
 			return bingo_numbers(letter,num_arry); 
 		}
-		else{
+		else {
 			num_arry.push(bingo_num);
 			return bingo_num;
 		} 		
@@ -215,11 +331,10 @@ DL.bingo = ( function() {
             number_board_children = [],
             curr_letter = "",
             curr_number = null,
-            interval_ID = null,
             i,
             j;
 
-        interval_ID = setInterval(function() {
+        bingo_caller_interval_ID = setInterval(function() {
             if(numbers_arry.length < 75){
                 curr_letter = letters[randon_num(0,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
@@ -245,9 +360,53 @@ DL.bingo = ( function() {
                 }
             }
             else{
-                 clearInterval(interval_ID);   
+                 clearInterval(bingo_caller_interval_ID);   
             }
         }, 4000);
+    }
+
+    /*
+        Function: display_ results
+        Parameter(s): event obj, boolean
+        Description: display a message on the screen
+        Returns: none
+    */
+    function display_results(event, bool) {
+
+        var msgs = { 
+                no_bingo : "You do not have Bingo",
+                user_wins: "Congratulations! You won!",
+                computer_wins : "Sorry, You lose"
+            },
+            msg_dom = document.getElementById("message"),
+            user = event.target.parentNode.parentNode;
+
+        if(user.className === "bingo-card"){
+
+            if(bool){
+                msg_dom.innerHTML = '<span>' + msgs.user_wins + '</span>';
+                msg_dom.classList.remove("hide");
+                msg_dom.classList.add("show");
+                clearInterval(bingo_caller_interval_ID);
+                setTimeout(function() {
+                    msg_dom.classList.remove("show");
+                    msg_dom.classList.add("hide");
+                }, 4000);
+
+            }
+            else{
+                msg_dom.innerHTML = '<span>' + msgs.no_bingo + '</span>';
+                msg_dom.classList.remove("hide");
+                msg_dom.classList.add("show");
+                setTimeout(function() {
+                    msg_dom.classList.add("hide");
+                    msg_dom.classList.remove("show");
+                }, 1000);
+            }    
+        }
+        else{
+            //computer
+        }
     }
 
     /*
@@ -262,7 +421,10 @@ DL.bingo = ( function() {
             game_card_dom = game_card.create_card(),
             card_table = document.getElementById("card-table");
  
-        game_card_dom.addEventListener("click", game_card.toggle_cell, false); 
+        game_card_dom.addEventListener("click", game_card.toggle_cell, false);
+        var footer = game_card_dom.getElementsByClassName("card-footer");
+        var btn = footer[0].getElementsByClassName("call-bingo");
+        btn[0].addEventListener("click", game_card.call_bingo, false); 
         card_table.appendChild(game_card_dom);
        
 

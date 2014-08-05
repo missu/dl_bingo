@@ -198,3 +198,45 @@ body{
 	color: #FFFFFF;
 }
 
+#card-table .bingo-card footer{
+	border-top: 1px solid #7777FF;
+	padding: 10px 0px;
+	text-align: center;
+}
+
+#card-table .bingo-card .call-bingo{
+	border: 1px solid;
+	border-color: #bcc1c8 #bababa #adb2bb;
+	color: #FFFFFF;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #7777FF;
+	background: -moz-linear-gradient(top, #7777FF, #5555FF);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7777FF), color-stop(100%, #5555FF));
+	background: -webkit-linear-gradient(top, #7777FF, #5555FF);
+	background: -o-linear-gradient(top, #7777FF, #5555FF);
+	background: -ms-linear-gradient(top, #7777FF, #5555FF);
+	background: linear-gradient(top, #7777FF, #5555FF);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7777FF', endColorstr='#5555FF',GradientType=0);
+	height: 30px;
+	width: 80px;
+}
+
+
+#message {
+	display: none;
+	-webkit-transition: height 2s;
+	-moz-transition: height 2s;
+	-o-transition: height 2s;
+	transition: height 2s;
+}
+
+#message.hide{
+	height: 0px;
+}
+
+#message.show{
+	display: block;
+	height: 300px;
+}
