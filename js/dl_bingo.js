@@ -80,7 +80,8 @@ DL.bingo = ( function() {
             var cell = document.createElement("span");
 
             cell.className = "bingo-cell";
-            cell.setAttribute('data-number', obj.letter+obj.num);
+            cell.setAttribute('data-letter', obj.letter);
+            cell.setAttribute('data-number', obj.num);
             cell.innerHTML = '<span class="bingo-num">' + obj.num + '</span>'; 
             return cell;
         }
@@ -156,14 +157,27 @@ DL.bingo = ( function() {
             row_four_cells = [],
             row_five_cells = [],
             has_bingo = false;
-        
-        console.log(e);
+
+        function check_values(direction_arry, lgth, card_nums) {
+            if(lgth === 4) {
+                if(direction_arry.length === lgth && card_nums.indexOf(parseInt(direction_arry[0].dataset.number, 10)) !== -1 && card_nums.indexOf(parseInt(direction_arry[1].dataset.number, 10)) !== -1 && card_nums.indexOf(parseInt(direction_arry[2].dataset.number, 10)) !== -1 && card_nums.indexOf(parseInt(direction_arry[3].dataset.number, 10)) !== -1) {
+                    has_bingo = true;
+                }
+            }
+            else{
+                if(direction_arry.length === lgth && card_nums.indexOf(parseInt(direction_arry[0].dataset.number, 10)) !== -1 && card_nums.indexOf(parseInt(direction_arry[1].dataset.number, 10)) !== -1 && card_nums.indexOf(parseInt(direction_arry[2].dataset.number, 10)) !== -1 && card_nums.indexOf(parseInt(direction_arry[3].dataset.number, 10)) !== -1 && card_nums.indexOf(parseInt(direction_arry[4].dataset.number, 10)) !== -1) {
+                    has_bingo = true;
+                }
+            }
+        }
 
         /*
         - first check which row is filled
         - check if the numbers in filled row have been called
         - if yes, return true, else return false
         */
+
+        console.log(e);
 
         click_cells = e_card.getElementsByClassName("clicked");
 
@@ -500,43 +514,18 @@ DL.bingo = ( function() {
             }
         }
 
-        // forward diagonal check
-        if(fwd_diagonal_cells.length === 4 && this.card_numbers[fwd_diagonal_cells[0]] && this.card_numbers[fwd_diagonal_cells[1]] && this.card_numbers[fwd_diagonal_cells[2]] && this.card_numbers[fwd_diagonal_cells[3]]){
-            has_bingo = true;
-        }
-        else if(bkwd_diagonal_cells.length === 4 && this.card_numbers[bkwd_diagonal_cells[0]] && this.card_numbers[bkwd_diagonal_cells[1]] && this.card_numbers[bkwd_diagonal_cells[2]] && this.card_numbers[bkwd_diagonal_cells[3]]) {
-            has_bingo = true;
-        }
-        else if(b_col_cells.length === 5 && this.card_numbers[b_col_cells[0]] && this.card_numbers[b_col_cells[1]] && this.card_numbers[b_col_cells[2]] && this.card_numbers[b_col_cells[3]] && this.card_numbers[b_col_cells[4]]) {
-            has_bingo = true;
-        }
-        else if(i_col_cells.length === 5 && this.card_numbers[i_col_cells[0]] && this.card_numbers[i_col_cells[1]] && this.card_numbers[i_col_cells[2]] && this.card_numbers[i_col_cells[3]] && this.card_numbers[i_col_cells[4]]) {
-            has_bingo = true;
-        }
-        else if(n_col_cells.length === 4 && this.card_numbers[n_col_cells[0]] && this.card_numbers[n_col_cells[1]] && this.card_numbers[n_col_cells[2]] && this.card_numbers[n_col_cells[3]]) {
-            has_bingo = true;
-        }
-        else if(g_col_cells.length === 5 && this.card_numbers[g_col_cells[0]] && this.card_numbers[g_col_cells[1]] && this.card_numbers[g_col_cells[2]] && this.card_numbers[g_col_cells[3]] && this.card_numbers[g_col_cells[4]]) {
-            has_bingo = true;
-        }
-        else if(o_col_cells.length === 5 && this.card_numbers[o_col_cells[0]] && this.card_numbers[o_col_cells[1]] && this.card_numbers[o_col_cells[2]] && this.card_numbers[o_col_cells[3]] && this.card_numbers[o_col_cells[4]]) {
-            has_bingo = true;
-        }
-        else if(row_one_cells.length === 5 && this.card_numbers[row_one_cells[0]] && this.card_numbers[row_one_cells[1]] && this.card_numbers[row_one_cells[2]] && this.card_numbers[row_one_cells[3]] && this.card_numbers[row_one_cells[4]]) {
-            has_bingo = true;
-        }
-        else if(row_two_cells.length === 5 && this.card_numbers[row_two_cells[0]] && this.card_numbers[row_two_cells[1]] && this.card_numbers[row_two_cells[2]] && this.card_numbers[row_two_cells[3]] && this.card_numbers[row_two_cells[4]]) {
-            has_bingo = true;
-        }
-        else if(row_three_cells.length === 4 && this.card_numbers[row_three_cells[0]] && this.card_numbers[row_three_cells[1]] && this.card_numbers[row_three_cells[2]] && this.card_numbers[row_three_cells[3]]) {
-            has_bingo = true;
-        }
-        else if(row_four_cells.length === 5 && this.card_numbers[row_four_cells[0]] && this.card_numbers[row_four_cells[1]] && this.card_numbers[row_four_cells[2]] && this.card_numbers[row_four_cells[3]] && this.card_numbers[row_four_cells[4]]) {
-            has_bingo = true;
-        }
-        else if(row_five_cells.length === 5 && this.card_numbers[row_five_cells[0]] && this.card_numbers[row_five_cells[1]] && this.card_numbers[row_five_cells[2]] && this.card_numbers[row_five_cells[3]] && this.card_numbers[row_five_cells[4]]) {
-            has_bingo = true;
-        }
+        check_values(fwd_diagonal_cells, 4, this.card_numbers);
+        check_values(bkwd_diagonal_cells, 4, this.card_numbers);
+        check_values(b_col_cells, 5, this.card_numbers);
+        check_values(i_col_cells, 5, this.card_numbers);
+        check_values(n_col_cells, 4, this.card_numbers);
+        check_values(g_col_cells, 5, this.card_numbers);
+        check_values(o_col_cells, 5, this.card_numbers);
+        check_values(row_one_cells, 5, this.card_numbers);
+        check_values(row_two_cells, 5, this.card_numbers);
+        check_values(row_three_cells, 4, this.card_numbers);
+        check_values(row_four_cells, 5, this.card_numbers);
+        check_values(row_five_cells, 5, this.card_numbers);
 
         display_results(e, has_bingo);
     };
@@ -696,12 +685,13 @@ DL.bingo = ( function() {
         event.stopPropagation();
         var game_card = new Bingo_card(),
             game_card_dom = game_card.create_card(),
-            card_table = document.getElementById("card-table");
+            card_table = document.getElementById("card-table"),
+            call_bingo = game_card.call_bingo.bind(game_card);
  
         game_card_dom.addEventListener("click", game_card.toggle_cell, false);
         var footer = game_card_dom.getElementsByClassName("card-footer");
         var btn = footer[0].getElementsByClassName("call-bingo");
-        btn[0].addEventListener("click", game_card.call_bingo, false); 
+        btn[0].addEventListener("click", call_bingo, false); 
         card_table.appendChild(game_card_dom);
        
 
