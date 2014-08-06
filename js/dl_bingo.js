@@ -140,6 +140,8 @@ DL.bingo = ( function() {
             i,
             j,
             k,
+            m,
+            n,
             click_cells = [],
             fwd_diagonal_cells = [],
             bkwd_diagonal_cells = [],
@@ -239,92 +241,304 @@ DL.bingo = ( function() {
                     }
                 }
             }
-            else if(click_cells[i].dataset.position === "O1" || click_cells[i].dataset.position === "G2" || click_cells[i].dataset.position === "I4" || click_cells[i].dataset.position === "B5") {
-                // backwards diagonal check
-                bkwd_diagonal_cells.push(click_cells[i]);
-            }
-            
-            else if(click_cells[i].dataset.position === "I1" || click_cells[i].dataset.position === "I2" || click_cells[i].dataset.position === "I3" || click_cells[i].dataset.position === "I4" || click_cells[i].dataset.position === "I5") {
+            else if(click_cells[i].dataset.position === "I1"){
                 // top to bottom check
                 i_col_cells.push(click_cells[i]);
+                for(j = 0; j < click_cells.length; j++){
+
+                    if(click_cells[j].dataset.position === "I2"){
+
+                        i_col_cells.push(click_cells[j]);
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "I3"){
+
+                                i_col_cells.push(click_cells[k]);
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "I4"){
+
+                                        i_col_cells.push(click_cells[m]);
+                                        for(n = 0; n < click_cells.length; n++){
+
+                                            if(click_cells[n].dataset.position === "I5"){
+                                                i_col_cells.push(click_cells[n]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
             }
-            else if(click_cells[i].dataset.position === "N1" || click_cells[i].dataset.position === "N2" || click_cells[i].dataset.position === "N4" || click_cells[i].dataset.position === "N5") {
+            else if(click_cells[i].dataset.position === "N1"){ 
                 // top to bottom check
                 n_col_cells.push(click_cells[i]);
+                for(j = 0; j < click_cells.length; j++){
+
+                    if(click_cells[j].dataset.position === "N2"){
+
+                        n_col_cells.push(click_cells[j]);
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "N4"){
+
+                                n_col_cells.push(click_cells[k]);
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "N5"){
+
+                                        n_col_cells.push(click_cells[m]);
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
             }
-            else if(click_cells[i].dataset.position === "G1" || click_cells[i].dataset.position === "G2" || click_cells[i].dataset.position === "G3" || click_cells[i].dataset.position === "G4" || click_cells[i].dataset.position === "G5") {
+            else if(click_cells[i].dataset.position === "G1") {
                 // top to bottom check
                 g_col_cells.push(click_cells[i]);
+                for(j = 0; j < click_cells.length; j++){
+
+                    if(click_cells[j].dataset.position === "G2"){
+
+                        g_col_cells.push(click_cells[j]);
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "G3"){
+
+                                g_col_cells.push(click_cells[k]);
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "G4"){
+
+                                        g_col_cells.push(click_cells[m]);
+                                        for(n = 0; n < click_cells.length; n++){
+
+                                            if(click_cells[n].dataset.position === "G5"){
+                                                g_col_cells.push(click_cells[n]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
             }
-            else if(click_cells[i].dataset.position === "O1" || click_cells[i].dataset.position === "O2" || click_cells[i].dataset.position === "O3" || click_cells[i].dataset.position === "O4" || click_cells[i].dataset.position === "O5") {
+            else if(click_cells[i].dataset.position === "O1"){
+                // backwards diagonal check
+                bkwd_diagonal_cells.push(click_cells[i]);
                 // top to bottom check
                 o_col_cells.push(click_cells[i]);
-            }
 
-            else if(click_cells[i].dataset.position === "B2" || click_cells[i].dataset.position === "I2" || click_cells[i].dataset.position === "N2" || click_cells[i].dataset.position === "G2" || click_cells[i].dataset.position === "O2") {
+                for(j = 0; j < click_cells.length; j++){
+
+                    if(click_cells[j].dataset.position === "G2"){
+                        bkwd_diagonal_cells.push(click_cells[j]);
+
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "I4"){
+                                bkwd_diagonal_cells.push(click_cells[k]);
+
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "B5"){
+                                        bkwd_diagonal_cells.push(click_cells[m]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if(click_cells[j].dataset.position === "O2"){
+
+                        o_col_cells.push(click_cells[j]);
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "O3"){
+
+                                o_col_cells.push(click_cells[k]);
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "O4"){
+
+                                        o_col_cells.push(click_cells[m]);
+                                        for(n = 0; n < click_cells.length; n++){
+
+                                            if(click_cells[n].dataset.position === "O5"){
+                                                o_col_cells.push(click_cells[n]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
+            }
+            //rows
+            else if(click_cells[i].dataset.position === "B2"){
                 // left to right check
                 row_two_cells.push(click_cells[i]);
+                for(j = 0; j < click_cells.length; j++){
+
+                    if(click_cells[j].dataset.position === "I2"){
+
+                        row_two_cells.push(click_cells[j]);
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "N2"){
+
+                                row_two_cells.push(click_cells[k]);
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "G2"){
+
+                                        row_two_cells.push(click_cells[m]);
+                                        for(n = 0; n < click_cells.length; n++){
+
+                                            if(click_cells[n].dataset.position === "O2"){
+                                                row_two_cells.push(click_cells[n]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
             }
-            else if(click_cells[i].dataset.position === "B3" || click_cells[i].dataset.position === "I3" || click_cells[i].dataset.position === "G3" || click_cells[i].dataset.position === "O3") {
+            else if(click_cells[i].dataset.position === "B3"){
                 // left to right check
                 row_three_cells.push(click_cells[i]);
+                for(j = 0; j < click_cells.length; j++){
+
+                    if(click_cells[j].dataset.position === "I3"){
+
+                        row_three_cells.push(click_cells[j]);
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "G3"){
+
+                                row_three_cells.push(click_cells[k]);
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "O3"){
+
+                                        row_three_cells.push(click_cells[m]);
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
             }
-            else if(click_cells[i].dataset.position === "B4" || click_cells[i].dataset.position === "I4" || click_cells[i].dataset.position === "N4" || click_cells[i].dataset.position === "G4" || click_cells[i].dataset.position === "O4") {
+            else if(click_cells[i].dataset.position === "B4"){
                 // left to right check
                 row_four_cells.push(click_cells[i]);
+                for(j = 0; j < click_cells.length; j++){
+
+                    if(click_cells[j].dataset.position === "I2"){
+
+                        row_four_cells.push(click_cells[j]);
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "N4"){
+
+                                row_four_cells.push(click_cells[k]);
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "G4"){
+
+                                        row_four_cells.push(click_cells[m]);
+                                        for(n = 0; n < click_cells.length; n++){
+
+                                            if(click_cells[n].dataset.position === "O4"){
+                                                row_four_cells.push(click_cells[n]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
             }
-            else if(click_cells[i].dataset.position === "B5" || click_cells[i].dataset.position === "I5" || click_cells[i].dataset.position === "N5" || click_cells[i].dataset.position === "G5" || click_cells[i].dataset.position === "O5") {
+            else if(click_cells[i].dataset.position === "B5"){
                 // left to right check
                 row_five_cells.push(click_cells[i]);
+                for(j = 0; j < click_cells.length; j++){
+
+                    if(click_cells[j].dataset.position === "I5"){
+
+                        row_five_cells.push(click_cells[j]);
+                        for(k = 0; k < click_cells.length; k++){
+
+                            if(click_cells[k].dataset.position === "N5"){
+
+                                row_five_cells.push(click_cells[k]);
+                                for(m = 0; m < click_cells.length; m++){
+
+                                    if(click_cells[m].dataset.position === "G5"){
+
+                                        row_five_cells.push(click_cells[m]);
+                                        for(n = 0; n < click_cells.length; n++){
+
+                                            if(click_cells[n].dataset.position === "O5"){
+                                                row_five_cells.push(click_cells[n]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
             }
         }
 
         // forward diagonal check
-        if(fwd_diagonal_cells.length > 4 && this.card_numbers[fwd_diagonal_cells[0]] && this.card_numbers[fwd_diagonal_cells[1]] && this.card_numbers[fwd_diagonal_cells[2]] && this.card_numbers[fwd_diagonal_cells[3]]){
+        if(fwd_diagonal_cells.length === 4 && this.card_numbers[fwd_diagonal_cells[0]] && this.card_numbers[fwd_diagonal_cells[1]] && this.card_numbers[fwd_diagonal_cells[2]] && this.card_numbers[fwd_diagonal_cells[3]]){
             has_bingo = true;
         }
-        else if(bkwd_diagonal_cells.length > 4 && this.card_numbers[bkwd_diagonal_cells[0]] && this.card_numbers[bkwd_diagonal_cells[1]] && this.card_numbers[bkwd_diagonal_cells[2]] && this.card_numbers[bkwd_diagonal_cells[3]]) {
+        else if(bkwd_diagonal_cells.length === 4 && this.card_numbers[bkwd_diagonal_cells[0]] && this.card_numbers[bkwd_diagonal_cells[1]] && this.card_numbers[bkwd_diagonal_cells[2]] && this.card_numbers[bkwd_diagonal_cells[3]]) {
             has_bingo = true;
         }
-        else if(b_col_cells.length > 5 && this.card_numbers[b_col_cells[0]] && this.card_numbers[b_col_cells[1]] && this.card_numbers[b_col_cells[2]] && this.card_numbers[b_col_cells[3]] && this.card_numbers[b_col_cells[4]]) {
+        else if(b_col_cells.length === 5 && this.card_numbers[b_col_cells[0]] && this.card_numbers[b_col_cells[1]] && this.card_numbers[b_col_cells[2]] && this.card_numbers[b_col_cells[3]] && this.card_numbers[b_col_cells[4]]) {
             has_bingo = true;
         }
-        else if(i_col_cells.length > 5 && this.card_numbers[i_col_cells[0]] && this.card_numbers[i_col_cells[1]] && this.card_numbers[i_col_cells[2]] && this.card_numbers[i_col_cells[3]] && this.card_numbers[i_col_cells[4]]) {
+        else if(i_col_cells.length === 5 && this.card_numbers[i_col_cells[0]] && this.card_numbers[i_col_cells[1]] && this.card_numbers[i_col_cells[2]] && this.card_numbers[i_col_cells[3]] && this.card_numbers[i_col_cells[4]]) {
             has_bingo = true;
         }
-        else if(n_col_cells.length > 4 && this.card_numbers[n_col_cells[0]] && this.card_numbers[n_col_cells[1]] && this.card_numbers[n_col_cells[2]] && this.card_numbers[n_col_cells[3]]) {
+        else if(n_col_cells.length === 4 && this.card_numbers[n_col_cells[0]] && this.card_numbers[n_col_cells[1]] && this.card_numbers[n_col_cells[2]] && this.card_numbers[n_col_cells[3]]) {
             has_bingo = true;
         }
-        else if(g_col_cells.length > 5 && this.card_numbers[g_col_cells[0]] && this.card_numbers[g_col_cells[1]] && this.card_numbers[g_col_cells[2]] && this.card_numbers[g_col_cells[3]] && this.card_numbers[g_col_cells[4]]) {
+        else if(g_col_cells.length === 5 && this.card_numbers[g_col_cells[0]] && this.card_numbers[g_col_cells[1]] && this.card_numbers[g_col_cells[2]] && this.card_numbers[g_col_cells[3]] && this.card_numbers[g_col_cells[4]]) {
             has_bingo = true;
         }
-        else if(o_col_cells.length > 5 && this.card_numbers[o_col_cells[0]] && this.card_numbers[o_col_cells[1]] && this.card_numbers[o_col_cells[2]] && this.card_numbers[o_col_cells[3]] && this.card_numbers[o_col_cells[4]]) {
+        else if(o_col_cells.length === 5 && this.card_numbers[o_col_cells[0]] && this.card_numbers[o_col_cells[1]] && this.card_numbers[o_col_cells[2]] && this.card_numbers[o_col_cells[3]] && this.card_numbers[o_col_cells[4]]) {
             has_bingo = true;
         }
-        else if(row_one_cells.length > 5 && this.card_numbers[row_one_cells[0]] && this.card_numbers[row_one_cells[1]] && this.card_numbers[row_one_cells[2]] && this.card_numbers[row_one_cells[3]] && this.card_numbers[row_one_cells[4]]) {
+        else if(row_one_cells.length === 5 && this.card_numbers[row_one_cells[0]] && this.card_numbers[row_one_cells[1]] && this.card_numbers[row_one_cells[2]] && this.card_numbers[row_one_cells[3]] && this.card_numbers[row_one_cells[4]]) {
             has_bingo = true;
         }
-        else if(row_two_cells.length > 5 && this.card_numbers[row_two_cells[0]] && this.card_numbers[row_two_cells[1]] && this.card_numbers[row_two_cells[2]] && this.card_numbers[row_two_cells[3]] && this.card_numbers[row_two_cells[4]]) {
+        else if(row_two_cells.length === 5 && this.card_numbers[row_two_cells[0]] && this.card_numbers[row_two_cells[1]] && this.card_numbers[row_two_cells[2]] && this.card_numbers[row_two_cells[3]] && this.card_numbers[row_two_cells[4]]) {
             has_bingo = true;
         }
-        else if(row_three_cells.length > 4 && this.card_numbers[row_three_cells[0]] && this.card_numbers[row_three_cells[1]] && this.card_numbers[row_three_cells[2]] && this.card_numbers[row_three_cells[3]]) {
+        else if(row_three_cells.length === 4 && this.card_numbers[row_three_cells[0]] && this.card_numbers[row_three_cells[1]] && this.card_numbers[row_three_cells[2]] && this.card_numbers[row_three_cells[3]]) {
             has_bingo = true;
         }
-        else if(row_four_cells.length > 5 && this.card_numbers[row_four_cells[0]] && this.card_numbers[row_four_cells[1]] && this.card_numbers[row_four_cells[2]] && this.card_numbers[row_four_cells[3]] && this.card_numbers[row_four_cells[4]]) {
+        else if(row_four_cells.length === 5 && this.card_numbers[row_four_cells[0]] && this.card_numbers[row_four_cells[1]] && this.card_numbers[row_four_cells[2]] && this.card_numbers[row_four_cells[3]] && this.card_numbers[row_four_cells[4]]) {
             has_bingo = true;
         }
-        else if(row_five_cells.length > 5 && this.card_numbers[row_five_cells[0]] && this.card_numbers[row_five_cells[1]] && this.card_numbers[row_five_cells[2]] && this.card_numbers[row_five_cells[3]] && this.card_numbers[row_five_cells[4]]) {
+        else if(row_five_cells.length === 5 && this.card_numbers[row_five_cells[0]] && this.card_numbers[row_five_cells[1]] && this.card_numbers[row_five_cells[2]] && this.card_numbers[row_five_cells[3]] && this.card_numbers[row_five_cells[4]]) {
             has_bingo = true;
         }
 
-        // backwards diagonal check
-
-        // top to bottom check
-
-        // left to right check
         display_results(e, has_bingo);
-        // return has_bingo;
-        
     };
 
 	/*
