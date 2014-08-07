@@ -34,7 +34,8 @@ DL.bingo = ( function() {
             j,
             card_row = null,
             header = document.createElement("header"),
-            footer = document.createElement("footer");
+            footer = document.createElement("footer"),
+            footer_text = "Yell Bingo!";
 
         header.className = "card-header";
         header.innerHTML =  '<span class="bingo-cell-title">B</span><span class="bingo-cell-title">I</span><span class="bingo-cell-title">N</span>'
@@ -43,24 +44,28 @@ DL.bingo = ( function() {
         card.className = "bingo-card";
         if(class_name) {
             card.classList.add(class_name);
+            footer_text = "Computer";
         }
         card.appendChild(header);
         for(i = 0; i < 5; i++){
             card_row = this.bingo_row();
             for(j = 0; j < card_row.childNodes.length; j++){
+                if(letters[j]+(i+1) === "N3"){
+                    card_row.childNodes[j].setAttribute("data-letter", "");
+                    card_row.childNodes[j].setAttribute("data-number", "");
+                    card_row.childNodes[j].getElementsByClassName("bingo-num")[0].innerHTML = "DL";
+                }
                 card_row.childNodes[j].setAttribute("data-position", letters[j]+(i+1));
             }
             card.appendChild(card_row);
             
         }
 
-
         footer.className = "card-footer";
-        footer.innerHTML = '<button class="call-bingo">Yell Bingo!</button>';
+        footer.innerHTML = '<button class="call-bingo">' + footer_text + '</button>';
         card.appendChild(footer);
 
         return card;
-
     };
 
     /*
@@ -106,9 +111,6 @@ DL.bingo = ( function() {
     */
     Bingo_card.prototype.toggle_cell = function(e) {
         var e_target = e.target || e.srcElement;
-        console.log(e);
-        console.log("type of attributes");
-        console.log(typeof e_target.attributes);
 
         if(e_target.className === "bingo-cell" || e_target.className === "bingo-num"  ){
             if(e_target.className === "bingo-cell"){
@@ -177,9 +179,8 @@ DL.bingo = ( function() {
         - if yes, return true, else return false
         */
 
-        console.log(e);
-
         click_cells = e_card.getElementsByClassName("clicked");
+        //TODO: Put this into a function
 
         for(i = 0; i < click_cells.length; i++){
 
@@ -581,6 +582,25 @@ DL.bingo = ( function() {
 			return bingo_num;
 		} 		
 	}
+
+    /*
+        Function: check_computer_card
+        Parameter(s): number
+        Description: checks to see if the computer has any called numbers
+        Returns: none
+    */
+    function check_computer_card(num) {
+        var computer_card = document.getElementsByClassName("computer")[0],
+            bingo_cells = computer_card.getElementsByClassName("bingo-cell"),
+            i;
+
+            for(i=0; i < bingo_cells.length; i++){
+
+                if(bingo_cells[i].dataset.number === num ){
+                    bingo_cells[i].classList.add("clicked");
+                }
+            }
+    }
 	
 	/*
 		Function: bingo_caller
@@ -605,9 +625,8 @@ DL.bingo = ( function() {
                 curr_letter = letters[randon_num(0,5)];
                 curr_number = bingo_numbers(curr_letter, numbers_arry);
                 number_board_children = number_board.childNodes;
-                // called_number.innerHTML = curr_letter + curr_number;
                 called_number.value =  curr_letter + curr_number;
-                console.log("inside bingo caller"); console.log(curr_letter + curr_number);
+                
                 for(i = 0, j=0; i < number_board_children.length; i++){
                     if(number_board_children[i].nodeType === Node.ELEMENT_NODE){
                         bingo_balls[j] = number_board_children[i];
@@ -624,6 +643,7 @@ DL.bingo = ( function() {
                         }  
                     }
                 }
+                check_computer_card(curr_number);
             }
             else{
                  clearInterval(bingo_caller_interval_ID);   
@@ -670,8 +690,16 @@ DL.bingo = ( function() {
                 }, 1000);
             }    
         }
-        else{
-            //computer
+        else if (user.classList.contains("computer") && bool){
+            //computer wins
+            msg_dom.innerHTML = '<span>' + msgs.computer_wins + '</span>';
+            msg_dom.classList.remove("hide");
+            msg_dom.classList.add("show");
+            clearInterval(bingo_caller_interval_ID);
+            setTimeout(function() {
+                msg_dom.classList.remove("show");
+                 msg_dom.classList.add("hide");
+            }, 4000);
         }
     }
 
@@ -684,17 +712,25 @@ DL.bingo = ( function() {
     function start_game(event) {
         event.stopPropagation();
         var game_card = new Bingo_card(),
+            coumputer_card = new Bingo_card(),
             game_card_dom = game_card.create_card(),
+            coumputer_card_dom = coumputer_card .create_card("computer"),
             card_table = document.getElementById("card-table"),
-            call_bingo = game_card.call_bingo.bind(game_card);
- 
+            call_bingo = game_card.call_bingo.bind(game_card),
+            game_card_footer = null,
+            game_card_btn = null;
+  
+        //setting up the user
         game_card_dom.addEventListener("click", game_card.toggle_cell, false);
-        var footer = game_card_dom.getElementsByClassName("card-footer");
-        var btn = footer[0].getElementsByClassName("call-bingo");
-        btn[0].addEventListener("click", call_bingo, false); 
+        game_card_dom.getElementsByClassName("card-footer");
+        game_card_footer = game_card_dom.getElementsByClassName("card-footer");
+        game_card_btn = game_card_footer[0].getElementsByClassName("call-bingo");
+        game_card_btn[0].addEventListener("click", call_bingo, false); 
         card_table.appendChild(game_card_dom);
        
 
+        //setting up the computer
+        card_table.appendChild(coumputer_card_dom);
         
         bingo_caller();
     }
