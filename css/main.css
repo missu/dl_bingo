@@ -218,6 +218,10 @@ body{
 	color: #FFFFFF;
 }
 
+#card-table .bingo-card.computer .bingo-row .bingo-cell.clicked{
+	background-color: #FF77FF;
+}
+
 #card-table .bingo-card footer{
 	border-top: 1px solid #7777FF;
 	padding: 10px 0px;
