@@ -15,7 +15,8 @@
 var DL = DL || {};
 DL.bingo = ( function() {
     var letters = ['B', 'I', 'N', 'G', 'O'],
-        bingo_caller_interval_ID = null;
+        bingo_caller_interval_ID = null,
+        cust_event = new CustomEvent("new_num_called");
 
     /*
     	Function Object: Bingo_card
@@ -592,14 +593,17 @@ DL.bingo = ( function() {
     function check_computer_card(num) {
         var computer_card = document.getElementsByClassName("computer")[0],
             bingo_cells = computer_card.getElementsByClassName("bingo-cell"),
-            i;
+            i,
+            computer_card_footer = computer_card.getElementsByClassName("card-footer")[0],
+            computer_card_btn = computer_card_footer.getElementsByClassName("call-bingo")[0];
 
             for(i=0; i < bingo_cells.length; i++){
 
-                if(bingo_cells[i].dataset.number === num ){
+                if(parseInt(bingo_cells[i].dataset.number, 10) === num ){
                     bingo_cells[i].classList.add("clicked");
                 }
             }
+            computer_card_btn.dispatchEvent(cust_event);
     }
 	
 	/*
@@ -712,25 +716,33 @@ DL.bingo = ( function() {
     function start_game(event) {
         event.stopPropagation();
         var game_card = new Bingo_card(),
-            coumputer_card = new Bingo_card(),
             game_card_dom = game_card.create_card(),
-            coumputer_card_dom = coumputer_card .create_card("computer"),
-            card_table = document.getElementById("card-table"),
-            call_bingo = game_card.call_bingo.bind(game_card),
             game_card_footer = null,
-            game_card_btn = null;
+            game_card_btn = null,
+            user_call_bingo = game_card.call_bingo.bind(game_card),
+            computer_card = new Bingo_card(),
+            computer_card_dom = computer_card .create_card("computer"),
+            computer_card_footer = null,
+            computer_card_btn = null,
+            computer_call_bingo = computer_card.call_bingo.bind(computer_card),
+            card_table = document.getElementById("card-table");
+            
+            
+            
   
         //setting up the user
         game_card_dom.addEventListener("click", game_card.toggle_cell, false);
-        game_card_dom.getElementsByClassName("card-footer");
         game_card_footer = game_card_dom.getElementsByClassName("card-footer");
         game_card_btn = game_card_footer[0].getElementsByClassName("call-bingo");
-        game_card_btn[0].addEventListener("click", call_bingo, false); 
+        game_card_btn[0].addEventListener("click", user_call_bingo, false); 
         card_table.appendChild(game_card_dom);
        
 
         //setting up the computer
-        card_table.appendChild(coumputer_card_dom);
+        computer_card_footer = computer_card_dom.getElementsByClassName("card-footer");
+        computer_card_btn = computer_card_footer[0].getElementsByClassName("call-bingo");
+        computer_card_btn[0].addEventListener("new_num_called", computer_call_bingo, false); 
+        card_table.appendChild(computer_card_dom);
         
         bingo_caller();
     }
