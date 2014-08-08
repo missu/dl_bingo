@@ -75,6 +75,24 @@ body{
 	text-align: center;
 	width: 100%;
 }
+/* The browser ignores these lines if I combine them into one */
+#bingo-caller .caller-header #called-number:-ms-input-placeholder{
+	color: #ff7777;
+	font-size: 18px;
+	line-height: 30px;
+}
+
+#bingo-caller .caller-header #called-number::-moz-placeholder{
+	color: #ff7777;
+	font-size: 18px;
+	line-height: 30px;
+}
+
+#bingo-caller .caller-header #called-number::-webkit-input-placeholder {
+	color: #ff7777;
+	font-size: 18px;
+	line-height: 30px;
+}
 
 #bingo-caller .caller-header .letter{
 	margin-top: 20px;
@@ -116,6 +134,7 @@ body{
 	background-color: #efefef;
 
 }
+
 #numbers-board .b-col.called,
 #numbers-board .i-col.called,
 #numbers-board .n-col.called,
