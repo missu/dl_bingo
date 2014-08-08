@@ -1,15 +1,12 @@
+/* 
+ * JS for Digital Ladybug Bingo 
+ * @author      Ulina Small
+ * @year        2014
+*/
+
 /*jslint browser: true plusplus: true, white: true */
 /*global DL */
 
-
-/*
--bingo card
--- bingo rows
---- bingo cell
--bingo random numbers 
--bingo caller
-
-*/
 'use strict';
 
 var DL = DL || {};
@@ -185,11 +182,13 @@ DL.bingo = ( function() {
 
         for(i = 0; i < click_cells.length; i++){
 
+            
             if(click_cells[i].dataset.position === "B1"){
                 fwd_diagonal_cells.push(click_cells[i]);
                 row_one_cells.push(click_cells[i]);
                 b_col_cells.push(click_cells[i]);
 
+                B1_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "I2"){ 
@@ -203,6 +202,7 @@ DL.bingo = ( function() {
                                 for(m = 0; m < click_cells.length; m++){
                                     if(click_cells[m].dataset.position === "O5"){
                                         fwd_diagonal_cells.push(click_cells[m]);
+                                        break B1_block;
                                     }
                                 }
                             }
@@ -224,6 +224,7 @@ DL.bingo = ( function() {
                                             
                                             if(click_cells[n].dataset.position === "O1"){
                                                 row_one_cells.push(click_cells[n]);
+                                                break B1_block;
                                             }
                                         }
                                     }
@@ -248,6 +249,7 @@ DL.bingo = ( function() {
                                             
                                             if(click_cells[n].dataset.position === "B5"){
                                                 b_col_cells.push(click_cells[n]);
+                                                break B1_block;
                                             }
                                         }
                                     }
@@ -260,6 +262,8 @@ DL.bingo = ( function() {
             else if(click_cells[i].dataset.position === "I1"){
                 // top to bottom check
                 i_col_cells.push(click_cells[i]);
+
+                I1_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "I2"){
@@ -279,6 +283,7 @@ DL.bingo = ( function() {
 
                                             if(click_cells[n].dataset.position === "I5"){
                                                 i_col_cells.push(click_cells[n]);
+                                                break I1_block;
                                             }
                                         }
                                     }
@@ -291,6 +296,8 @@ DL.bingo = ( function() {
             else if(click_cells[i].dataset.position === "N1"){ 
                 // top to bottom check
                 n_col_cells.push(click_cells[i]);
+
+                N1_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "N2"){
@@ -304,8 +311,8 @@ DL.bingo = ( function() {
                                 for(m = 0; m < click_cells.length; m++){
 
                                     if(click_cells[m].dataset.position === "N5"){
-
                                         n_col_cells.push(click_cells[m]);
+                                        break N1_block;
                                     }
                                 }
                             }
@@ -316,6 +323,8 @@ DL.bingo = ( function() {
             else if(click_cells[i].dataset.position === "G1") {
                 // top to bottom check
                 g_col_cells.push(click_cells[i]);
+
+                G1_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "G2"){
@@ -335,6 +344,7 @@ DL.bingo = ( function() {
 
                                             if(click_cells[n].dataset.position === "G5"){
                                                 g_col_cells.push(click_cells[n]);
+                                                break G1_block;
                                             }
                                         }
                                     }
@@ -350,6 +360,7 @@ DL.bingo = ( function() {
                 // top to bottom check
                 o_col_cells.push(click_cells[i]);
 
+                O1_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "G2"){
@@ -364,6 +375,7 @@ DL.bingo = ( function() {
 
                                     if(click_cells[m].dataset.position === "B5"){
                                         bkwd_diagonal_cells.push(click_cells[m]);
+                                        break O1_block;
                                     }
                                 }
                             }
@@ -386,6 +398,7 @@ DL.bingo = ( function() {
 
                                             if(click_cells[n].dataset.position === "O5"){
                                                 o_col_cells.push(click_cells[n]);
+                                                break O1_block;
                                             }
                                         }
                                     }
@@ -399,6 +412,8 @@ DL.bingo = ( function() {
             else if(click_cells[i].dataset.position === "B2"){
                 // left to right check
                 row_two_cells.push(click_cells[i]);
+
+                B2_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "I2"){
@@ -418,6 +433,7 @@ DL.bingo = ( function() {
 
                                             if(click_cells[n].dataset.position === "O2"){
                                                 row_two_cells.push(click_cells[n]);
+                                                break B2_block;
                                             }
                                         }
                                     }
@@ -430,6 +446,8 @@ DL.bingo = ( function() {
             else if(click_cells[i].dataset.position === "B3"){
                 // left to right check
                 row_three_cells.push(click_cells[i]);
+
+                B3_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "I3"){
@@ -443,8 +461,8 @@ DL.bingo = ( function() {
                                 for(m = 0; m < click_cells.length; m++){
 
                                     if(click_cells[m].dataset.position === "O3"){
-
                                         row_three_cells.push(click_cells[m]);
+                                        break B3_block;
                                     }
                                 }
                             }
@@ -455,6 +473,8 @@ DL.bingo = ( function() {
             else if(click_cells[i].dataset.position === "B4"){
                 // left to right check
                 row_four_cells.push(click_cells[i]);
+
+                B4_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "I2"){
@@ -474,6 +494,7 @@ DL.bingo = ( function() {
 
                                             if(click_cells[n].dataset.position === "O4"){
                                                 row_four_cells.push(click_cells[n]);
+                                                break B4_block;
                                             }
                                         }
                                     }
@@ -486,6 +507,8 @@ DL.bingo = ( function() {
             else if(click_cells[i].dataset.position === "B5"){
                 // left to right check
                 row_five_cells.push(click_cells[i]);
+
+                B5_block:
                 for(j = 0; j < click_cells.length; j++){
 
                     if(click_cells[j].dataset.position === "I5"){
@@ -505,6 +528,7 @@ DL.bingo = ( function() {
 
                                             if(click_cells[n].dataset.position === "O5"){
                                                 row_five_cells.push(click_cells[n]);
+                                                break B5_block;
                                             }
                                         }
                                     }
@@ -586,11 +610,11 @@ DL.bingo = ( function() {
 
     /*
         Function: check_computer_card
-        Parameter(s): number
+        Parameter(s): number, array
         Description: checks to see if the computer has any called numbers
         Returns: none
     */
-    function check_computer_card(num) {
+    function check_computer_card(num, arry) {
         var computer_card = document.getElementsByClassName("computer")[0],
             bingo_cells = computer_card.getElementsByClassName("bingo-cell"),
             i,
@@ -603,7 +627,10 @@ DL.bingo = ( function() {
                     bingo_cells[i].classList.add("clicked");
                 }
             }
-            computer_card_btn.dispatchEvent(cust_event);
+            if(arry.length >= 5){
+                computer_card_btn.dispatchEvent(cust_event);
+            }
+            
     }
 	
 	/*
@@ -647,7 +674,7 @@ DL.bingo = ( function() {
                         }  
                     }
                 }
-                check_computer_card(curr_number);
+                check_computer_card(curr_number, numbers_arry);
             }
             else{
                  clearInterval(bingo_caller_interval_ID);   
@@ -719,22 +746,20 @@ DL.bingo = ( function() {
             game_card_dom = game_card.create_card(),
             game_card_footer = null,
             game_card_btn = null,
-            user_call_bingo = game_card.call_bingo.bind(game_card),
+            game_card_call_bingo = game_card.call_bingo.bind(game_card),
             computer_card = new Bingo_card(),
             computer_card_dom = computer_card .create_card("computer"),
             computer_card_footer = null,
             computer_card_btn = null,
             computer_call_bingo = computer_card.call_bingo.bind(computer_card),
-            card_table = document.getElementById("card-table");
+            card_table = document.getElementById("card-table"),
+            called_number_dom = document.getElementById("called-number");
             
-            
-            
-  
         //setting up the user
         game_card_dom.addEventListener("click", game_card.toggle_cell, false);
         game_card_footer = game_card_dom.getElementsByClassName("card-footer");
         game_card_btn = game_card_footer[0].getElementsByClassName("call-bingo");
-        game_card_btn[0].addEventListener("click", user_call_bingo, false); 
+        game_card_btn[0].addEventListener("click", game_card_call_bingo, false); 
         card_table.appendChild(game_card_dom);
        
 
@@ -744,6 +769,8 @@ DL.bingo = ( function() {
         computer_card_btn[0].addEventListener("new_num_called", computer_call_bingo, false); 
         card_table.appendChild(computer_card_dom);
         
+        called_number_dom.value = "Starting ...";
+        event.target.setAttribute("disabled", "disabled");
         bingo_caller();
     }
 
