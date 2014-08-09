@@ -7,6 +7,7 @@
 }
 body{
 	color: #222;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .bingo-game,
@@ -28,6 +29,14 @@ body{
 .bingo-game .main-header h1{
 	font-size: 32px;
 	text-align: center;
+}
+
+.bingo-game .main-header h1:after{
+	content: "BETA";
+	display: inline-block;
+	font-size: 10px;
+	padding-left: 3px;
+	vertical-align: super;
 }
 
 #caller-table,
@@ -56,9 +65,10 @@ body{
 
 #bingo-caller .caller-header .called-number-title{
 	display: block;
-	font-size: 26px;
+	font-size: 25px;
 	border: 1px solid #ff7777;
 	border-bottom: 1px dotted #ff7777;
+	letter-spacing: -0.9px;
 	text-align: center;
 	width: 100%;
 }
@@ -170,7 +180,7 @@ body{
 }
 
 #card-table .bingo-card{
-	max-width: 302px;
+	max-width: 301px;
 	border: 1px solid #7777FF;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -234,7 +244,7 @@ html.no-flexbox #card-table .bingo-card .bingo-row{
   	-ms-flex: 1;
 	flex: 1;
 	height: 60px;
-	padding: 22px 0px;
+	padding: 20px 0px;
 	text-align: center;
 	vertical-align: middle;
 	/*width: 20%;*/
