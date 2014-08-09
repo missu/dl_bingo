@@ -7,7 +7,10 @@
 }
 body{
 	color: #222;
+<<<<<<< HEAD
 	font-family: 'Open Sans', sans-serif;
+=======
+>>>>>>> a6b516c309f6658c811b94f01b337c894f829917
 }
 
 .bingo-game,
@@ -31,6 +34,7 @@ body{
 	text-align: center;
 }
 
+<<<<<<< HEAD
 .bingo-game .main-header h1:after{
 	content: "BETA";
 	display: inline-block;
@@ -39,6 +43,8 @@ body{
 	vertical-align: super;
 }
 
+=======
+>>>>>>> a6b516c309f6658c811b94f01b337c894f829917
 #caller-table,
 #card-table{
 	display: inline-block;
@@ -65,10 +71,16 @@ body{
 
 #bingo-caller .caller-header .called-number-title{
 	display: block;
+<<<<<<< HEAD
 	font-size: 25px;
 	border: 1px solid #ff7777;
 	border-bottom: 1px dotted #ff7777;
 	letter-spacing: -0.9px;
+=======
+	font-size: 26px;
+	border: 1px solid #ff7777;
+	border-bottom: 1px dotted #ff7777;
+>>>>>>> a6b516c309f6658c811b94f01b337c894f829917
 	text-align: center;
 	width: 100%;
 }
@@ -180,7 +192,11 @@ body{
 }
 
 #card-table .bingo-card{
+<<<<<<< HEAD
 	max-width: 301px;
+=======
+	max-width: 302px;
+>>>>>>> a6b516c309f6658c811b94f01b337c894f829917
 	border: 1px solid #7777FF;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -194,10 +210,13 @@ body{
 
 #card-table .bingo-card .card-header{
 	color: #7777ff;
+<<<<<<< HEAD
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
   	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
   	display: -ms-flexbox;      /* TWEENER - IE 10 */
   	display: -webkit-flex;
+=======
+>>>>>>> a6b516c309f6658c811b94f01b337c894f829917
 	display: flex;
 	width: 300px;
 	text-align: center;
@@ -223,14 +242,18 @@ body{
 #card-table .bingo-card .bingo-row{
 	border-top: 1px solid #222;
 	/*width: 100%;*/
+<<<<<<< HEAD
 	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
   	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
   	display: -ms-flexbox;      /* TWEENER - IE 10 */
   	display: -webkit-flex;
+=======
+>>>>>>> a6b516c309f6658c811b94f01b337c894f829917
 	display: flex;
 	width: 300px;
 }
 
+<<<<<<< HEAD
 html.no-flexbox #card-table .bingo-card .bingo-row{
 	width: 100%;
 }
@@ -245,16 +268,27 @@ html.no-flexbox #card-table .bingo-card .bingo-row{
 	flex: 1;
 	height: 60px;
 	padding: 20px 0px;
+=======
+#card-table .bingo-card .bingo-row .bingo-cell,
+#card-table .bingo-card .card-header .bingo-cell-title{
+	/*display: inline-block;*/
+	flex: 1;
+	height: 60px;
+	padding: 22px 0px;
+>>>>>>> a6b516c309f6658c811b94f01b337c894f829917
 	text-align: center;
 	vertical-align: middle;
 	/*width: 20%;*/
 }
 
+<<<<<<< HEAD
 html.no-flexbox #card-table .bingo-card .bingo-row .bingo-cell,
 html.no-flexbox #card-table .bingo-card .card-header .bingo-cell-title {
 	width: 20%;
 }
 
+=======
+>>>>>>> a6b516c309f6658c811b94f01b337c894f829917
 #card-table .bingo-card .bingo-row .bingo-cell{
 	border-right: 1px solid #222;
 }
