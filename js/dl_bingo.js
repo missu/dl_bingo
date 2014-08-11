@@ -12,6 +12,7 @@
 var DL = DL || {};
 DL.bingo = ( function() {
     var letters = ['B', 'I', 'N', 'G', 'O'],
+        called_numbers_arry = [],
         bingo_caller_interval_ID = null,
         cust_event = new CustomEvent("new_num_called");
 
@@ -540,18 +541,18 @@ DL.bingo = ( function() {
             }
         }
 
-        check_values(fwd_diagonal_cells, 4, this.card_numbers);
-        check_values(bkwd_diagonal_cells, 4, this.card_numbers);
-        check_values(b_col_cells, 5, this.card_numbers);
-        check_values(i_col_cells, 5, this.card_numbers);
-        check_values(n_col_cells, 4, this.card_numbers);
-        check_values(g_col_cells, 5, this.card_numbers);
-        check_values(o_col_cells, 5, this.card_numbers);
-        check_values(row_one_cells, 5, this.card_numbers);
-        check_values(row_two_cells, 5, this.card_numbers);
-        check_values(row_three_cells, 4, this.card_numbers);
-        check_values(row_four_cells, 5, this.card_numbers);
-        check_values(row_five_cells, 5, this.card_numbers);
+        check_values(fwd_diagonal_cells, 4, called_numbers_arry);
+        check_values(bkwd_diagonal_cells, 4, called_numbers_arry);
+        check_values(b_col_cells, 5, called_numbers_arry);
+        check_values(i_col_cells, 5, called_numbers_arry);
+        check_values(n_col_cells, 4, called_numbers_arry);
+        check_values(g_col_cells, 5, called_numbers_arry);
+        check_values(o_col_cells, 5, called_numbers_arry);
+        check_values(row_one_cells, 5, called_numbers_arry);
+        check_values(row_two_cells, 5, called_numbers_arry);
+        check_values(row_three_cells, 4, called_numbers_arry);
+        check_values(row_four_cells, 5, called_numbers_arry);
+        check_values(row_five_cells, 5, called_numbers_arry);
 
         display_results(e, has_bingo);
     };
@@ -644,7 +645,6 @@ DL.bingo = ( function() {
         	called_number = document.getElementById("called-number"),
         	bingo_balls = [],
         	class_list_arry = [],
-            numbers_arry = [],
             number_board_children = [],
             curr_letter = "",
             curr_number = null,
@@ -652,9 +652,9 @@ DL.bingo = ( function() {
             j;
 
         bingo_caller_interval_ID = setInterval(function() {
-            if(numbers_arry.length < 75){
+            if(called_numbers_arry.length < 75){
                 curr_letter = letters[randon_num(0,5)];
-                curr_number = bingo_numbers(curr_letter, numbers_arry);
+                curr_number = bingo_numbers(curr_letter, called_numbers_arry);
                 number_board_children = number_board.childNodes;
                 called_number.value =  curr_letter + curr_number;
                 
@@ -674,7 +674,7 @@ DL.bingo = ( function() {
                         }  
                     }
                 }
-                check_computer_card(curr_number, numbers_arry);
+                check_computer_card(curr_number, called_numbers_arry);
             }
             else{
                  clearInterval(bingo_caller_interval_ID);   

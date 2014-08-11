@@ -338,3 +338,102 @@ html.no-flexbox #card-table .bingo-card .card-header .bingo-cell-title {
 	left: calc(50% - 200px);
 	overflow: hidden;
 }
+
+/** Media Queries **/
+
+@media screen and (max-width : 775px) {
+	.bingo-game{
+		padding: 10px;
+		width: 100%;
+	}
+	.bingo-game .main-header h1{
+		font-size: 26px;
+	}
+
+	#numbers-board{
+
+	}
+}
+
+@media screen and (max-width : 480px) {
+	.bingo-game,
+	.bingo-game-footer {
+		padding: 10px;
+		width: 100%;
+	}
+
+	.bingo-game .main-header{
+		padding: 0px 0px 15px 0px;
+	}
+
+	.bingo-game .main-header h1{
+		font-size: 24px;
+	}
+
+	#caller-table{
+		width: 100%;
+	}
+
+	#bingo-caller .caller-header .called-number-title,
+	#bingo-caller .caller-header #called-number {
+		font-size: 18px;
+	}
+	#bingo-caller .caller-header #called-number{
+		line-height: 28px;
+	}
+	
+	#bingo-caller .caller-header .letter{
+		display: none;
+	}
+
+	#numbers-board{
+		-moz-column-count:15;
+		-webkit-column-count: 15;
+		column-count:15;
+		-moz-column-column-gap: 0px;
+		-webkit-column-gap: 0px;
+		column-gap: 0px;
+		padding-top: 15px;
+
+	}
+
+	#numbers-board .b-col, 
+	#numbers-board .i-col, 
+	#numbers-board .n-col, 
+	#numbers-board .g-col, 
+	#numbers-board .o-col {
+		width: 100%;
+	}
+
+	#start-button {
+		margin-top: 15px;
+	}
+
+	#card-table {
+		padding: 0px;
+		width: 100%;
+	}
+
+	#card-table .bingo-card {
+		max-width: 301px;
+		min-width: 200px;
+	}
+
+	#card-table .bingo-card.computer{
+		margin-right: 0px;
+	}
+
+	#card-table .bingo-card .card-header{
+		width: 100%;
+	}
+
+	#card-table .bingo-card .bingo-row{
+		width: 100%;
+	}
+
+	#card-table .bingo-card .bingo-row .bingo-cell, 
+	#card-table .bingo-card .card-header .bingo-cell-title{
+		height: auto;
+		padding: 0px;
+	}
+}
