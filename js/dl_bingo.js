@@ -43,7 +43,7 @@ DL.bingo = ( function() {
         card.className = "bingo-card";
         if(class_name) {
             card.classList.add(class_name);
-            footer_text = "Computer";
+            footer_text = "Computer Opponent";
         }
         card.appendChild(header);
         for(i = 0; i < 5; i++){

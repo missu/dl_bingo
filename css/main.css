@@ -302,15 +302,11 @@ html.no-flexbox #card-table .bingo-card .card-header .bingo-cell-title {
 }
 
 #card-table .bingo-card.computer .call-bingo{
-	/*border-color: #bcc1c8 #bababa #adb2bb;*/
-	background: #FF77FF;
-	background: -moz-linear-gradient(top, #FF77FF, #FF55FF);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FF77FF), color-stop(100%, #FF55FF));
-	background: -webkit-linear-gradient(top, #FF77FF, #FF55FF);
-	background: -o-linear-gradient(top, #FF77FF, #FF55FF);
-	background: -ms-linear-gradient(top, #FF77FF, #FF55FF);
-	background: linear-gradient(top, #FF77FF, #FF55FF);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF77FF', endColorstr='#FF55FF',GradientType=0);
+	/*  #FF77FF  #FF55FF  */
+	background: #FFF;
+	border: none;
+	color: #FF77FF;
+	width: 120px;
 }
 
 #message {
@@ -318,6 +314,7 @@ html.no-flexbox #card-table .bingo-card .card-header .bingo-cell-title {
 	-moz-transition: height 1s;
 	-o-transition: height 1s;
 	transition: height 1s;
+	position: absolute;
 }
 
 #message.hide{
@@ -332,29 +329,165 @@ html.no-flexbox #card-table .bingo-card .card-header .bingo-cell-title {
 	font-size: 16px;
 	height: 200px;
 	width: 200px;
-	position: fixed;
 	padding: 80px 0px 0px 0px;
 	top: 200px;
-	left: calc(50% - 200px);
+	left: calc(50% - 100px);
 	overflow: hidden;
 }
 
 /** Media Queries **/
 
-@media screen and (max-width : 775px) {
-	.bingo-game{
+
+/* All Small or mobile screens */
+@media screen and (min-width : 300px) and (max-width : 775px){
+	.bingo-game,
+	.bingo-game-footer {
 		padding: 10px;
 		width: 100%;
 	}
+
+	.bingo-game .main-header{
+		padding: 0px 0px 15px 0px;
+	}
+
+	#caller-table{
+		width: 100%;
+	}
+
+	#bingo-caller .caller-header .called-number-title,
+	#bingo-caller .caller-header #called-number {
+		font-size: 18px;
+	}
+
+	#bingo-caller .caller-header #called-number{
+		line-height: 28px;
+	}
+
+	#numbers-board{
+		-moz-column-count:15;
+		-webkit-column-count: 15;
+		column-count:15;
+		-moz-column-column-gap: 0px;
+		-webkit-column-gap: 0px;
+		column-gap: 0px;
+		padding-top: 15px;
+	}
+
+	#numbers-board .b-col, 
+	#numbers-board .i-col, 
+	#numbers-board .n-col, 
+	#numbers-board .g-col, 
+	#numbers-board .o-col {
+		width: 100%;
+	}
+
+	#start-button {
+		margin-top: 15px;
+		width: 100%;
+	}
+
+	#card-table {
+		padding: 0px;
+		width: 100%;
+	}
+
+	#card-table .bingo-card.computer{
+		margin-right: 0px;
+	}
+
+	#card-table .bingo-card .card-header{
+		width: 100%;
+	}
+
+	#card-table .bingo-card .bingo-row{
+		width: 100%;
+	}
+
+	#card-table .bingo-card .bingo-row .bingo-cell, 
+	#card-table .bingo-card .card-header .bingo-cell-title{
+		height: auto;
+		padding: 0px;
+	}
+
+}
+
+/* landscape Phones or tablets */
+@media screen and (min-width : 481px) and (max-width : 775px){
+	#card-table .bingo-card{
+		min-width: 45.5%;
+	}
+
+	#bingo-caller .caller-header .letter{
+		margin-top: 15px;
+		position: absolute;
+		width: 30px;
+	}
+	#bingo-caller .caller-header .letter:nth-child(4){
+		-webkit-transform: translateY(28px);
+		-moz-transform: translateY(28px);
+		-ms-transform: translateY(28px);
+		-o-transform: translateY(28px);
+		transform: translateY(28px);
+	}
+	#bingo-caller .caller-header .letter:nth-child(5){
+		-webkit-transform: translateY(56px);
+		-moz-transform: translateY(56px);
+		-ms-transform: translateY(56px);
+		-o-transform: translateY(56px);
+		transform: translateY(56px);
+	}
+	#bingo-caller .caller-header .letter:nth-child(6){
+		-webkit-transform: translateY(84px);
+		-moz-transform: translateY(84px);
+		-ms-transform: translateY(84px);
+		-o-transform: translateY(84px);
+		transform: translateY(84px);
+	}
+	#bingo-caller .caller-header .letter:nth-child(7){
+		-webkit-transform: translateY(112px);
+		-moz-transform: translateY(112px);
+		-ms-transform: translateY(112px);
+		-o-transform: translateY(112px);
+		transform: translateY(112px);
+	}
+	#bingo-caller .caller-header .letter:nth-child(8){
+		-webkit-transform: translateY(130px);
+		-moz-transform: translateY(130px);
+		-ms-transform: translateY(130px);
+		-o-transform: translateY(130px);
+		transform: translateY(130px);
+	}
+
+	#numbers-board{
+		margin-left: 30px;
+	}
+
+	#card-table .bingo-card.computer{
+		margin-right: 0px;
+		margin-left: 10px;
+	}
+}
+
+@media screen and (max-width : 775px) {
 	.bingo-game .main-header h1{
 		font-size: 26px;
+	}
+
+	#bingo-caller .caller-header .letter{
+		display: block;
 	}
 
 	#numbers-board{
 
 	}
+
+	#card-table .bingo-card {
+		margin: 15px 0px 0px 0px;
+	}
+
 }
 
+/* Mobile Phones */
 @media screen and (max-width : 480px) {
 	.bingo-game,
 	.bingo-game-footer {
@@ -370,14 +503,11 @@ html.no-flexbox #card-table .bingo-card .card-header .bingo-cell-title {
 		font-size: 24px;
 	}
 
-	#caller-table{
-		width: 100%;
-	}
-
 	#bingo-caller .caller-header .called-number-title,
 	#bingo-caller .caller-header #called-number {
 		font-size: 18px;
 	}
+
 	#bingo-caller .caller-header #called-number{
 		line-height: 28px;
 	}
@@ -386,49 +516,19 @@ html.no-flexbox #card-table .bingo-card .card-header .bingo-cell-title {
 		display: none;
 	}
 
-	#numbers-board{
-		-moz-column-count:15;
-		-webkit-column-count: 15;
-		column-count:15;
-		-moz-column-column-gap: 0px;
-		-webkit-column-gap: 0px;
-		column-gap: 0px;
-		padding-top: 15px;
-
-	}
-
-	#numbers-board .b-col, 
-	#numbers-board .i-col, 
-	#numbers-board .n-col, 
-	#numbers-board .g-col, 
-	#numbers-board .o-col {
-		width: 100%;
-	}
-
 	#start-button {
 		margin-top: 15px;
-	}
-
-	#card-table {
-		padding: 0px;
 		width: 100%;
 	}
 
 	#card-table .bingo-card {
+		margin: 15px 0px 0px 0px;
 		max-width: 301px;
-		min-width: 200px;
+		min-width: 300px;
 	}
 
 	#card-table .bingo-card.computer{
 		margin-right: 0px;
-	}
-
-	#card-table .bingo-card .card-header{
-		width: 100%;
-	}
-
-	#card-table .bingo-card .bingo-row{
-		width: 100%;
 	}
 
 	#card-table .bingo-card .bingo-row .bingo-cell, 
