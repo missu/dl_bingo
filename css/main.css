@@ -179,6 +179,24 @@ body{
 	vertical-align: top;
 }
 
+#card-table .instructions{
+	font-size: 14px;
+}
+#card-table .instructions header h2{
+	font-size: 23px;
+	line-height: 16px;
+	margin-bottom: 15px;
+}
+
+#card-table .instructions ul{
+	list-style-position: inside;
+	list-style-type: circle;
+}
+
+#card-table .instructions .note{
+	margin-top: 10px;
+}
+
 #card-table .bingo-card{
 	max-width: 301px;
 	border: 1px solid #7777FF;
@@ -389,6 +407,10 @@ html.no-flexbox #card-table .bingo-card .card-header .bingo-cell-title {
 	#card-table {
 		padding: 0px;
 		width: 100%;
+	}
+
+	#card-table .instructions{
+		margin-top: 15px;
 	}
 
 	#card-table .bingo-card.computer{

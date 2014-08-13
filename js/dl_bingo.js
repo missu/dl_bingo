@@ -4,18 +4,31 @@
  * @year        2014
 */
 
-/*jslint browser: true plusplus: true, white: true */
+/*jslint browser: true, plusplus: true, white: true */
 /*global DL */
 
 'use strict';
 
-var DL = DL || {};
-DL.bingo = ( function() {
+(function() {
     var letters = ['B', 'I', 'N', 'G', 'O'],
         called_numbers_arry = [],
         bingo_caller_interval_ID = null,
-        cust_event = new CustomEvent("new_num_called");
+        cust_event = new CustomEvent("new_num_called"),
+        content = {};
 
+    content.instructions =  '<div class="instructions">'
+                            + '<header><h2>How to Play:</h2></header>'
+                            + '<ul>'
+                            + '<li>To start the game, press the start button below the number board.</li>'
+                            + '<li>You will have 4 seconds to find the number that was called on your card before the next number is called.</li>'
+                            + '<li>The center cell without a number is called the free space and is automactically given to you.</li>'
+                            + '<li>You can win by having all numbers in a row horizontally, vertically or diagonally.</li>'
+                            + '</ul>'
+                            + '<p class="note">Side note:<br>'
+                            + 'This is a work in progress (Beta). If you find any bugs, please add them to '
+                            + '<a href="https://github.com/missu/dl_bingo/issues">the bug tracker on github</a>.'
+                            + '</p>'
+                            + '</div>';
     /*
     	Function Object: Bingo_card
     	Parameter(s): none
@@ -622,15 +635,15 @@ DL.bingo = ( function() {
             computer_card_footer = computer_card.getElementsByClassName("card-footer")[0],
             computer_card_btn = computer_card_footer.getElementsByClassName("call-bingo")[0];
 
-            for(i=0; i < bingo_cells.length; i++){
+        for(i=0; i < bingo_cells.length; i++){
 
-                if(parseInt(bingo_cells[i].dataset.number, 10) === num ){
-                    bingo_cells[i].classList.add("clicked");
-                }
+            if(parseInt(bingo_cells[i].dataset.number, 10) === num ){
+                bingo_cells[i].classList.add("clicked");
             }
-            if(arry.length >= 5){
-                computer_card_btn.dispatchEvent(cust_event);
-            }
+        }
+        if(arry.length >= 5){
+            computer_card_btn.dispatchEvent(cust_event);
+        }
             
     }
 	
@@ -754,7 +767,10 @@ DL.bingo = ( function() {
             computer_call_bingo = computer_card.call_bingo.bind(computer_card),
             card_table = document.getElementById("card-table"),
             called_number_dom = document.getElementById("called-number");
-            
+         
+        //Clearing the table
+        card_table.innerHTML = "";
+
         //setting up the user
         game_card_dom.addEventListener("click", game_card.toggle_cell, false);
         game_card_footer = game_card_dom.getElementsByClassName("card-footer");
@@ -781,12 +797,14 @@ DL.bingo = ( function() {
         Returns: none
     */
     function init() {
-        var start_button = document.getElementById("start-button");
+        var start_button = document.getElementById("start-button"),
+            card_table = document.getElementById("card-table");
 
+        card_table.innerHTML = content.instructions;
         start_button.addEventListener("click", start_game, false);
         start_button.addEventListener("touchend", start_game, false);
-
     }
-	 
-	document.addEventListener("DOMContentLoaded", init, false);
+
+    document.addEventListener("DOMContentLoaded", init, false);
+	
 }());
