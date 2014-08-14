@@ -5,7 +5,6 @@
 */
 
 /*jslint browser: true, plusplus: true, white: true */
-/*global DL */
 
 'use strict';
 
@@ -722,7 +721,7 @@
                     msg_dom.classList.remove("show");
                     msg_dom.classList.add("hide");
                 }, 4000);
-
+                game_over();
             }
             else{
                 msg_dom.innerHTML = '<span>' + msgs.no_bingo + '</span>';
@@ -744,6 +743,7 @@
                 msg_dom.classList.remove("show");
                  msg_dom.classList.add("hide");
             }, 4000);
+            game_over();
         }
     }
 
@@ -766,7 +766,8 @@
             computer_card_btn = null,
             computer_call_bingo = computer_card.call_bingo.bind(computer_card),
             card_table = document.getElementById("card-table"),
-            called_number_dom = document.getElementById("called-number");
+            called_number_dom = document.getElementById("called-number"),
+            start_button = document.getElementById("start-button");
          
         //Clearing the table
         card_table.innerHTML = "";
@@ -787,7 +788,44 @@
         
         called_number_dom.value = "Starting ...";
         event.target.setAttribute("disabled", "disabled");
+        start_button.removeEventListener("click", start_game, false);
+        start_button.removeEventListener("touchend", start_game, false);
+        start_button.removeEventListener("click", restart_game, false);
+        start_button.removeEventListener("touchend", restart_game, false);
         bingo_caller();
+    }
+    /*
+        Function: rgame_over
+        Parameter(s): none
+        Description: This function is called when either the user or computer wins the game and prepares the board to be restarted
+        Returns: none;
+    */
+    function game_over() {
+        var start_button = document.getElementById("start-button");
+
+        start_button.removeAttribute("disabled");
+        start_button.addEventListener("click", restart_game, false);
+        start_button.addEventListener("touchend", restart_game, false);
+    }
+
+    /*
+        Function: restart_game
+        Parameter(s): event
+        Description: This function clears the table and restarts the game. Invoke by event
+        Returns: none;
+    */
+    function restart_game(event){
+        var number_board = document.getElementById("numbers-board"),
+            number_board_children = number_board.childNodes,
+            i;
+
+        for(i = 0; i < number_board_children.length; i++){
+            if(number_board_children[i].nodeType === Node.ELEMENT_NODE){
+                number_board_children[i].classList.remove("called");  
+            }
+        }
+
+        start_game(event);
     }
 
     /*
