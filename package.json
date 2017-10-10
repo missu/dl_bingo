@@ -1,0 +1,26 @@
+{
+  "name": "dl_bingo",
+  "version": "2.0.0",
+  "description": "a bingo game made with chocolate in javascript",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build:es6": "grunt build:es6",
+    "test:es6": " grunt test:es6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/missu/dl_bingo.git"
+  },
+  "keywords": [],
+  "author": "Ulina",
+  "bugs": {
+    "url": "https://github.com/missu/dl_bingo/issues"
+  },
+  "homepage": "https://github.com/missu/dl_bingo#readme",
+  "devDependencies": {
+    "eslint": "^4.8.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-uglify": "^3.1.0"
+  }
+}
