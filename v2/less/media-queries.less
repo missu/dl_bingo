@@ -1,0 +1,206 @@
+/* All Small or mobile screens */
+@media screen and (min-width : 300px) and (max-width : 775px) {
+	.bingo-game,
+	.bingo-game-footer {
+		padding: 10px;
+		width: 100%;
+	}
+
+	.bingo-game {
+        .main-header {
+		    padding: 0px 0px 15px 0px;
+        }
+
+    	#caller-table {
+    		width: 100%;
+
+            #bingo-caller {
+                .caller-header {
+                    .called-number-title,
+                    #called-number {
+                        font-size: 18px;
+                    }
+                    #called-number {
+                        line-height: 28px;
+                    }
+                }
+                #numbers-board {
+                    -moz-column-count:15;
+                    -webkit-column-count: 15;
+                    column-count:15;
+                    -moz-column-column-gap: 0px;
+                    -webkit-column-gap: 0px;
+                    column-gap: 0px;
+                    padding-top: 15px;
+
+                    &.b-col,
+                    &.i-col,
+                    &.n-col,
+                    &.g-col,
+                    &.o-col {
+                        width: 100%;
+                    }
+                }
+            }
+
+            #start-button {
+                margin-top: 15px;
+                width: 100%;
+            }
+        } // End Calller-table
+
+    	#card-table {
+    		padding: 0px;
+    		width: 100%;
+
+            .instructions {
+        		margin-top: 15px;
+        	}
+            .bingo-card {
+                &.computer {
+        		          margin-right: 0px;
+                }
+                .card-header {
+            		width: 100%;
+            	}
+                .bingo-row {
+            		width: 100%;
+            	}
+                .bingo-row .bingo-cell,
+            	.card-header .bingo-cell-title {
+            		height: auto;
+            		padding: 0px;
+            	}
+        	}
+    	}
+    }
+}
+
+/* landscape Phones or tablets */
+@media screen and (min-width : 481px) and (max-width : 775px) {
+
+    #caller-table #bingo-caller {
+        .caller-header {
+            .letter {
+        		margin-top: 15px;
+        		position: absolute;
+        		width: 30px;
+
+                &:nth-child(4) {
+            		-webkit-transform: translateY(28px);
+            		-moz-transform: translateY(28px);
+            		-ms-transform: translateY(28px);
+            		-o-transform: translateY(28px);
+            		transform: translateY(28px);
+            	}
+                &:nth-child(5) {
+            		-webkit-transform: translateY(56px);
+            		-moz-transform: translateY(56px);
+            		-ms-transform: translateY(56px);
+            		-o-transform: translateY(56px);
+            		transform: translateY(56px);
+            	}
+                &:nth-child(6) {
+            		-webkit-transform: translateY(84px);
+            		-moz-transform: translateY(84px);
+            		-ms-transform: translateY(84px);
+            		-o-transform: translateY(84px);
+            		transform: translateY(84px);
+            	}
+                &:nth-child(7) {
+            		-webkit-transform: translateY(112px);
+            		-moz-transform: translateY(112px);
+            		-ms-transform: translateY(112px);
+            		-o-transform: translateY(112px);
+            		transform: translateY(112px);
+            	}
+                &:nth-child(8) {
+            		-webkit-transform: translateY(130px);
+            		-moz-transform: translateY(130px);
+            		-ms-transform: translateY(130px);
+            		-o-transform: translateY(130px);
+            		transform: translateY(130px);
+            	}
+    	   }
+        }
+
+        #numbers-board {
+            margin-left: 30px;
+        }
+    }
+
+	#card-table {
+        .bingo-card {
+            min-width: 45.5%;
+            &.computer {
+        		margin-right: 0px;
+        		margin-left: 10px;
+        	}
+        }
+    }
+}
+
+@media screen and (max-width : 775px) {
+	.bingo-game .main-header h1 {
+		font-size: 26px;
+	}
+
+	#bingo-caller .caller-header .letter {
+		display: block;
+	}
+
+	#card-table .bingo-card {
+		margin: 15px 0px 0px 0px;
+	}
+
+}
+
+/* Mobile Phones */
+@media screen and (max-width : 480px) {
+	.bingo-game,
+	.bingo-game-footer {
+		padding: 10px;
+		width: 100%;
+	}
+
+	.bingo-game .main-header{
+		padding: 0px 0px 15px 0px;
+        h1 {
+    		font-size: 24px;
+    	}
+	}
+
+    #caller-table #bingo-caller {
+        .caller-header {
+            .called-number-title,
+            #called-number {
+        		font-size: 18px;
+        	}
+            #called-number {
+        		line-height: 28px;
+        	}
+            .letter {
+        		display: none;
+        	}
+        }
+    }
+
+	#start-button {
+		margin-top: 15px;
+		width: 100%;
+	}
+
+	#card-table .bingo-card {
+		margin: 15px 0px 0px 0px;
+		max-width: 301px;
+		min-width: 300px;
+        &.computer{
+    		margin-right: 0px;
+    	}
+        .bingo-row .bingo-cell,
+        .card-header .bingo-cell-title {
+    		height: auto;
+    		padding: 0px;
+    	}
+	}
+}

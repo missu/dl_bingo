@@ -1,0 +1,56 @@
+@import (reference) "colors.less";
+
+
+*, html * {
+	margin: 0px;
+	padding: 0px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body {
+	color: #222;
+	font-family: 'Open Sans', sans-serif;
+}
+
+
+.bingo-game,
+.bingo-game-footer {
+	width: 960px;
+	margin: 0 auto;
+}
+
+.bingo-game-footer{
+	font-size: 10px;
+	text-align: center;
+	padding: 10px 0px;
+}
+
+.bingo-game {
+     .main-header{
+         padding: 20px 0px;
+
+         h1 {
+         	font-size: 32px;
+         	text-align: center;
+         }
+
+         h1:after{
+         	content: "BETA";
+         	display: inline-block;
+         	font-size: 10px;
+         	padding-left: 3px;
+         	vertical-align: super;
+         }
+     }
+     #caller-table,
+     #card-table {
+	        display: inline-block;
+    }
+
+    @import 'caller-table.less';
+    @import 'card-table.less';
+}
+
+@import 'messages.less';
+@import 'media-queries.less';

@@ -19,8 +19,18 @@
   },
   "homepage": "https://github.com/missu/dl_bingo#readme",
   "devDependencies": {
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "chai": "^4.1.2",
     "eslint": "^4.8.0",
     "grunt": "^1.0.1",
-    "grunt-contrib-uglify": "^3.1.0"
+    "grunt-browserify": "^5.2.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-uglify": "^3.1.0",
+    "grunt-eslint": "^20.1.0",
+    "grunt-mocha-test": "^0.13.3",
+    "less": "^3.0.0-alpha.3",
+    "mocha": "^4.0.1"
   }
 }

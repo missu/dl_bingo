@@ -1,0 +1,106 @@
+#caller-table {
+	vertical-align: top;
+	width: 250px;
+
+    #bingo-caller {
+        span {
+	        display: inline-block;
+        }
+        .caller-header {
+            .called-number-title {
+            	display: block;
+            	font-size: 25px;
+            	border: 1px solid #ff7777;
+            	border-bottom: 1px dotted #ff7777;
+            	letter-spacing: -0.9px;
+            	text-align: center;
+            	width: 100%;
+            }
+            #called-number {
+            	border: 1px solid #ff7777;
+            	border-top: none;
+            	color: #ff7777;
+            	display: block;
+            	font-size: 24px;
+            	font-weight: bold;
+            	margin: 0px auto;
+            	/*width: 40px;*/
+            	text-align: center;
+            	width: 100%;
+            }
+            /* The browser ignores these lines if I combine them into one */
+            #called-number:-ms-input-placeholder {
+            	color: #ff7777;
+            	font-size: 18px;
+            	line-height: 30px;
+            }
+            #called-number::-moz-placeholder {
+            	color: #ff7777;
+            	font-size: 18px;
+            	line-height: 30px;
+            }
+            #called-number::-webkit-input-placeholder {
+            	color: #ff7777;
+            	font-size: 18px;
+            	line-height: 30px;
+            }
+            .letter {
+            	margin-top: 20px;
+            }
+        }
+        #numbers-board .b-col,
+        #numbers-board .i-col,
+        #numbers-board .n-col,
+        #numbers-board .g-col,
+        #numbers-board .o-col,
+        #bingo-caller .caller-header .letter{
+        	display: inline-block;
+        	padding: 3px 0px;
+        	text-align: center;
+        	width: 50px;
+        }
+        #numbers-board {
+            .b-col,
+            .i-col,
+            .n-col,
+            .g-col,
+            .o-col {
+            	color: #fefefe;
+            }
+            .b-col,
+            .n-col,
+            .o-col {
+	               background-color: #e0e0e0;
+            }
+            .i-col,
+            .g-col {
+	               background-color: #efefef;
+            }
+            .b-col.called,
+            .i-col.called,
+            .n-col.called,
+            .g-col.called,
+            .o-col.called {
+            	color: #222;
+            }
+        }
+        #start-button {
+        	border: 1px solid;
+        	border-color: #bcc1c8 #bababa #adb2bb;
+        	-webkit-border-radius: 3px;
+        	-moz-border-radius: 3px;
+        	border-radius: 3px;
+        	background: #eff0f3;
+        	background: -moz-linear-gradient(top, #f7f8fa, #e7e9ec);
+        	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f8fa), color-stop(100%, #e7e9ec));
+        	background: -webkit-linear-gradient(top, #f7f8fa, #e7e9ec);
+        	background: -o-linear-gradient(top, #f7f8fa, #e7e9ec);
+        	background: -ms-linear-gradient(top, #f7f8fa, #e7e9ec);
+        	background: linear-gradient(top, #f7f8fa, #e7e9ec);
+        	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f8fa', endColorstr='#e7e9ec',GradientType=0);
+        	height: 30px;
+        	width: 80px;
+        	margin-top: 20px;
+        }
+    }
+}
