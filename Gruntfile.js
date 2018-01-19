@@ -1,5 +1,5 @@
 const sourceJS = 'src/**/*.js';
-const sourceCSS = 'less/**/*.less';
+const sourceCSS = './v2/less/**/*.less';
 const destCSS = 'build/css/app.css';
 const destJS = 'build/js/app.js';
 const es6JSSource = './v2/es6/' + sourceJS;

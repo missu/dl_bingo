@@ -1,2 +1,5 @@
 .DS_Store
 node_modules/
+v2/es6/build/css/
+v2/react/build/css/
+v2/vue/build/css/
