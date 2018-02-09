@@ -1,3 +1,5 @@
+@import (reference) "colors.less";
+
 #caller-table {
 	vertical-align: top;
 	width: 250px;
@@ -10,16 +12,16 @@
             .called-number-title {
             	display: block;
             	font-size: 25px;
-            	border: 1px solid #ff7777;
-            	border-bottom: 1px dotted #ff7777;
+            	border: 1px solid @caller-table-base-color;
+            	border-bottom: 1px dotted @caller-table-base-color;
             	letter-spacing: -0.9px;
             	text-align: center;
             	width: 100%;
             }
             #called-number {
-            	border: 1px solid #ff7777;
+            	border: 1px solid @caller-table-base-color;
             	border-top: none;
-            	color: #ff7777;
+            	color: @caller-table-base-color;
             	display: block;
             	font-size: 24px;
             	font-weight: bold;
@@ -30,17 +32,17 @@
             }
             /* The browser ignores these lines if I combine them into one */
             #called-number:-ms-input-placeholder {
-            	color: #ff7777;
+            	color: @caller-table-base-color;
             	font-size: 18px;
             	line-height: 30px;
             }
             #called-number::-moz-placeholder {
-            	color: #ff7777;
+            	color: @caller-table-base-color;
             	font-size: 18px;
             	line-height: 30px;
             }
             #called-number::-webkit-input-placeholder {
-            	color: #ff7777;
+            	color: @caller-table-base-color;
             	font-size: 18px;
             	line-height: 30px;
             }
@@ -65,39 +67,44 @@
             .n-col,
             .g-col,
             .o-col {
-            	color: #fefefe;
+            	color: @caller-table-number;
             }
             .b-col,
             .n-col,
             .o-col {
-	               background-color: #e0e0e0;
+	               background-color: @caller-table-bg1;
             }
             .i-col,
             .g-col {
-	               background-color: #efefef;
+	               background-color: @caller-table-bg2;
             }
             .b-col.called,
             .i-col.called,
             .n-col.called,
             .g-col.called,
             .o-col.called {
-            	color: #222;
+            	color: @caller-table-called;
             }
         }
+        
+        @start-btn-base-color: #EFF0F3;
+        @start-btn-start-color: #F7F8FA;
+        @start-btn-start-color: #E7E9EC;
+        
         #start-button {
         	border: 1px solid;
         	border-color: #bcc1c8 #bababa #adb2bb;
         	-webkit-border-radius: 3px;
         	-moz-border-radius: 3px;
         	border-radius: 3px;
-        	background: #eff0f3;
-        	background: -moz-linear-gradient(top, #f7f8fa, #e7e9ec);
-        	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f8fa), color-stop(100%, #e7e9ec));
-        	background: -webkit-linear-gradient(top, #f7f8fa, #e7e9ec);
-        	background: -o-linear-gradient(top, #f7f8fa, #e7e9ec);
-        	background: -ms-linear-gradient(top, #f7f8fa, #e7e9ec);
-        	background: linear-gradient(top, #f7f8fa, #e7e9ec);
-        	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f8fa', endColorstr='#e7e9ec',GradientType=0);
+        	background: @start-btn-base-color;
+        	background: -moz-linear-gradient(top, @start-btn-start-color, @start-btn-start-color);
+        	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @start-btn-start-color), color-stop(100%, @start-btn-start-color));
+        	background: -webkit-linear-gradient(top, @start-btn-start-color, @start-btn-start-color);
+        	background: -o-linear-gradient(top, @start-btn-start-color, @start-btn-start-color);
+        	background: -ms-linear-gradient(top, @start-btn-start-color, @start-btn-start-color);
+        	background: linear-gradient(top, @start-btn-start-color, @start-btn-start-color);
+        	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@start-btn-start-color, endColorstr=@start-btn-start-color,GradientType=0);
         	height: 30px;
         	width: 80px;
         	margin-top: 20px;

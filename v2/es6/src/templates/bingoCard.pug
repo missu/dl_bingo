@@ -1,0 +1,16 @@
+div(class=computer ? "bingo-card computer" : "bingo-card")
+    header.card-header
+        span.bingo-cell-title B
+        span.bingo-cell-title I
+        span.bingo-cell-title N
+        span.bingo-cell-title G
+        span.bingo-cell-title O
+    div.bingo-row
+    div.bingo-row
+    div.bingo-row
+    div.bingo-row
+    div.bingo-row
+    footer.card-footer
+        unless computer
+            button.call-bingo computer ? Yell Bingo!
+        
