@@ -31,6 +31,10 @@
     "grunt-eslint": "^20.1.0",
     "grunt-mocha-test": "^0.13.3",
     "less": "^3.0.0-alpha.3",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "pug": "^2.0.0-rc.4"
+  },
+  "dependencies": {
+    
   }
 }
