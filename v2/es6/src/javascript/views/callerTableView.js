@@ -1,4 +1,5 @@
 import * as pug from "pug"; 
+import * as utils from "../utils/utils.js";
 // const compiledFunction = pug.compileFile('template.pug');
 // compiledFunction({name: 'Timothy'})
 // or 
@@ -9,10 +10,36 @@ export default function (){
     
     var stage = document.getElementById("bingo-stage");
     var start_event = new Event("start");
+    var bingo_caller_interval_ID =  null;
+    var called_numbers_arry =[];
     
     function bingo_caller() {
         let number_board = document.getElementById("numbers-board");
         let called_number = document.getElementById("called-number");
+        let curr_letter = "";
+        let curr_number = null;
+        
+        bingo_caller_interval_ID = setInterval(function() {
+            
+            if (called_numbers_arry.length < 75) {
+                // get a random number
+                curr_letter = utils.letters[utils.randon_num(0,5)];
+                curr_number = utils.bingo_number(curr_letter, called_numbers_arry);
+                called_numbers_arry.push(curr_number);
+                
+                // udpate called number in number display
+                called_number.value =  curr_letter + curr_number;
+                
+                // highlight called number on board
+                number_board.querySelector("span[data-number='"+curr_number+"']").classList.add("called");
+            }
+            else{
+                clearInterval(bingo_caller_interval_ID);   
+            }
+        }, 4000);
+    }
+    
+    function display_results() {
         
     }
     
@@ -86,6 +113,9 @@ export default function (){
             
             // Start Game
             this.start_game(event);
+        },
+        "get_called_numbers" : function() {
+            return called_numbers_arry;
         }
     };
 }
