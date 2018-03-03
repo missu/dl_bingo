@@ -19,6 +19,9 @@ import * as cardTable from "views/cardTableView";
         
         // listen for start game event on #bingo-stage
         stage.addEventListener("start", start_game, false);
+        
+        // listen for bingo event on #bingo-stage
+        stage.addEventListener("bingo", callerTable.check_bingo, false);
     }
     
     function start_game(event) {

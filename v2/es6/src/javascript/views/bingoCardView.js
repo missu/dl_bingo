@@ -36,39 +36,48 @@ export default function (){
             // set up events for player
             if(!opponent) {
                 game_card_DOM.addEventListener("click", this.toggle_cell, false);
-                game_card_btn[0].addEventListener("click", this.call_bingo, false);
+                game_card_btn[0].addEventListener("click", this.call_bingo.bind(bingo_card), false);
+                game_card_btn[0].addEventListener("animationend", function(e){
+                    e.currentTarget.classList.remove("warning");
+                }, false);
             }
             else {
             // setup event for computer
-                game_card_btn[0].addEventListener("new_num_called", this.call_bingo, false);
+                game_card_btn[0].addEventListener("new_num_called", this.call_bingo.bind(bingo_card), false);
             }
             
             //return DOM to be inserted
             return game_card_DOM;
         },
-        "toggle_cell" : function (e) {
-            let e_target = e.target || e.srcElement;
+        "toggle_cell" : function (event) {
+            let event_target = event.currentTarget;
             
-            // todo: double check if this is necessary 
-            if(e_target.className === "bingo-cell" || e_target.className === "bingo-num"  ){
-                if(e_target.className === "bingo-cell"){
-                    e_target.classList.add("clicked");
+            if (event_target.className === "bingo-cell") {
+
+                if (event_target.className.indexOf("clicked") == -1) {
+                    event_target.classList.add("clicked");
                 }
-                else if(e_target.className === "bingo-num"){
-                    if(e_target.parentNode.classList.length < 2){
-                        e_target.parentNode.classList.add("clicked");
-                    }
-                    else{
-                        e_target.parentNode.classList.remove("clicked");
-                    }   
+                else {
+                    event_target.classList.remove("clicked");
                 }
-            }
-            else if (e_target.className.indexOf("clicked") !== -1){
-                e_target.classList.remove("clicked");
-            }
+            }  
         },
-        "call_bingo" :function (arry) {
-            arry;
+        "call_bingo" :function (event) {
+            // bingo_card is bound to method. `this` will refer to bingo_card
+
+            let count = 0;
+            for (const [key, value] of Object.entries(this.bingo_num_placement)) {
+                if (value[1] === true) {
+                    count++;
+                }
+            }
+
+            if (count > 5) {
+                event.currentTarget.dispatchEvent( new CustomEvent('bingo', { "detail" : this, "bubbles" : true }) );
+            }
+            else {
+                event.currentTarget.classList.add("warning");
+            } 
         }
     };
 }

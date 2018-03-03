@@ -4,6 +4,7 @@ export class BingoCard {
     constructor(type) {
         this.type = type ? type : "player";
         this.card_numbers = [];
+        this.bingo_num_placement = {};
         
         return this.create_card(type);
     }
@@ -39,9 +40,12 @@ export class BingoCard {
                 num = "DL";
                 row[i] = this.create_bingo_cell("", num, position);
             } else {
-                num = this.bingo_numbers(letters[i], this.card_numbers);
+                num = this.get_bingo_number(letters[i], this.card_numbers);
                 row[i] = this.create_bingo_cell(letters[i], num, position);
             }
+            this.bingo_num_placement[letters[i]+position] = new Array(2);
+            this.bingo_num_placement[letters[i]+position][0] = row[i];
+            this.bingo_num_placement[letters[i]+position][1] = false;
         }
         
         return row;
@@ -50,7 +54,7 @@ export class BingoCard {
     /*
     	Parameter(s): string, number, number
 		Description: gcreates the bingo cell object
-		Returns: a object
+		Returns: an object
     */
     static create_bingo_cell(letter, num, position) {
         let cell = {};
@@ -68,7 +72,6 @@ export class BingoCard {
 		Returns: a number
     */
     static get_bingo_number(letter, num_arry) {
- 
         let bingo_num = utils.bingo_number(utils.bingo_number(letter), num_arry);
         this.card_numbers.push(bingo_num);
         
@@ -76,21 +79,29 @@ export class BingoCard {
     }
   
     /* 
-        Parameter(s)
-        Description: checks to see if the user has a bingo
-        Returns: boolean
+        Parameter(s): string
+        Description: marks a bingo cell as clicked 
+        Returns: an object
     */
-    check_bingo() {
-        // compare called numbers to saved numbers
-        // check which number are the same
-        // then check their positions to see if it is bingo
+    stamp_numbers(position) {
+        if(!position) {
+           return;
+        }
+        this.bingo_num_placement[position][1] = true;
+        return this.bingo_num_placement;
     }
     
-    stamp_numbers() {
-        // mark which number the user has stamped on their card
-    }
-    unstamp_number() {
-        // removed numbers the user has un-stamped.
+    /* 
+        Parameter(s): string
+        Description: marks a bingo cell as not clicked 
+        Returns: an object
+    */
+    unstamp_number(position) {
+        if(!position) {
+           return;
+        }
+        this.bingo_num_placement[position][1] = false;
+        return this.bingo_num_placement;
     }
 }
 

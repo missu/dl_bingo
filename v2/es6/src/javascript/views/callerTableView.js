@@ -39,7 +39,7 @@ export default function (){
         }, 4000);
     }
     
-    function display_results() {
+    function display_results(player_type) {
         
     }
     
@@ -116,6 +116,32 @@ export default function (){
         },
         "get_called_numbers" : function() {
             return called_numbers_arry;
+        },
+        "check_bingo" : function(event) {
+            // bingo card is set by event as event.detail
+            let bingo_card = event.detail;
+            function horizontal(called_numbers, stamped_numbers) {
+                 
+            }
+            function vertical(called_numbers, stamped_numbers) {
+                
+            }
+            function diagonal(called_numbers, stamped_numbers) {
+                
+            }
+            
+            if (horizontal(this.get_called_numbers(), bingo_card.bingo_num_placement) ||
+                vertical(this.get_called_numbers(), bingo_card.bingo_num_placement) ||
+                diagonal(this.get_called_numbers(), bingo_card.bingo_num_placement) ) {
+                display_results(bingo_card.type);
+            }
+            else {
+                // event target should be the bingo button
+                if (bingo_card.type !== "computer") {
+                    event.target.classList.add("warning");
+                }
+               
+            }
         }
     };
 }
