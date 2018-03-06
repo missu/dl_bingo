@@ -7,12 +7,13 @@ import * as utils from "../utils/utils.js";
 
 
 export default function (){
-    
+    const compiled_modal = pug.compileFile('modal.pug');
     var stage = document.getElementById("bingo-stage");
     var start_event = new Event("start");
     var bingo_caller_interval_ID =  null;
     var called_numbers_arry =[];
-    
+    const self = this;
+
     function bingo_caller() {
         let number_board = document.getElementById("numbers-board");
         let called_number = document.getElementById("called-number");
@@ -40,7 +41,14 @@ export default function (){
     }
     
     function display_results(player_type) {
-        
+        let msg_dom = document.getElementById("message");
+        msg_dom.innterHTML = compiled_modal({player_type : player_type});
+        msg_dom.classList.remove("hide");
+        msg_dom.classList.add("show");
+        setTimeout(function() {
+            msg_dom.classList.remove("show");
+            msg_dom.classList.add("hide");
+        }, 4000);
     }
     
     function reset_caller_board() {
@@ -100,6 +108,9 @@ export default function (){
             // remove event listeners
             start_button.removeEventListener("game_over", this.game_over, false);
             
+            // display message
+            display_results(event.detail.type)
+            
             // re-enable start button
             start_button.removeAttribute("disabled");
             
@@ -110,7 +121,7 @@ export default function (){
         "restart_game" : function(event) {
             // clear the called numbers from the number board
             reset_caller_board();
-            
+ 
             // Start Game
             this.start_game(event);
         },
@@ -118,29 +129,75 @@ export default function (){
             return called_numbers_arry;
         },
         "check_bingo" : function(event) {
-            // bingo card is set by event as event.detail
+            // bingo card object is sent by event as event.detail
             let bingo_card = event.detail;
+
             function horizontal(called_numbers, stamped_numbers) {
-                 
+                for (let i = 1; i < 6; i++) {
+                    if (stamped_numbers["B"+i][1] === true) {
+                        
+                        if (called_numbers.indexOf(stamped_numbers["B"+i][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers["I"+i][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers["N"+i][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers["G"+i][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers["O"+i][0]) !== -1){
+                            return true;
+                        }
+                    }
+                    else {
+                        continue;
+                    }
+                }
             }
             function vertical(called_numbers, stamped_numbers) {
                 
+                for (let i = 0; i < utils.letters.length; i++) {
+                    if (stamped_numbers[utils.letters[i]+"1"][1] === true) {
+                        
+                        if (called_numbers.indexOf(stamped_numbers[utils.letters[i]+"1"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"2"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"3"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"4"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"5"][0]) !== -1){
+                            return true;
+                        }
+                    }
+                    else {
+                        continue;
+                    }      
+                }  
             }
             function diagonal(called_numbers, stamped_numbers) {
-                
+                if (stamped_numbers[utils.letters[0]+"1"][1] === true) {
+                    if (called_numbers.indexOf(stamped_numbers[utils.letters[0]+"1"])[0] !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[1]+"2"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[2]+"3"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[3]+"4"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[4]+"5"][0]) !== -1){
+                        return true;
+                    }
+                } else if(stamped_numbers[utils.letters[4]+"1"][1] === true){
+                    if (called_numbers.indexOf(stamped_numbers[utils.letters[4]+"1"])[0] !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[3]+"2"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[2]+"3"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[1]+"4"][0]) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[0]+"5"][0]) !== -1){
+                        return true;
+                    }   
+                }
+                return false;
             }
-            
+
             if (horizontal(this.get_called_numbers(), bingo_card.bingo_num_placement) ||
                 vertical(this.get_called_numbers(), bingo_card.bingo_num_placement) ||
                 diagonal(this.get_called_numbers(), bingo_card.bingo_num_placement) ) {
-                display_results(bingo_card.type);
+                self.game_over(event);
             }
             else {
                 // event target should be the bingo button
                 if (bingo_card.type !== "computer") {
                     event.target.classList.add("warning");
                 }
-               
             }
         }
     };
