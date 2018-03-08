@@ -24,9 +24,16 @@ module.exports = function(grunt) {
         browserify: {
             options: {
                 debug: true,
-                transform: [["babelify", { "presets": ["env"] }]]
+                transform: [["babelify", { "presets": ["env"] }], "brfs"]
             },
-            es6: { src: es6JSSource, dest:'./v2/es6/' + destJS },
+            es6: { 
+                src: es6JSSource, 
+                dest:'./v2/es6/' + destJS,
+                browserifyOptions: {
+                    debug: false,
+                    transform: [["pugify", {compileDebug: false}],"brfs"]
+                }
+            },
             react: {
                 src: reactJSSource,
                 dest:'./v2/react/'+ destJS,

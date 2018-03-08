@@ -65409,13 +65409,20 @@ function stripComments (input, options) {
 },{"pug-error":670}],670:[function(require,module,exports){
 arguments[4][288][0].apply(exports,arguments)
 },{"dup":288}],671:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.BingoCard = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utils = require("../utils/utils.js");
+
+var utils = _interopRequireWildcard(_utils);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -65425,6 +65432,7 @@ var BingoCard = exports.BingoCard = function () {
 
         this.type = type ? type : "player";
         this.card_numbers = [];
+        this.bingo_num_placement = {};
 
         return this.create_card(type);
     }
@@ -65437,33 +65445,41 @@ var BingoCard = exports.BingoCard = function () {
 
 
     _createClass(BingoCard, [{
-        key: 'check_bingo',
+        key: "stamp_numbers",
 
 
         /* 
-            Parameter(s)
-            Description: checks to see if the user has a bingo
-            Returns: boolean
+            Parameter(s): string
+            Description: marks a bingo cell as clicked 
+            Returns: an object
         */
-        value: function check_bingo() {
-            // compare called numbers to saved numbers
-            // check which number are the same
-            // then check their positions to see if it is bingo
+        value: function stamp_numbers(position) {
+            if (!position) {
+                return;
+            }
+            this.bingo_num_placement[position][1] = true;
+            return this.bingo_num_placement;
         }
+
+        /* 
+            Parameter(s): string
+            Description: marks a bingo cell as not clicked 
+            Returns: an object
+        */
+
     }, {
-        key: 'stamp_numbers',
-        value: function stamp_numbers() {
-            // mark which number the user has stamped on their card
-        }
-    }, {
-        key: 'unstamp_number',
-        value: function unstamp_number() {
-            // removed numbers the user has un-stamped.
+        key: "unstamp_number",
+        value: function unstamp_number(position) {
+            if (!position) {
+                return;
+            }
+            this.bingo_num_placement[position][1] = false;
+            return this.bingo_num_placement;
         }
     }], [{
-        key: 'create_card',
+        key: "create_card",
         value: function create_card(type) {
-            var letters = ['B', 'I', 'N', 'G', 'O'];
+            var letters = utils.letters;
             var bingo_card = {};
 
             bingo_card.type = type;
@@ -65481,7 +65497,7 @@ var BingoCard = exports.BingoCard = function () {
         */
 
     }, {
-        key: 'create_bingo_row',
+        key: "create_bingo_row",
         value: function create_bingo_row(letters, position) {
             var row = [];
             var num = 0;
@@ -65491,9 +65507,12 @@ var BingoCard = exports.BingoCard = function () {
                     num = "DL";
                     row[i] = this.create_bingo_cell("", num, position);
                 } else {
-                    num = this.bingo_numbers(letters[i], this.card_numbers);
+                    num = this.get_bingo_number(letters[i], this.card_numbers);
                     row[i] = this.create_bingo_cell(letters[i], num, position);
                 }
+                this.bingo_num_placement[letters[i] + position] = new Array(2);
+                this.bingo_num_placement[letters[i] + position][0] = row[i];
+                this.bingo_num_placement[letters[i] + position][1] = false;
             }
 
             return row;
@@ -65502,11 +65521,11 @@ var BingoCard = exports.BingoCard = function () {
         /*
         	Parameter(s): string, number, number
         Description: gcreates the bingo cell object
-        Returns: a object
+        Returns: an object
         */
 
     }, {
-        key: 'create_bingo_cell',
+        key: "create_bingo_cell",
         value: function create_bingo_cell(letter, num, position) {
             var cell = {};
 
@@ -65518,26 +65537,89 @@ var BingoCard = exports.BingoCard = function () {
         }
 
         /*
-        	Parameter(s): number, number
-        Description: get a random number from a specific range
-        Returns: a number
-        */
-
-    }, {
-        key: 'random_number',
-        value: function random_number(min, max) {
-            return Math.floor(Math.random() * (max - min) + min);
-        }
-
-        /*
         	Parameter(s): string, array
         Description: creates a Bingo number
         Returns: a number
         */
 
     }, {
-        key: 'bingo_numbers',
-        value: function bingo_numbers(letter, num_arry) {
+        key: "get_bingo_number",
+        value: function get_bingo_number(letter, num_arry) {
+            var bingo_num = utils.bingo_number(utils.bingo_number(letter), num_arry);
+            this.card_numbers.push(bingo_num);
+
+            return bingo_num;
+        }
+    }]);
+
+    return BingoCard;
+}();
+
+},{"../utils/utils.js":673}],672:[function(require,module,exports){
+/*
+ * JS for Digital Ladybug Bingo
+ * @author      Ulina Small
+ * @year        2018
+ * @version     2, ES6
+*/
+
+'use strict';
+
+var _callerTableView = require("./views/callerTableView");
+
+var _callerTableView2 = _interopRequireDefault(_callerTableView);
+
+var _cardTableView = require("./views/cardTableView");
+
+var _cardTableView2 = _interopRequireDefault(_cardTableView);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(function () {
+
+    var stage = null;
+
+    function init() {
+        stage = document.getElementById("bingo-stage");
+        _callerTableView2.default.render();
+        _cardTableView2.default.render();
+
+        // listen for start game event on #bingo-stage
+        stage.addEventListener("start", start_game, false);
+
+        // listen for bingo event on #bingo-stage
+        stage.addEventListener("bingo", _callerTableView2.default.check_bingo, false);
+    }
+
+    function start_game(event) {
+        // removed start game event listener
+        stage.removeEventListener("start", start_game, false);
+
+        // add game over event listener
+        stage.addEventListener("game_over", game_over, false);
+
+        // send start state to card table to setup cards
+        _cardTableView2.default.render("start");
+    }
+
+    function game_over(event) {
+        // disable buttons on bingo card?
+        // cardTable.disable
+    }
+
+    document.addEventListener("DOMContentLoaded", init, false);
+})();
+
+},{"./views/callerTableView":675,"./views/cardTableView":676}],673:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function () {
+    return {
+        bingo_number: function bingo_number(letter, num_arry) {
             /* 	B 1-15
                 I 16-30
                 N 31-45
@@ -65548,58 +65630,61 @@ var BingoCard = exports.BingoCard = function () {
 
             switch (letter) {
                 case "B":
-                    bingo_num = this.randon_num(1, 16);
+                    bingo_num = this.random_number(1, 16);
                     break;
                 case "I":
-                    bingo_num = this.randon_num(16, 31);
+                    bingo_num = this.random_number(16, 31);
                     break;
                 case "N":
-                    bingo_num = this.randon_num(31, 46);
+                    bingo_num = this.random_number(31, 46);
                     break;
                 case "G":
-                    bingo_num = this.randon_num(46, 61);
+                    bingo_num = this.random_number(46, 61);
                     break;
                 case "O":
-                    bingo_num = this.randon_num(61, 76);
+                    bingo_num = this.random_number(61, 76);
                     break;
             }
 
             if (num_arry && num_arry.indexOf(bingo_num) !== -1) {
                 return this.bingo_numbers(letter, num_arry);
             } else {
-
-                //num_arry.push(bingo_num);
-                this.card_numbers.push(bingo_num);
                 return bingo_num;
             }
+        },
+        letters: ['B', 'I', 'N', 'G', 'O'],
+        random_number: function random_number(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
         }
-    }]);
-
-    return BingoCard;
+    };
 }();
 
-},{}],672:[function(require,module,exports){
-"use strict";
-
-/*
- * JS for Digital Ladybug Bingo
- * @author      Ulina Small
- * @year        2017
- * @version     2, ES6
-*/
-(function () {})();
-
-},{}],673:[function(require,module,exports){
+},{}],674:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-exports.default = function () {
-    var compiled_bingo_card = pug.compileFile('bingoCard.pug');
-    var compiled_bingo_cell = pug.compileFile('bingoCell.pug');
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
+var _pug = require("pug");
+
+var pug = _interopRequireWildcard(_pug);
+
+var _BingoCard = require("../classes/BingoCard.js");
+
+var Bingo_card = _interopRequireWildcard(_BingoCard);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+
+var str_bingo_card = "div(class=computer ? \"bingo-card computer\" : \"bingo-card\")\r\n    header.card-header\r\n        span.bingo-cell-title B\r\n        span.bingo-cell-title I\r\n        span.bingo-cell-title N\r\n        span.bingo-cell-title G\r\n        span.bingo-cell-title O\r\n    div.bingo-row !{row_1}\r\n    div.bingo-row !{row_2}\r\n    div.bingo-row !{row_3}\r\n    div.bingo-row !{row_4}\r\n    div.bingo-row !{row_5}\r\n    footer.card-footer\r\n        unless computer\r\n            button.call-bingo computer ? Yell Bingo! : Computer Opponent\r\n        ";
+var str_bingo_cell = "span(class=\"bingo-cell\" data-letter=letter data-number=number data-position=position)";
+var compiled_bingo_card = pug.compile(str_bingo_card);
+var compiled_bingo_cell = pug.compile(str_bingo_cell);
+
+exports.default = function () {
     function create_rows(bingo_card, cell_template) {
         var rows = {};
 
@@ -65631,102 +65716,291 @@ exports.default = function () {
             // set up events for player
             if (!opponent) {
                 game_card_DOM.addEventListener("click", this.toggle_cell, false);
-                game_card_btn[0].addEventListener("click", this.call_bingo, false);
+                game_card_btn[0].addEventListener("click", this.call_bingo.bind(bingo_card), false);
+                game_card_btn[0].addEventListener("animationend", function (e) {
+                    e.currentTarget.classList.remove("warning");
+                }, false);
             } else {
                 // setup event for computer
-                game_card_btn[0].addEventListener("new_num_called", this.call_bingo, false);
+                game_card_btn[0].addEventListener("new_num_called", this.call_bingo.bind(bingo_card), false);
             }
 
             //return DOM to be inserted
             return game_card_DOM;
         },
-        "toggle_cell": function toggle_cell(e) {
-            var e_target = e.target || e.srcElement;
+        "toggle_cell": function toggle_cell(event) {
+            var event_target = event.currentTarget;
 
-            // todo: double check if this is necessary 
-            if (e_target.className === "bingo-cell" || e_target.className === "bingo-num") {
-                if (e_target.className === "bingo-cell") {
-                    e_target.classList.add("clicked");
-                } else if (e_target.className === "bingo-num") {
-                    if (e_target.parentNode.classList.length < 2) {
-                        e_target.parentNode.classList.add("clicked");
-                    } else {
-                        e_target.parentNode.classList.remove("clicked");
-                    }
+            if (event_target.className === "bingo-cell") {
+
+                if (event_target.className.indexOf("clicked") == -1) {
+                    event_target.classList.add("clicked");
+                } else {
+                    event_target.classList.remove("clicked");
                 }
-            } else if (e_target.className.indexOf("clicked") !== -1) {
-                e_target.classList.remove("clicked");
             }
         },
-        "call_bingo": function call_bingo(arry) {
-            arry;
-        }
-    };
-};
+        "call_bingo": function call_bingo(event) {
+            // bingo_card is bound to method. `this` will refer to bingo_card
 
-var _pug = require("pug");
+            var count = 0;
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
 
-var pug = _interopRequireWildcard(_pug);
+            try {
+                for (var _iterator = Object.entries(this.bingo_num_placement)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var _ref = _step.value;
 
-var _BingoCard = require("../classes/BingoCard.js");
+                    var _ref2 = _slicedToArray(_ref, 2);
 
-var Bingo_card = _interopRequireWildcard(_BingoCard);
+                    var key = _ref2[0];
+                    var value = _ref2[1];
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+                    if (value[1] === true) {
+                        count++;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
 
-},{"../classes/BingoCard.js":671,"pug":46}],674:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function () {
-    return {
-        "render": function render() {
-            var stage = document.getElementById("bingo-stage");
-            stage.innerHTML = pug.renderFile('callerTable.pug');
-        }
-    };
-};
-
-var _pug = require("pug");
-
-var pug = _interopRequireWildcard(_pug);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-},{"pug":46}],675:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function () {
-
-    function getBingoCard(opponent) {
-        if (opponent === "computer") {
-            return bingoCardView.render(opponent);
-        } else {
-            return bingoCardView.render();
-        }
-    }
-
-    return {
-        "render": function render(state) {
-            var stage = document.getElementById("bingo-stage");
-            var opponent = "computer";
-
-            if (state === "start") {
-                stage.insertAdjacentHTML("beforeend", getBingoCard());
-                stage.insertAdjacentHTML("beforeend", getBingoCard(opponent));
+            if (count > 5) {
+                event.currentTarget.dispatchEvent(new CustomEvent('bingo', { "detail": this, "bubbles": true }));
             } else {
-                stage.innerHTML = pug.renderFile('cardTable.pug');
+                event.currentTarget.classList.add("warning");
             }
         }
     };
-};
+}();
+
+},{"../classes/BingoCard.js":671,"pug":46}],675:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _pug = require("pug");
+
+var pug = _interopRequireWildcard(_pug);
+
+var _utils = require("../utils/utils.js");
+
+var _utils2 = _interopRequireDefault(_utils);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+// const compiledFunction = pug.compileFile('template.pug');
+// compiledFunction({name: 'Timothy'})
+// or 
+//pug.renderFile('template.pug', {name: 'Timothy'})
+//
+//const compiled_modal = pug.compileFile('modal.pug');
+
+
+var str_modal = "\r\nif player_type === \"computer\"\r\n    span Sorry, You lose\r\nelse\r\n    span Congratulations! You won!";
+var str_template = "section#caller-table\r\n    div#bingo-caller\r\n        header.caller-header\r\n            span.called-number-title Current Number\r\n            input(id=\"called-number\", type=\"text\", placeholder=\"Press Start to Play\", readonly)\r\n            span.letter B\r\n            span.letter I\r\n            span.letter N\r\n            span.letter G\r\n            span.letter O\r\n        div#numbers-board\r\n            span.b-col.B1(data-number=\"1\") 1\r\n            span.i-col.I16(data-number=\"16\") 16\r\n            span.n-col.N31(data-number=\"31\") 31\r\n            span.g-col.G46(data-number=\"46\") 46\r\n            span.o-col.O61(data-number=\"61\") 61\r\n            span.b-col.B2(data-number=\"2\") 2\r\n            span.i-col.I17(data-number=\"17\") 17\r\n            span.n-col.N32(data-number=\"32\") 32\r\n            span.g-col.G47(data-number=\"47\") 47\r\n            span.o-col.O62(data-number=\"62\") 62\r\n            span.b-col.B3(data-number=\"3\") 3\r\n            span.i-col.I18(data-number=\"18\") 18\r\n            span.n-col.N33(data-number=\"33\") 33\r\n            span.g-col.G48(data-number=\"48\") 48\r\n            span.o-col.O63(data-number=\"63\") 63\r\n            span.b-col.B4(data-number=\"4\") 4\r\n            span.i-col.I19(data-number=\"19\") 19\r\n            span.n-col.N34(data-number=\"34\") 34\r\n            span.g-col.G49(data-number=\"49\") 49\r\n            span.o-col.O64(data-number=\"64\") 64\r\n            span.b-col.B5(data-number=\"5\") 5\r\n            span.i-col.I20(data-number=\"20\") 20\r\n            span.n-col.N35(data-number=\"35\") 35\r\n            span.g-col.G50(data-number=\"50\") 50\r\n            span.o-col.O65(data-number=\"65\") 65\r\n            span.b-col.B6(data-number=\"6\") 6\r\n            span.i-col.I21(data-number=\"21\") 21\r\n            span.n-col.N36(data-number=\"36\") 36\r\n            span.g-col.G51(data-number=\"51\") 51\r\n            span.o-col.O66(data-number=\"66\") 66\r\n            span.b-col.B7(data-number=\"7\") 7\r\n            span.i-col.I22(data-number=\"22\") 22\r\n            span.n-col.N37(data-number=\"37\") 37\r\n            span.g-col.G52(data-number=\"52\") 52\r\n            span.o-col.O67(data-number=\"67\") 67\r\n            span.b-col.B8(data-number=\"8\") 8\r\n            span.i-col.I23(data-number=\"23\") 23\r\n            span.n-col.N38(data-number=\"38\") 38\r\n            span.g-col.G53(data-number=\"53\") 53\r\n            span.o-col.O68(data-number=\"68\") 68\r\n            span.b-col.B9(data-number=\"9\") 9\r\n            span.i-col.I24(data-number=\"24\") 24\r\n            span.n-col.N39(data-number=\"39\") 39\r\n            span.g-col.G54(data-number=\"54\") 54\r\n            span.o-col.O69(data-number=\"69\") 69\r\n            span.b-col.B10(data-number=\"10\") 10\r\n            span.i-col.I25(data-number=\"25\") 25\r\n            span.n-col.N40(data-number=\"40\") 40\r\n            span.g-col.G55(data-number=\"55\") 55\r\n            span.o-col.O70(data-number=\"70\") 70\r\n            span.b-col.B11(data-number=\"11\") 11\r\n            span.i-col.I26(data-number=\"26\") 26\r\n            span.n-col.N41(data-number=\"41\") 41\r\n            span.g-col.G56(data-number=\"56\") 56\r\n            span.o-col.O71(data-number=\"71\") 71\r\n            span.b-col.B12(data-number=\"12\") 12\r\n            span.i-col.I27(data-number=\"27\") 27\r\n            span.n-col.N42(data-number=\"42\") 42\r\n            span.g-col.G57(data-number=\"57\") 57\r\n            span.o-col.O72(data-number=\"72\") 72\r\n            span.b-col.B13(data-number=\"13\") 13\r\n            span.i-col.I28(data-number=\"28\") 28\r\n            span.n-col.N43(data-number=\"43\") 43\r\n            span.g-col.G58(data-number=\"58\") 58\r\n            span.o-col.O73(data-number=\"73\") 73\r\n            span.b-col.B14(data-number=\"14\") 14\r\n            span.i-col.I29(data-number=\"29\") 29\r\n            span.n-col.N44(data-number=\"44\") 44\r\n            span.g-col.G59(data-number=\"59\") 59\r\n            span.o-col.O74(data-number=\"74\") 74\r\n            span.b-col.B15(data-number=\"15\") 15\r\n            span.i-col.I30(data-number=\"30\") 30\r\n            span.n-col.N45(data-number=\"45\") 45\r\n            span.g-col.G60(data-number=\"60\") 60\r\n            span.o-col.O75(data-number=\"75\") 75\r\n        button#start-button Start Game";
+var compiled_modal = pug.compile(str_modal);
+var compiled_template = pug.compile(str_template);
+
+exports.default = function () {
+
+    var stage = null;
+    var start_event = new Event("start");
+    var bingo_caller_interval_ID = null;
+    var called_numbers_arry = [];
+    var self = this;
+
+    function bingo_caller() {
+        var number_board = document.getElementById("numbers-board");
+        var called_number = document.getElementById("called-number");
+        var curr_letter = "";
+        var curr_number = null;
+
+        bingo_caller_interval_ID = setInterval(function () {
+
+            if (called_numbers_arry.length < 75) {
+                // get a random number
+                curr_letter = _utils2.default.letters[_utils2.default.random_number(0, 5)];
+                curr_number = _utils2.default.bingo_number(curr_letter, called_numbers_arry);
+                called_numbers_arry.push(curr_number);
+
+                // udpate called number in number display
+                called_number.value = curr_letter + curr_number;
+
+                // highlight called number on board
+                number_board.querySelector("span[data-number='" + curr_number + "']").classList.add("called");
+            } else {
+                clearInterval(bingo_caller_interval_ID);
+            }
+        }, 4000);
+    }
+
+    function display_results(player_type) {
+        var msg_dom = document.getElementById("message");
+        msg_dom.innterHTML = compiled_modal({ player_type: player_type });
+        msg_dom.classList.remove("hide");
+        msg_dom.classList.add("show");
+        setTimeout(function () {
+            msg_dom.classList.remove("show");
+            msg_dom.classList.add("hide");
+        }, 4000);
+    }
+
+    function reset_caller_board() {
+        var number_board = document.getElementById("numbers-board");
+
+        number_board.childNodes.forEach(function (val, index, list) {
+            if (val.nodeType === Node.ELEMENT_NODE) {
+                val.classList.remove("called");
+            }
+        });
+    }
+    return {
+        "render": function render() {
+            stage = document.getElementById("bingo-stage");
+            // render template
+            var template = compiled_template();
+
+            // turn string into DOM nodes
+            var parser = new DOMParser();
+            var caller_table_DOM = parser.parseFromString(template, "text/html");
+            caller_table_DOM = caller_table_DOM.body.firstChild;
+
+            // add events
+            var start_button = caller_table_DOM.querySelector("#start-button");
+
+            start_button.addEventListener("click", this.start_game, false);
+            start_button.addEventListener("touchend", this.start_game, false);
+
+            // insert into DOM
+            stage.insertAdjacentElement("beforeend", caller_table_DOM);
+        },
+        "start_game": function start_game(event) {
+            var start_button = event.target || event.srcElement;
+            var called_number_dom = document.getElementById("called-number");
+
+            // dispatch the start game event to #bingo-stage;
+            stage.dispatchEvent(start_event);
+            called_number_dom.value = "Starting ...";
+
+            // disable start button
+            start_button.setAttribute("disabled", "disabled");
+            start_button.removeEventListener("click", this.start_game, false);
+            start_button.removeEventListener("touchend", this.start_game, false);
+            start_button.removeEventListener("click", this.restart_game, false);
+            start_button.removeEventListener("touchend", this.restart_game, false);
+
+            // start the bingo caller
+            bingo_caller();
+
+            // listen for game over event
+            start_button.addEventListener("game_over", this.game_over, false);
+        },
+        "game_over": function game_over(event) {
+            var start_button = document.getElementById("start-button");
+
+            // stop and reset the counter
+            clearInterval(bingo_caller_interval_ID);
+            called_numbers_arry = [];
+
+            // display message
+            display_results(event.detail.type);
+
+            // remove event listeners
+            start_button.removeEventListener("game_over", this.game_over, false);
+
+            // re-enable start button
+            start_button.removeAttribute("disabled");
+
+            // add start button eventlisteners            
+            start_button.addEventListener("click", this.restart_game, false);
+            start_button.addEventListener("touchend", this.restart_game, false);
+        },
+        "restart_game": function restart_game(event) {
+            // clear the called numbers from the number board
+            reset_caller_board();
+
+            // Start Game
+            this.start_game(event);
+        },
+        "get_called_numbers": function get_called_numbers() {
+            return called_numbers_arry;
+        },
+        "check_bingo": function check_bingo(event) {
+            // bingo card object is sent by event as event.detail
+            var bingo_card = event.detail;
+
+            function horizontal(called_numbers, stamped_numbers) {
+                for (var i = 1; i < 6; i++) {
+                    if (stamped_numbers["B" + i][1] === true) {
+
+                        if (called_numbers.indexOf(stamped_numbers["B" + i][0]) !== -1 && called_numbers.indexOf(stamped_numbers["I" + i][0]) !== -1 && called_numbers.indexOf(stamped_numbers["N" + i][0]) !== -1 && called_numbers.indexOf(stamped_numbers["G" + i][0]) !== -1 && called_numbers.indexOf(stamped_numbers["O" + i][0]) !== -1) {
+                            return true;
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+            }
+            function vertical(called_numbers, stamped_numbers) {
+
+                for (var i = 0; i < _utils2.default.letters.length; i++) {
+                    if (stamped_numbers[_utils2.default.letters[i] + "1"][1] === true) {
+
+                        if (called_numbers.indexOf(stamped_numbers[_utils2.default.letters[i] + "1"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[i] + "2"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[i] + "3"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[i] + "4"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[i] + "5"][0]) !== -1) {
+                            return true;
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+            }
+            function diagonal(called_numbers, stamped_numbers) {
+                if (stamped_numbers[_utils2.default.letters[0] + "1"][1] === true) {
+                    if (called_numbers.indexOf(stamped_numbers[_utils2.default.letters[0] + "1"])[0] !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[1] + "2"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[2] + "3"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[3] + "4"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[4] + "5"][0]) !== -1) {
+                        return true;
+                    }
+                } else if (stamped_numbers[_utils2.default.letters[4] + "1"][1] === true) {
+                    if (called_numbers.indexOf(stamped_numbers[_utils2.default.letters[4] + "1"])[0] !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[3] + "2"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[2] + "3"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[1] + "4"][0]) !== -1 && called_numbers.indexOf(stamped_numbers[_utils2.default.letters[0] + "5"][0]) !== -1) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            if (horizontal(this.get_called_numbers(), bingo_card.bingo_num_placement) || vertical(this.get_called_numbers(), bingo_card.bingo_num_placement) || diagonal(this.get_called_numbers(), bingo_card.bingo_num_placement)) {
+                self.game_over(event);
+            } else {
+                // event target should be the bingo button
+                if (bingo_card.type !== "computer") {
+                    event.target.classList.add("warning");
+                }
+            }
+        }
+    };
+}();
+
+},{"../utils/utils.js":673,"pug":46}],676:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _pug = require("pug");
 
@@ -65734,8 +66008,46 @@ var pug = _interopRequireWildcard(_pug);
 
 var _bingoCardView = require("./bingoCardView.js");
 
-var bingoCardView = _interopRequireWildcard(_bingoCardView);
+var _bingoCardView2 = _interopRequireDefault(_bingoCardView);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-},{"./bingoCardView.js":673,"pug":46}]},{},[671,672,673,674,675]);
+
+var str_card_table = "section#card-table\r\n    div.instructions\r\n        header\r\n            h2 How to Play:\r\n        ul\r\n            li To start the game, press the start button below the number board.\r\n            li You will have 4 seconds to find the number that was called on your card before the next number is called.\r\n            li The center cell without a number is called the free space and is automactically given to you.\r\n            li You can win by having all numbers in a row horizontally, vertically or diagonally.\r\n        p.note Side note:\r\n            br\r\n            .\r\n             is a work in progress (Beta). If you find any bugs, please add them to \r\n            a(href=\"https://github.com/missu/dl_bingo/issues\") the bug tracker on github\r\n            ";
+var compiled_card_table = pug.compile(str_card_table);
+
+exports.default = function () {
+    var stage = null;
+    var table = null;
+
+    function getBingoCard(opponent) {
+        if (opponent === "computer") {
+            return _bingoCardView2.default.render(opponent);
+        } else {
+            return _bingoCardView2.default.render();
+        }
+    }
+
+    function setup_table(opponent) {
+        table = document.getElementById("card-table");
+        table.insertAdjacentHTML("beforeend", getBingoCard());
+        table.insertAdjacentHTML("beforeend", getBingoCard(opponent));
+    }
+
+    return {
+        "render": function render(state) {
+            var opponent = "computer";
+            stage = document.getElementById("bingo-stage");
+
+            if (state === "start") {
+                setup_table(opponent);
+            } else {
+                stage.insertAdjacentHTML("beforeend", compiled_card_table());
+            }
+        }
+    };
+}();
+
+},{"./bingoCardView.js":674,"pug":46}]},{},[671,672,673,674,675,676]);

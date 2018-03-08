@@ -6,14 +6,15 @@
 */
 
 'use strict';
-import * as callerTable from "views/callerTableView";
-import * as cardTable from "views/cardTableView";
+import {default as callerTable} from "./views/callerTableView";
+import {default as cardTable} from "./views/cardTableView";
 
 (function() {
     
-    var stage = document.getElementById("bingo-stage");
+    var stage = null;
     
     function init() {
+        stage = document.getElementById("bingo-stage");
         callerTable.render();
         cardTable.render();
         
@@ -36,7 +37,8 @@ import * as cardTable from "views/cardTableView";
     }
     
     function game_over(event) {
-        
+        // disable buttons on bingo card?
+        // cardTable.disable
     }
 
     document.addEventListener("DOMContentLoaded", init, false);

@@ -1,14 +1,21 @@
 import * as pug from "pug"; 
-import * as utils from "../utils/utils.js";
+import {default as utils} from "../utils/utils.js";
 // const compiledFunction = pug.compileFile('template.pug');
 // compiledFunction({name: 'Timothy'})
 // or 
 //pug.renderFile('template.pug', {name: 'Timothy'})
+//
+//const compiled_modal = pug.compileFile('modal.pug');
 
+const fs = require('fs');
+const str_modal = fs.readFileSync('./v2/es6/src/templates/modal.pug', 'utf8');
+const str_template = fs.readFileSync('./v2/es6/src/templates/callerTable.pug', 'utf8');
+const compiled_modal = pug.compile(str_modal);
+const compiled_template = pug.compile(str_template);
 
-export default function (){
-    const compiled_modal = pug.compileFile('modal.pug');
-    var stage = document.getElementById("bingo-stage");
+export default (function() {
+    
+    var stage = null;
     var start_event = new Event("start");
     var bingo_caller_interval_ID =  null;
     var called_numbers_arry =[];
@@ -24,7 +31,7 @@ export default function (){
             
             if (called_numbers_arry.length < 75) {
                 // get a random number
-                curr_letter = utils.letters[utils.randon_num(0,5)];
+                curr_letter = utils.letters[utils.random_number(0,5)];
                 curr_number = utils.bingo_number(curr_letter, called_numbers_arry);
                 called_numbers_arry.push(curr_number);
                 
@@ -53,19 +60,18 @@ export default function (){
     
     function reset_caller_board() {
         var number_board = document.getElementById("numbers-board");
-        var number_board_children = number_board.childNodes;
 
-        for (let i = 0; i < number_board_children.length; i++) {
-            if (number_board_children[i].nodeType === Node.ELEMENT_NODE) {
-                number_board_children[i].classList.remove("called");  
+        number_board.childNodes.forEach( function(val, index, list) { 
+            if (val.nodeType === Node.ELEMENT_NODE ) {
+                val.classList.remove("called");
             }
-        }
+        });
     }
-    
     return {
         "render" : function() {
+            stage = document.getElementById("bingo-stage");
             // render template
-            let template = pug.renderFile('callerTable.pug');
+            let template = compiled_template();
             
             // turn string into DOM nodes
             let parser = new DOMParser();
@@ -73,13 +79,13 @@ export default function (){
             caller_table_DOM = caller_table_DOM.body.firstChild;
             
             // add events
-            let start_button = caller_table_DOM.getElementById("start-button");
+            let start_button = caller_table_DOM.querySelector("#start-button");
 
             start_button.addEventListener("click", this.start_game, false);
             start_button.addEventListener("touchend", this.start_game, false);
             
             // insert into DOM
-            stage.insertAdjacentHTML("beforeend", caller_table_DOM);
+            stage.insertAdjacentElement("beforeend", caller_table_DOM);
         },
         "start_game" : function(event) {
             let start_button = event.target || event.srcElement;
@@ -105,11 +111,15 @@ export default function (){
         "game_over" : function(event) {
             let start_button = document.getElementById("start-button");
             
-            // remove event listeners
-            start_button.removeEventListener("game_over", this.game_over, false);
+            // stop and reset the counter
+            clearInterval(bingo_caller_interval_ID);
+            called_numbers_arry = [];
             
             // display message
-            display_results(event.detail.type)
+            display_results(event.detail.type);
+
+            // remove event listeners
+            start_button.removeEventListener("game_over", this.game_over, false);
             
             // re-enable start button
             start_button.removeAttribute("disabled");
@@ -201,4 +211,4 @@ export default function (){
             }
         }
     };
-}
+})();

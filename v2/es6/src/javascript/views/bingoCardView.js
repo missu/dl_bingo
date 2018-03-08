@@ -1,10 +1,13 @@
 import * as pug from "pug"; 
 import * as Bingo_card from "../classes/BingoCard.js";
 
-export default function (){
-    const compiled_bingo_card = pug.compileFile('bingoCard.pug');
-    const compiled_bingo_cell = pug.compileFile('bingoCell.pug');
-    
+const fs = require('fs');
+const str_bingo_card = fs.readFileSync('./v2/es6/src/templates/bingoCard.pug', 'utf8');
+const str_bingo_cell = fs.readFileSync('./v2/es6/src/templates/bingoCell.pug', 'utf8');
+const compiled_bingo_card = pug.compile(str_bingo_card);
+const compiled_bingo_cell = pug.compile(str_bingo_cell);
+
+export default (function () {
     function create_rows(bingo_card, cell_template) {
         let rows = {};
 
@@ -80,4 +83,4 @@ export default function (){
             } 
         }
     };
-}
+})();
