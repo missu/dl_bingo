@@ -65437,8 +65437,7 @@ var BingoCard = exports.BingoCard = function () {
         var setup = this.constructor.create_card(this);
         this.card_numbers = setup.card_numbers;
         this.bingo_num_placement = setup.bingo_num_placement;
-
-        return setup.bingo_card;
+        this.rows = setup.bingo_card;
     }
 
     /*
@@ -65534,7 +65533,6 @@ var BingoCard = exports.BingoCard = function () {
                 return row;
             }
 
-            bingo_card.type = bingo_obj.type;
             for (var i = 0; i < 5; i++) {
                 var position = i + 1;
                 bingo_card['row_' + position] = create_bingo_row(letters, position);
@@ -65685,9 +65683,9 @@ exports.default = function () {
         for (var i = 1; i < 6; i++) {
             for (var j = 0; j < 5; j++) {
                 if (j === 0) {
-                    rows['row_' + i] = cell_template(bingo_card['row_' + i][j]);
+                    rows['row_' + i] = cell_template(bingo_card.rows['row_' + i][j]);
                 } else {
-                    rows['row_' + i] = rows['row_' + i] + cell_template(bingo_card['row_' + i][j]);
+                    rows['row_' + i] = rows['row_' + i] + cell_template(bingo_card.rows['row_' + i][j]);
                 }
             }
         }
@@ -65727,15 +65725,12 @@ exports.default = function () {
             return game_card_DOM;
         },
         "toggle_cell": function toggle_cell(event) {
-            var event_target = event.currentTarget;
+            var event_target = event.target || event.srcElement;
 
-            if (event_target.className === "bingo-cell") {
-
-                if (event_target.className.indexOf("clicked") == -1) {
-                    event_target.classList.add("clicked");
-                } else {
-                    event_target.classList.remove("clicked");
-                }
+            if (event_target.classList.contains("bingo-cell")) {
+                event_target.classList.toggle("clicked");
+            } else if (event_target.className === "bingo-num") {
+                event_target.parentNode.classList.toggle("clicked");
             }
         },
         "call_bingo": function call_bingo(event) {

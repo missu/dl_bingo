@@ -14,10 +14,10 @@ export default (function () {
         for(let i = 1; i < 6; i++) { 
             for(let j = 0; j < 5; j++) {
                 if (j === 0 ) {
-                    rows['row_'+i] = cell_template(bingo_card['row_'+i][j]);
+                    rows['row_'+i] = cell_template(bingo_card.rows['row_'+i][j]);
                 }
                 else {
-                    rows['row_'+i] = rows['row_'+i] + cell_template(bingo_card['row_'+i][j]);
+                    rows['row_'+i] = rows['row_'+i] + cell_template(bingo_card.rows['row_'+i][j]);
                 }
             }
         }
@@ -58,17 +58,14 @@ export default (function () {
             return game_card_DOM;
         },
         "toggle_cell" : function (event) {
-            let event_target = event.currentTarget;
+            let event_target = event.target || event.srcElement;
             
-            if (event_target.className === "bingo-cell") {
-
-                if (event_target.className.indexOf("clicked") == -1) {
-                    event_target.classList.add("clicked");
-                }
-                else {
-                    event_target.classList.remove("clicked");
-                }
-            }  
+            if (event_target.classList.contains("bingo-cell")) {
+                event_target.classList.toggle("clicked");
+            } 
+            else if (event_target.className === "bingo-num"){
+                event_target.parentNode.classList.toggle("clicked");
+            } 
         },
         "call_bingo" :function (event) {
             // bingo_card is bound to method. `this` will refer to bingo_card

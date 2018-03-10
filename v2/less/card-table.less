@@ -131,10 +131,45 @@
         	line-height: 14px;
         	height: 30px;
         	width: 80px;
+            
+            &.warning {
+                    animation-duration: .500s;
+                    animation-name: shake;
+            }
         }
     }
 
 }
+
+/** animation **/
+
+@keyframes shake {
+  from {
+    margin-left: 1%;
+    background: @warning-base-color;
+    background: -moz-linear-gradient(top, @warning-base-color, @warning-blend-color);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @warning-base-color), color-stop(100%, @warning-blend-color));
+    background: -webkit-linear-gradient(top, @warning-base-color, @warning-blend-color);
+    background: -o-linear-gradient(top, @warning-base-color, @warning-blend-color);
+    background: -ms-linear-gradient(top, @warning-base-color, @warning-blend-color);
+    background: linear-gradient(top, @warning-base-color, @warning-blend-color);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@warning-base-color, endColorstr=@warning-blend-color,GradientType=0);
+  }
+  25% {
+    margin-left: 0%;
+  }
+  50% {
+    margin-left: 1%;
+  }
+  75% {
+    margin-left: 0%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+
+
 
 /** Fixes **/
 html.no-flexbox #card-table .bingo-card .bingo-row {

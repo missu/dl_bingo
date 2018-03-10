@@ -9,8 +9,7 @@ export class BingoCard {
         let setup = this.constructor.create_card(this);
         this.card_numbers = setup.card_numbers;
         this.bingo_num_placement = setup.bingo_num_placement;
-        
-        return setup.bingo_card;
+        this.rows = setup.bingo_card;
     }
     
     /*
@@ -70,7 +69,6 @@ export class BingoCard {
             return row;
         }
         
-        bingo_card.type =  bingo_obj.type;
         for (let i = 0; i < 5; i++) {
             let position = i + 1;
             bingo_card['row_' + position] = create_bingo_row(letters, position);
