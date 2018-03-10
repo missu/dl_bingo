@@ -1,5 +1,5 @@
 import * as pug from "pug"; 
-import * as Bingo_card from "../classes/BingoCard.js";
+import {BingoCard as Bingo_card} from "../classes/BingoCard.js";
 
 const fs = require('fs');
 const str_bingo_card = fs.readFileSync('./v2/es6/src/templates/bingoCard.pug', 'utf8');
@@ -11,9 +11,14 @@ export default (function () {
     function create_rows(bingo_card, cell_template) {
         let rows = {};
 
-        for(let i = 0; i < 5; i++) { 
+        for(let i = 1; i < 6; i++) { 
             for(let j = 0; j < 5; j++) {
-                rows['row_'+i] = rows['row_'+i] + cell_template(bingo_card['row_'+i][j]);
+                if (j === 0 ) {
+                    rows['row_'+i] = cell_template(bingo_card['row_'+i][j]);
+                }
+                else {
+                    rows['row_'+i] = rows['row_'+i] + cell_template(bingo_card['row_'+i][j]);
+                }
             }
         }
         return rows;

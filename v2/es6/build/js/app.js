@@ -65420,9 +65420,9 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _utils = require("../utils/utils.js");
 
-var utils = _interopRequireWildcard(_utils);
+var _utils2 = _interopRequireDefault(_utils);
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -65434,7 +65434,11 @@ var BingoCard = exports.BingoCard = function () {
         this.card_numbers = [];
         this.bingo_num_placement = {};
 
-        return this.create_card(type);
+        var setup = this.constructor.create_card(this);
+        this.card_numbers = setup.card_numbers;
+        this.bingo_num_placement = setup.bingo_num_placement;
+
+        return setup.bingo_card;
     }
 
     /*
@@ -65478,77 +65482,69 @@ var BingoCard = exports.BingoCard = function () {
         }
     }], [{
         key: "create_card",
-        value: function create_card(type) {
-            var letters = utils.letters;
+        value: function create_card(bingo_obj) {
+            var letters = _utils2.default.letters;
             var bingo_card = {};
 
-            bingo_card.type = type;
+            /*
+                Parameter(s): string, number, number
+                Description: gcreates the bingo cell object
+                Returns: an object
+            */
+            function create_bingo_cell(letter, num, position) {
+                var cell = {};
+                cell.letter = letter;
+                cell.number = num;
+                cell.position = position;
+                return cell;
+            }
+
+            /*
+                Parameter(s): string, array
+                Description: creates a Bingo number
+                Returns: a number
+            */
+            function get_bingo_number(letter, num_arry) {
+                var bingo_num = _utils2.default.bingo_number(letter, num_arry);
+                bingo_obj.card_numbers.push(bingo_num);
+                return bingo_num;
+            }
+
+            /*
+            Parameter(s): array, number
+            Description: creates the bingo row array
+            Returns: an array
+            */
+            function create_bingo_row(letters, position) {
+                var row = [];
+                var num = 0;
+
+                for (var i = 0; i < letters.length; i++) {
+                    if (position === 3 && letters[i] == "N") {
+                        num = "DL";
+                        row[i] = create_bingo_cell("", num, position);
+                    } else {
+                        num = get_bingo_number(letters[i], bingo_obj.card_numbers);
+                        row[i] = create_bingo_cell(letters[i], num, position);
+                    }
+                    bingo_obj.bingo_num_placement[letters[i] + position] = new Array(2);
+                    bingo_obj.bingo_num_placement[letters[i] + position][0] = row[i];
+                    bingo_obj.bingo_num_placement[letters[i] + position][1] = false;
+                }
+                return row;
+            }
+
+            bingo_card.type = bingo_obj.type;
             for (var i = 0; i < 5; i++) {
                 var position = i + 1;
-                bingo_card['row_' + position] = this.create_bingo_row(letters, position);
-            }
-            return bingo_card;
-        }
-
-        /*
-        	Parameter(s): array, number
-        Description: creates the bingo row array
-        Returns: an array
-        */
-
-    }, {
-        key: "create_bingo_row",
-        value: function create_bingo_row(letters, position) {
-            var row = [];
-            var num = 0;
-
-            for (var i = 0; i < letters.length; i++) {
-                if (position === 3 && letters[i] == "N") {
-                    num = "DL";
-                    row[i] = this.create_bingo_cell("", num, position);
-                } else {
-                    num = this.get_bingo_number(letters[i], this.card_numbers);
-                    row[i] = this.create_bingo_cell(letters[i], num, position);
-                }
-                this.bingo_num_placement[letters[i] + position] = new Array(2);
-                this.bingo_num_placement[letters[i] + position][0] = row[i];
-                this.bingo_num_placement[letters[i] + position][1] = false;
+                bingo_card['row_' + position] = create_bingo_row(letters, position);
             }
 
-            return row;
-        }
-
-        /*
-        	Parameter(s): string, number, number
-        Description: gcreates the bingo cell object
-        Returns: an object
-        */
-
-    }, {
-        key: "create_bingo_cell",
-        value: function create_bingo_cell(letter, num, position) {
-            var cell = {};
-
-            cell.letter = letter;
-            cell.number = num;
-            cell.position = position;
-
-            return cell;
-        }
-
-        /*
-        	Parameter(s): string, array
-        Description: creates a Bingo number
-        Returns: a number
-        */
-
-    }, {
-        key: "get_bingo_number",
-        value: function get_bingo_number(letter, num_arry) {
-            var bingo_num = utils.bingo_number(utils.bingo_number(letter), num_arry);
-            this.card_numbers.push(bingo_num);
-
-            return bingo_num;
+            return {
+                bingo_card: bingo_card,
+                bingo_num_placement: bingo_obj.bingo_num_placement,
+                card_numbers: bingo_obj.card_numbers
+            };
         }
     }]);
 
@@ -65647,7 +65643,7 @@ exports.default = function () {
             }
 
             if (num_arry && num_arry.indexOf(bingo_num) !== -1) {
-                return this.bingo_numbers(letter, num_arry);
+                return this.bingo_number(letter, num_arry);
             } else {
                 return bingo_num;
             }
@@ -65674,13 +65670,11 @@ var pug = _interopRequireWildcard(_pug);
 
 var _BingoCard = require("../classes/BingoCard.js");
 
-var Bingo_card = _interopRequireWildcard(_BingoCard);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 
-var str_bingo_card = "div(class=computer ? \"bingo-card computer\" : \"bingo-card\")\r\n    header.card-header\r\n        span.bingo-cell-title B\r\n        span.bingo-cell-title I\r\n        span.bingo-cell-title N\r\n        span.bingo-cell-title G\r\n        span.bingo-cell-title O\r\n    div.bingo-row !{row_1}\r\n    div.bingo-row !{row_2}\r\n    div.bingo-row !{row_3}\r\n    div.bingo-row !{row_4}\r\n    div.bingo-row !{row_5}\r\n    footer.card-footer\r\n        unless computer\r\n            button.call-bingo computer ? Yell Bingo! : Computer Opponent\r\n        ";
-var str_bingo_cell = "span(class=\"bingo-cell\" data-letter=letter data-number=number data-position=position)";
+var str_bingo_card = "div(class=computer ? \"bingo-card computer\" : \"bingo-card\")\r\n    header.card-header\r\n        span.bingo-cell-title B\r\n        span.bingo-cell-title I\r\n        span.bingo-cell-title N\r\n        span.bingo-cell-title G\r\n        span.bingo-cell-title O\r\n    div.bingo-row !{row_1}\r\n    div.bingo-row !{row_2}\r\n    div.bingo-row !{row_3}\r\n    div.bingo-row !{row_4}\r\n    div.bingo-row !{row_5}\r\n    footer.card-footer\r\n        button.call-bingo= !computer ? \"Yell Bingo!\" : \"Computer Opponent\"\r\n        ";
+var str_bingo_cell = "span(class=\"bingo-cell\" data-letter=letter data-number=number data-position=position) \r\n    span.bingo-num= number";
 var compiled_bingo_card = pug.compile(str_bingo_card);
 var compiled_bingo_cell = pug.compile(str_bingo_cell);
 
@@ -65688,9 +65682,13 @@ exports.default = function () {
     function create_rows(bingo_card, cell_template) {
         var rows = {};
 
-        for (var i = 0; i < 5; i++) {
+        for (var i = 1; i < 6; i++) {
             for (var j = 0; j < 5; j++) {
-                rows['row_' + i] = rows['row_' + i] + cell_template(bingo_card['row_' + i][j]);
+                if (j === 0) {
+                    rows['row_' + i] = cell_template(bingo_card['row_' + i][j]);
+                } else {
+                    rows['row_' + i] = rows['row_' + i] + cell_template(bingo_card['row_' + i][j]);
+                }
             }
         }
         return rows;
@@ -65699,7 +65697,7 @@ exports.default = function () {
     return {
         "render": function render(opponent) {
             // create card
-            var bingo_card = new Bingo_card(opponent);
+            var bingo_card = new _BingoCard.BingoCard(opponent);
             var rows = create_rows(bingo_card, compiled_bingo_cell);
             var game_card = compiled_bingo_card(Object.assign({ "computer": opponent }, rows));
             var game_card_DOM;
@@ -66032,8 +66030,9 @@ exports.default = function () {
 
     function setup_table(opponent) {
         table = document.getElementById("card-table");
-        table.insertAdjacentHTML("beforeend", getBingoCard());
-        table.insertAdjacentHTML("beforeend", getBingoCard(opponent));
+        table.innerHTML = "";
+        table.insertAdjacentElement("beforeend", getBingoCard());
+        table.insertAdjacentElement("beforeend", getBingoCard(opponent));
     }
 
     return {

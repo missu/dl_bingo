@@ -19,8 +19,9 @@ export default (function () {
     
     function setup_table(opponent) {
         table = document.getElementById("card-table");
-        table.insertAdjacentHTML("beforeend", getBingoCard());
-        table.insertAdjacentHTML("beforeend", getBingoCard(opponent));
+        table.innerHTML = "";
+        table.insertAdjacentElement("beforeend", getBingoCard());
+        table.insertAdjacentElement("beforeend", getBingoCard(opponent));
     }
     
     return {
