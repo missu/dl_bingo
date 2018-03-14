@@ -22,7 +22,7 @@ import {default as cardTable} from "./views/cardTableView";
         stage.addEventListener("start", start_game, false);
         
         // listen for bingo event on #bingo-stage
-        stage.addEventListener("bingo", callerTable.check_bingo, false);
+        stage.addEventListener("bingo", callerTable.check_bingo.bind(callerTable), false);
     }
     
     function start_game(event) {

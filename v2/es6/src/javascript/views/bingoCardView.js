@@ -43,7 +43,7 @@ export default (function () {
             
             // set up events for player
             if(!opponent) {
-                game_card_DOM.addEventListener("click", this.toggle_cell, false);
+                game_card_DOM.addEventListener("click", this.toggle_cell.bind(bingo_card), false);
                 game_card_btn[0].addEventListener("click", this.call_bingo.bind(bingo_card), false);
                 game_card_btn[0].addEventListener("animationend", function(e){
                     e.currentTarget.classList.remove("warning");
@@ -58,18 +58,22 @@ export default (function () {
             return game_card_DOM;
         },
         "toggle_cell" : function (event) {
+            // bingo_card is bound to method. `this` will refer to bingo_card
             let event_target = event.target || event.srcElement;
-            
+            let position = "";
             if (event_target.classList.contains("bingo-cell")) {
                 event_target.classList.toggle("clicked");
+                position = event_target.dataset.letter + (event_target.dataset.position).toString();
             } 
             else if (event_target.className === "bingo-num"){
                 event_target.parentNode.classList.toggle("clicked");
-            } 
+                position = event_target.parentNode.dataset.letter + (event_target.parentNode.dataset.position).toString();
+            }
+            this.toggle_number(position);
         },
         "call_bingo" :function (event) {
             // bingo_card is bound to method. `this` will refer to bingo_card
-
+            event.stopImmediatePropagation();
             let count = 0;
             for (const [key, value] of Object.entries(this.bingo_num_placement)) {
                 if (value[1] === true) {
@@ -77,7 +81,7 @@ export default (function () {
                 }
             }
 
-            if (count > 5) {
+            if (count >= 5) {
                 event.currentTarget.dispatchEvent( new CustomEvent('bingo', { "detail" : this, "bubbles" : true }) );
             }
             else {

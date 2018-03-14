@@ -56,8 +56,8 @@ export class BingoCard {
 
             for (let i = 0; i < letters.length; i++) {
                 if (position === 3 && letters[i] == "N") {
-                    num = "DL";
-                    row[i] = create_bingo_cell("", num, position);
+                    num = 0;
+                    row[i] = create_bingo_cell(letters[i], num, position);
                 } else {
                     num = get_bingo_number(letters[i], bingo_obj.card_numbers);
                     row[i] = create_bingo_cell(letters[i], num, position);
@@ -104,6 +104,27 @@ export class BingoCard {
             return;
         }
         this.bingo_num_placement[position][1] = false;
+        return this.bingo_num_placement;
+    }
+    
+    /* 
+        Parameter(s): string
+        Description: toggles a bingo cell as clicked or not clicked 
+        Returns: an object
+    */
+    toggle_number(position) {
+        if (!position) {
+            let con = console;
+            con.error("no position was given for the bingo number");
+            return;
+        }
+        
+        if (this.bingo_num_placement[position][1]) {
+            this.bingo_num_placement[position][1] = false;
+        } 
+        else {
+            this.bingo_num_placement[position][1] = true;
+        } 
         return this.bingo_num_placement;
     }
 }

@@ -18,8 +18,7 @@ export default (function() {
     var stage = null;
     var start_event = new Event("start");
     var bingo_caller_interval_ID =  null;
-    var called_numbers_arry =[];
-    const self = this;
+    var called_numbers_arry =[0]; // zero is for the middle free cell
 
     function bingo_caller() {
         let number_board = document.getElementById("numbers-board");
@@ -29,7 +28,7 @@ export default (function() {
         
         bingo_caller_interval_ID = setInterval(function() {
             
-            if (called_numbers_arry.length < 75) {
+            if (called_numbers_arry.length < 76) {
                 // get a random number
                 curr_letter = utils.letters[utils.random_number(0,5)];
                 curr_number = utils.bingo_number(curr_letter, called_numbers_arry);
@@ -46,27 +45,7 @@ export default (function() {
             }
         }, 4000);
     }
-    
-    function display_results(player_type) {
-        let msg_dom = document.getElementById("message");
-        msg_dom.innterHTML = compiled_modal({player_type : player_type});
-        msg_dom.classList.remove("hide");
-        msg_dom.classList.add("show");
-        setTimeout(function() {
-            msg_dom.classList.remove("show");
-            msg_dom.classList.add("hide");
-        }, 4000);
-    }
-    
-    function reset_caller_board() {
-        var number_board = document.getElementById("numbers-board");
 
-        number_board.childNodes.forEach( function(val, index, list) { 
-            if (val.nodeType === Node.ELEMENT_NODE ) {
-                val.classList.remove("called");
-            }
-        });
-    }
     return {
         "render" : function() {
             stage = document.getElementById("bingo-stage");
@@ -109,14 +88,22 @@ export default (function() {
             start_button.addEventListener("game_over", this.game_over, false);
         },
         "game_over" : function(event) {
+            // CallerTable is bound to `this`
             let start_button = document.getElementById("start-button");
+            let msg_dom = document.getElementById("message");
             
             // stop and reset the counter
             clearInterval(bingo_caller_interval_ID);
             called_numbers_arry = [];
             
             // display message
-            display_results(event.detail.type);
+            msg_dom.innerHTML = this.compiled_modal({player_type : event.detail.type});
+            msg_dom.classList.remove("hide");
+            msg_dom.classList.add("show");
+            setTimeout(function() {
+                msg_dom.classList.remove("show");
+                msg_dom.classList.add("hide");
+            }, 4000);
 
             // remove event listeners
             start_button.removeEventListener("game_over", this.game_over, false);
@@ -125,13 +112,19 @@ export default (function() {
             start_button.removeAttribute("disabled");
             
             // add start button eventlisteners            
-            start_button.addEventListener("click", this.restart_game, false);
-            start_button.addEventListener("touchend", this.restart_game, false);
+            start_button.addEventListener("click", this.restart_game.bind(this), false);
+            start_button.addEventListener("touchend", this.restart_game.bind(this), false);
         },
         "restart_game" : function(event) {
             // clear the called numbers from the number board
-            reset_caller_board();
- 
+            var number_board = document.getElementById("numbers-board");
+
+            number_board.childNodes.forEach( function(val, index, list) { 
+                if (val.nodeType === Node.ELEMENT_NODE ) {
+                    val.classList.remove("called");
+                }
+            });
+
             // Start Game
             this.start_game(event);
         },
@@ -140,17 +133,18 @@ export default (function() {
         },
         "check_bingo" : function(event) {
             // bingo card object is sent by event as event.detail
+            // CallerTable is bound to `this`
             let bingo_card = event.detail;
 
             function horizontal(called_numbers, stamped_numbers) {
                 for (let i = 1; i < 6; i++) {
                     if (stamped_numbers["B"+i][1] === true) {
                         
-                        if (called_numbers.indexOf(stamped_numbers["B"+i][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers["I"+i][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers["N"+i][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers["G"+i][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers["O"+i][0]) !== -1){
+                        if (called_numbers.indexOf(stamped_numbers["B"+i][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers["I"+i][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers["N"+i][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers["G"+i][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers["O"+i][0].number) !== -1){
                             return true;
                         }
                     }
@@ -160,15 +154,14 @@ export default (function() {
                 }
             }
             function vertical(called_numbers, stamped_numbers) {
-                
                 for (let i = 0; i < utils.letters.length; i++) {
                     if (stamped_numbers[utils.letters[i]+"1"][1] === true) {
                         
-                        if (called_numbers.indexOf(stamped_numbers[utils.letters[i]+"1"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"2"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"3"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"4"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"5"][0]) !== -1){
+                        if (called_numbers.indexOf(stamped_numbers[utils.letters[i]+"1"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"2"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"3"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"4"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[i]+"5"][0].number) !== -1){
                             return true;
                         }
                     }
@@ -179,19 +172,19 @@ export default (function() {
             }
             function diagonal(called_numbers, stamped_numbers) {
                 if (stamped_numbers[utils.letters[0]+"1"][1] === true) {
-                    if (called_numbers.indexOf(stamped_numbers[utils.letters[0]+"1"])[0] !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[1]+"2"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[2]+"3"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[3]+"4"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[4]+"5"][0]) !== -1){
+                    if (called_numbers.indexOf(stamped_numbers[utils.letters[0]+"1"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[1]+"2"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[2]+"3"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[3]+"4"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[4]+"5"][0].number) !== -1){
                         return true;
                     }
                 } else if(stamped_numbers[utils.letters[4]+"1"][1] === true){
-                    if (called_numbers.indexOf(stamped_numbers[utils.letters[4]+"1"])[0] !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[3]+"2"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[2]+"3"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[1]+"4"][0]) !== -1 &&
-                        called_numbers.indexOf(stamped_numbers[utils.letters[0]+"5"][0]) !== -1){
+                    if (called_numbers.indexOf(stamped_numbers[utils.letters[4]+"1"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[3]+"2"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[2]+"3"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[1]+"4"][0].number) !== -1 &&
+                        called_numbers.indexOf(stamped_numbers[utils.letters[0]+"5"][0].number) !== -1){
                         return true;
                     }   
                 }
@@ -201,7 +194,7 @@ export default (function() {
             if (horizontal(this.get_called_numbers(), bingo_card.bingo_num_placement) ||
                 vertical(this.get_called_numbers(), bingo_card.bingo_num_placement) ||
                 diagonal(this.get_called_numbers(), bingo_card.bingo_num_placement) ) {
-                self.game_over(event);
+                this.game_over(event);
             }
             else {
                 // event target should be the bingo button
@@ -209,6 +202,7 @@ export default (function() {
                     event.target.classList.add("warning");
                 }
             }
-        }
+        },
+        "compiled_modal" : compiled_modal
     };
 })();
