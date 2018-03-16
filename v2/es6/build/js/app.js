@@ -65448,7 +65448,7 @@ var BingoCard = exports.BingoCard = function () {
 
 
     _createClass(BingoCard, [{
-        key: "stamp_numbers",
+        key: "stamp_number",
 
 
         /* 
@@ -65456,7 +65456,7 @@ var BingoCard = exports.BingoCard = function () {
             Description: marks a bingo cell as clicked 
             Returns: an object
         */
-        value: function stamp_numbers(position) {
+        value: function stamp_number(position) {
             if (!position) {
                 return;
             }
@@ -65740,8 +65740,30 @@ exports.default = function () {
                     e.currentTarget.classList.remove("warning");
                 }, false);
             } else {
-                // setup event for computer
-                game_card_btn[0].addEventListener("new_num_called", this.call_bingo.bind(bingo_card), false);
+                // setup events for computer
+                game_card_btn[0].addEventListener("start", function (event) {
+                    var center_cell = game_card_DOM.querySelector(".bingo-card.computer .bingo-cell[data-number='0']");
+                    center_cell.classList.add("clicked");
+                    bingo_card.stamp_number("N3");
+                }.bind({ bingo_card: bingo_card, game_card_DOM: game_card_DOM })(), false);
+
+                //game_card_btn[0].addEventListener("number_called", this.call_bingo.bind(bingo_card), false);
+
+                game_card_btn[0].addEventListener("number_called", function (event) {
+                    // an anonomous object is bound to this with properties of bingo card and its view
+
+                    var current_number = event.detail;
+                    var bingo_cell_dom = document.querySelector(".bingo-card.computer .bingo-cell[data-number='" + current_number + "']");
+                    var position = "";
+
+                    if (this.bingo_card.card_numbers.indexOf(current_number) !== -1) {
+                        bingo_cell_dom.classList.add("clicked");
+                        position = bingo_cell_dom.dataset.letter + bingo_cell_dom.dataset.position.toString();
+                        this.bingo_card.stamp_number(position);
+                        //this.bingoCardView.call_bingo(event).bind(bingo_card)();
+                        this.bingoCardView.call_bingo.call(bingo_card, event);
+                    }
+                }.bind({ bingoCardView: this, bingo_card: bingo_card }), false);
             }
 
             //return DOM to be inserted
@@ -65798,7 +65820,7 @@ exports.default = function () {
 
             if (count >= 5) {
                 event.currentTarget.dispatchEvent(new CustomEvent('bingo', { "detail": this, "bubbles": true }));
-            } else {
+            } else if (this.type !== "computer") {
                 event.currentTarget.classList.add("warning");
             }
         }
@@ -65832,7 +65854,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 //const compiled_modal = pug.compileFile('modal.pug');
 
 
-var str_modal = "\r\nif player_type === \"computer\"\r\n    span Sorry, You lose\r\nelse\r\n    span Congratulations! You won!";
+var str_modal = "\r\nif player_type === \"computer\"\r\n    span Sorry, You lose\r\nelse\r\n    span Congratulations! \r\n    br\r\n    | You won!";
 var str_template = "section#caller-table\r\n    div#bingo-caller\r\n        header.caller-header\r\n            span.called-number-title Current Number\r\n            input(id=\"called-number\", type=\"text\", placeholder=\"Press Start to Play\", readonly)\r\n            span.letter B\r\n            span.letter I\r\n            span.letter N\r\n            span.letter G\r\n            span.letter O\r\n        div#numbers-board\r\n            span.b-col.B1(data-number=\"1\") 1\r\n            span.i-col.I16(data-number=\"16\") 16\r\n            span.n-col.N31(data-number=\"31\") 31\r\n            span.g-col.G46(data-number=\"46\") 46\r\n            span.o-col.O61(data-number=\"61\") 61\r\n            span.b-col.B2(data-number=\"2\") 2\r\n            span.i-col.I17(data-number=\"17\") 17\r\n            span.n-col.N32(data-number=\"32\") 32\r\n            span.g-col.G47(data-number=\"47\") 47\r\n            span.o-col.O62(data-number=\"62\") 62\r\n            span.b-col.B3(data-number=\"3\") 3\r\n            span.i-col.I18(data-number=\"18\") 18\r\n            span.n-col.N33(data-number=\"33\") 33\r\n            span.g-col.G48(data-number=\"48\") 48\r\n            span.o-col.O63(data-number=\"63\") 63\r\n            span.b-col.B4(data-number=\"4\") 4\r\n            span.i-col.I19(data-number=\"19\") 19\r\n            span.n-col.N34(data-number=\"34\") 34\r\n            span.g-col.G49(data-number=\"49\") 49\r\n            span.o-col.O64(data-number=\"64\") 64\r\n            span.b-col.B5(data-number=\"5\") 5\r\n            span.i-col.I20(data-number=\"20\") 20\r\n            span.n-col.N35(data-number=\"35\") 35\r\n            span.g-col.G50(data-number=\"50\") 50\r\n            span.o-col.O65(data-number=\"65\") 65\r\n            span.b-col.B6(data-number=\"6\") 6\r\n            span.i-col.I21(data-number=\"21\") 21\r\n            span.n-col.N36(data-number=\"36\") 36\r\n            span.g-col.G51(data-number=\"51\") 51\r\n            span.o-col.O66(data-number=\"66\") 66\r\n            span.b-col.B7(data-number=\"7\") 7\r\n            span.i-col.I22(data-number=\"22\") 22\r\n            span.n-col.N37(data-number=\"37\") 37\r\n            span.g-col.G52(data-number=\"52\") 52\r\n            span.o-col.O67(data-number=\"67\") 67\r\n            span.b-col.B8(data-number=\"8\") 8\r\n            span.i-col.I23(data-number=\"23\") 23\r\n            span.n-col.N38(data-number=\"38\") 38\r\n            span.g-col.G53(data-number=\"53\") 53\r\n            span.o-col.O68(data-number=\"68\") 68\r\n            span.b-col.B9(data-number=\"9\") 9\r\n            span.i-col.I24(data-number=\"24\") 24\r\n            span.n-col.N39(data-number=\"39\") 39\r\n            span.g-col.G54(data-number=\"54\") 54\r\n            span.o-col.O69(data-number=\"69\") 69\r\n            span.b-col.B10(data-number=\"10\") 10\r\n            span.i-col.I25(data-number=\"25\") 25\r\n            span.n-col.N40(data-number=\"40\") 40\r\n            span.g-col.G55(data-number=\"55\") 55\r\n            span.o-col.O70(data-number=\"70\") 70\r\n            span.b-col.B11(data-number=\"11\") 11\r\n            span.i-col.I26(data-number=\"26\") 26\r\n            span.n-col.N41(data-number=\"41\") 41\r\n            span.g-col.G56(data-number=\"56\") 56\r\n            span.o-col.O71(data-number=\"71\") 71\r\n            span.b-col.B12(data-number=\"12\") 12\r\n            span.i-col.I27(data-number=\"27\") 27\r\n            span.n-col.N42(data-number=\"42\") 42\r\n            span.g-col.G57(data-number=\"57\") 57\r\n            span.o-col.O72(data-number=\"72\") 72\r\n            span.b-col.B13(data-number=\"13\") 13\r\n            span.i-col.I28(data-number=\"28\") 28\r\n            span.n-col.N43(data-number=\"43\") 43\r\n            span.g-col.G58(data-number=\"58\") 58\r\n            span.o-col.O73(data-number=\"73\") 73\r\n            span.b-col.B14(data-number=\"14\") 14\r\n            span.i-col.I29(data-number=\"29\") 29\r\n            span.n-col.N44(data-number=\"44\") 44\r\n            span.g-col.G59(data-number=\"59\") 59\r\n            span.o-col.O74(data-number=\"74\") 74\r\n            span.b-col.B15(data-number=\"15\") 15\r\n            span.i-col.I30(data-number=\"30\") 30\r\n            span.n-col.N45(data-number=\"45\") 45\r\n            span.g-col.G60(data-number=\"60\") 60\r\n            span.o-col.O75(data-number=\"75\") 75\r\n        button#start-button Start Game";
 var compiled_modal = pug.compile(str_modal);
 var compiled_template = pug.compile(str_template);
@@ -65863,6 +65885,9 @@ exports.default = function () {
 
                 // highlight called number on board
                 number_board.querySelector("span[data-number='" + curr_number + "']").classList.add("called");
+
+                // dispatch number called event
+                document.querySelector(".bingo-card.computer button.call-bingo").dispatchEvent(new CustomEvent('number_called', { "detail": curr_number, "bubbles": true }));
             } else {
                 clearInterval(bingo_caller_interval_ID);
             }
@@ -65917,10 +65942,10 @@ exports.default = function () {
 
             // stop and reset the counter
             clearInterval(bingo_caller_interval_ID);
-            called_numbers_arry = [];
+            called_numbers_arry = [0];
 
             // display message
-            msg_dom.innterHTML = this.compiled_modal({ player_type: event.detail.type });
+            msg_dom.innerHTML = this.compiled_modal({ player_type: event.detail.type });
             msg_dom.classList.remove("hide");
             msg_dom.classList.add("show");
             setTimeout(function () {
@@ -65935,22 +65960,18 @@ exports.default = function () {
             start_button.removeAttribute("disabled");
 
             // add start button eventlisteners            
-            start_button.addEventListener("click", this.restart_game, false);
-            start_button.addEventListener("touchend", this.restart_game, false);
+            start_button.addEventListener("click", this.restart_game.bind(this), false);
+            start_button.addEventListener("touchend", this.restart_game.bind(this), false);
         },
         "restart_game": function restart_game(event) {
-            function reset_caller_board() {
-                var number_board = document.getElementById("numbers-board");
-
-                number_board.childNodes.forEach(function (val, index, list) {
-                    if (val.nodeType === Node.ELEMENT_NODE) {
-                        val.classList.remove("called");
-                    }
-                });
-            }
-
             // clear the called numbers from the number board
-            reset_caller_board();
+            var number_board = document.getElementById("numbers-board");
+
+            number_board.childNodes.forEach(function (val, index, list) {
+                if (val.nodeType === Node.ELEMENT_NODE) {
+                    val.classList.remove("called");
+                }
+            });
 
             // Start Game
             this.start_game(event);

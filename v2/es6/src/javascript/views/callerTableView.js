@@ -39,6 +39,9 @@ export default (function() {
                 
                 // highlight called number on board
                 number_board.querySelector("span[data-number='"+curr_number+"']").classList.add("called");
+                
+                // dispatch number called event
+                document.querySelector(".bingo-card.computer button.call-bingo").dispatchEvent( new CustomEvent('number_called', { "detail" : curr_number, "bubbles" : true }) );
             }
             else{
                 clearInterval(bingo_caller_interval_ID);   
@@ -94,7 +97,7 @@ export default (function() {
             
             // stop and reset the counter
             clearInterval(bingo_caller_interval_ID);
-            called_numbers_arry = [];
+            called_numbers_arry = [0];
             
             // display message
             msg_dom.innerHTML = this.compiled_modal({player_type : event.detail.type});
@@ -117,7 +120,7 @@ export default (function() {
         },
         "restart_game" : function(event) {
             // clear the called numbers from the number board
-            var number_board = document.getElementById("numbers-board");
+            let number_board = document.getElementById("numbers-board");
 
             number_board.childNodes.forEach( function(val, index, list) { 
                 if (val.nodeType === Node.ELEMENT_NODE ) {

@@ -50,8 +50,31 @@ export default (function () {
                 }, false);
             }
             else {
-            // setup event for computer
-                game_card_btn[0].addEventListener("new_num_called", this.call_bingo.bind(bingo_card), false);
+            // setup events for computer
+                game_card_btn[0].addEventListener("start", function(event) {
+                    let center_cell = game_card_DOM.querySelector(".bingo-card.computer .bingo-cell[data-number='0']");
+                    center_cell.classList.add("clicked");
+                    bingo_card.stamp_number("N3"); 
+                }.bind({bingo_card:bingo_card, game_card_DOM:game_card_DOM})(), false);
+                
+                //game_card_btn[0].addEventListener("number_called", this.call_bingo.bind(bingo_card), false);
+                
+                game_card_btn[0].addEventListener("number_called", function(event){
+                    // an anonomous object is bound to this with properties of bingo card and its view
+                    
+                    let current_number = event.detail;
+                    let bingo_cell_dom = document.querySelector(".bingo-card.computer .bingo-cell[data-number='"+ current_number +"']");
+                    let position = "";
+                    
+                    if (this.bingo_card.card_numbers.indexOf(current_number) !== -1) {
+                        bingo_cell_dom.classList.add("clicked");
+                        position =  bingo_cell_dom.dataset.letter + ( bingo_cell_dom.dataset.position).toString();
+                        this.bingo_card.stamp_number(position);
+                        //this.bingoCardView.call_bingo(event).bind(bingo_card)();
+                        this.bingoCardView.call_bingo.call(bingo_card, event);
+                    }
+                }.bind({bingoCardView: this, bingo_card: bingo_card}), false);
+                
             }
             
             //return DOM to be inserted
@@ -84,7 +107,7 @@ export default (function () {
             if (count >= 5) {
                 event.currentTarget.dispatchEvent( new CustomEvent('bingo', { "detail" : this, "bubbles" : true }) );
             }
-            else {
+            else if(this.type !== "computer"){
                 event.currentTarget.classList.add("warning");
             } 
         }

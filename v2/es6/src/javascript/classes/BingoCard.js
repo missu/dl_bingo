@@ -86,7 +86,7 @@ export class BingoCard {
         Description: marks a bingo cell as clicked 
         Returns: an object
     */
-    stamp_numbers(position) {
+    stamp_number(position) {
         if (!position) {
             return;
         }
