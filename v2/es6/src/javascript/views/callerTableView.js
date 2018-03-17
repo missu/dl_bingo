@@ -30,8 +30,21 @@ export default (function() {
             
             if (called_numbers_arry.length < 76) {
                 // get a random number
-                curr_letter = utils.letters[utils.random_number(0,5)];
-                curr_number = utils.bingo_number(curr_letter, called_numbers_arry);
+                curr_number = utils.bingo_number(null, called_numbers_arry);
+                
+                // get letter based off of random number
+                if ( curr_number <= 15 ) {
+                    curr_letter = utils.letters[0];
+                } else if(15 < curr_number && curr_number <= 30) {
+                    curr_letter = utils.letters[1];
+                } else if(30 < curr_number && curr_number <= 45) {
+                    curr_letter = utils.letters[2];
+                } else if(45 < curr_number && curr_number <= 60) {
+                    curr_letter = utils.letters[3];
+                } else if(60 < curr_number && curr_number <=75) {
+                    curr_letter = utils.letters[4];
+                }
+                
                 called_numbers_arry.push(curr_number);
                 
                 // udpate called number in number display

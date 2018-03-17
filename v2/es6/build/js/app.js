@@ -65637,37 +65637,59 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function () {
     return {
         bingo_number: function bingo_number(letter, num_arry) {
-            /* 	B 1-15
-                I 16-30
-                N 31-45
-                G 46-60
-                O 61-75
+            /* - If a letter is provided then a random number within that letter's 
+                 range will be chosen.
+               - If a letter is not provided, then a random number will be chosen 
+            B 1-15
+               I 16-30
+               N 31-45
+               G 46-60
+               O 61-75
             */
             var bingo_num = "";
 
-            switch (letter) {
-                case "B":
-                    bingo_num = this.random_number(1, 16);
-                    break;
-                case "I":
-                    bingo_num = this.random_number(16, 31);
-                    break;
-                case "N":
-                    bingo_num = this.random_number(31, 46);
-                    break;
-                case "G":
-                    bingo_num = this.random_number(46, 61);
-                    break;
-                case "O":
-                    bingo_num = this.random_number(61, 76);
-                    break;
-            }
+            if (letter) {
+                switch (letter) {
+                    case "B":
+                        bingo_num = this.random_number(1, 16);
+                        break;
+                    case "I":
+                        bingo_num = this.random_number(16, 31);
+                        break;
+                    case "N":
+                        bingo_num = this.random_number(31, 46);
+                        break;
+                    case "G":
+                        bingo_num = this.random_number(46, 61);
+                        break;
+                    case "O":
+                        bingo_num = this.random_number(61, 76);
+                        break;
+                }
 
-            if (num_arry && num_arry.indexOf(bingo_num) !== -1) {
-                return this.bingo_number(letter, num_arry);
+                if (num_arry && num_arry.indexOf(bingo_num) !== -1) {
+                    return this.bingo_number(letter, num_arry);
+                }
             } else {
-                return bingo_num;
+                var max = 75;
+                var number_pool = new Array(max);
+
+                for (var i = 1; i <= max; i++) {
+                    number_pool[i - 1] = i;
+                }
+
+                // if numbers were provided, remove numbers that have already been called
+                if (num_arry && num_arry.length !== 0) {
+                    num_arry.forEach(function (element) {
+                        number_pool.splice(number_pool.indexOf(element), 1);
+                    });
+                    bingo_num = this.random_number(0, number_pool.length + 1);
+                    bingo_num = number_pool[bingo_num];
+                } else {
+                    bingo_num = this.random_number(0, max + 1);
+                }
             }
+            return bingo_num;
         },
         letters: ['B', 'I', 'N', 'G', 'O'],
         random_number: function random_number(min, max) {
@@ -65876,8 +65898,21 @@ exports.default = function () {
 
             if (called_numbers_arry.length < 76) {
                 // get a random number
-                curr_letter = _utils2.default.letters[_utils2.default.random_number(0, 5)];
-                curr_number = _utils2.default.bingo_number(curr_letter, called_numbers_arry);
+                curr_number = _utils2.default.bingo_number(null, called_numbers_arry);
+
+                // get letter based off of random number
+                if (curr_number <= 15) {
+                    curr_letter = _utils2.default.letters[0];
+                } else if (15 < curr_number && curr_number <= 30) {
+                    curr_letter = _utils2.default.letters[1];
+                } else if (30 < curr_number && curr_number <= 45) {
+                    curr_letter = _utils2.default.letters[2];
+                } else if (45 < curr_number && curr_number <= 60) {
+                    curr_letter = _utils2.default.letters[3];
+                } else if (60 < curr_number && curr_number <= 75) {
+                    curr_letter = _utils2.default.letters[4];
+                }
+
                 called_numbers_arry.push(curr_number);
 
                 // udpate called number in number display
