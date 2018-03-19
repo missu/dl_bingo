@@ -92,6 +92,7 @@ export default (function() {
             
             // disable start button
             start_button.setAttribute("disabled", "disabled");
+            start_button.classList.add("disabled");
             start_button.removeEventListener("click", this.start_game, false);
             start_button.removeEventListener("touchend", this.start_game, false);
             start_button.removeEventListener("click", this.restart_game, false);
@@ -126,6 +127,7 @@ export default (function() {
             
             // re-enable start button
             start_button.removeAttribute("disabled");
+            start_button.classList.remove("disabled");
             
             // add start button eventlisteners            
             start_button.addEventListener("click", this.restart_game.bind(this), false);

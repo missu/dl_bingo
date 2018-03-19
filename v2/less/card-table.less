@@ -23,7 +23,7 @@
 
     .bingo-card {
     	max-width: 301px;
-    	border: 1px solid @user-base-color;
+    	border: 1.5px solid @user-base-color;
     	-webkit-border-radius: 3px;
     	-moz-border-radius: 3px;
     	border-radius: 3px;
@@ -31,7 +31,7 @@
     	margin-right: 20px;
 
         &.computer {
-        	border: 1px solid @computer-base-color;
+        	border: 1.5px solid @computer-base-color;
             .card-header {
             	color: @computer-base-color;
 
@@ -53,6 +53,7 @@
             	background: #FFF;
             	border: none;
             	color: @computer-base-color;
+                font-size: 13px;
             	width: 120px;
             }
         } // End computer
@@ -63,7 +64,7 @@
           	display: -ms-flexbox;      /* TWEENER - IE 10 */
           	display: -webkit-flex;
         	display: flex;
-        	width: 300px;
+        	width: 299px;
         	text-align: center;
 
             .bingo-cell-title {
@@ -81,7 +82,7 @@
           	display: -ms-flexbox;      /* TWEENER - IE 10 */
           	display: -webkit-flex;
         	display: flex;
-        	width: 300px;
+        	width: 299px;
 
             .bingo-cell {
             	border-right: 1px solid #222;
@@ -120,15 +121,8 @@
         	-webkit-border-radius: 3px;
         	-moz-border-radius: 3px;
         	border-radius: 3px;
-        	background: @user-base-color;
-        	background: -moz-linear-gradient(top, @user-base-color, @user-blend-color);
-        	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @user-base-color), color-stop(100%, @user-blend-color));
-        	background: -webkit-linear-gradient(top, @user-base-color, @user-blend-color);
-        	background: -o-linear-gradient(top, @user-base-color, @user-blend-color);
-        	background: -ms-linear-gradient(top, @user-base-color, @user-blend-color);
-        	background: linear-gradient(top, @user-base-color, @user-blend-color);
-        	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@user-base-color, endColorstr=@user-blend-color,GradientType=0);
-        	line-height: 14px;
+        	.background-gradient(@user-base-color; @user-blend-color);
+            line-height: 14px;
         	height: 30px;
         	width: 80px;
             
@@ -141,19 +135,12 @@
 
 }
 
-/** animation **/
+/** Animation **/
 
 @keyframes shake {
   from {
     margin-left: 1%;
-    background: @warning-base-color;
-    background: -moz-linear-gradient(top, @warning-base-color, @warning-blend-color);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @warning-base-color), color-stop(100%, @warning-blend-color));
-    background: -webkit-linear-gradient(top, @warning-base-color, @warning-blend-color);
-    background: -o-linear-gradient(top, @warning-base-color, @warning-blend-color);
-    background: -ms-linear-gradient(top, @warning-base-color, @warning-blend-color);
-    background: linear-gradient(top, @warning-base-color, @warning-blend-color);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@warning-base-color, endColorstr=@warning-blend-color,GradientType=0);
+    .background-gradient(@warning-base-color; @warning-blend-color);
   }
   25% {
     margin-left: 0%;

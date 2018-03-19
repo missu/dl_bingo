@@ -65717,7 +65717,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 
 var str_bingo_card = "div(class=computer ? \"bingo-card computer\" : \"bingo-card\")\r\n    header.card-header\r\n        span.bingo-cell-title B\r\n        span.bingo-cell-title I\r\n        span.bingo-cell-title N\r\n        span.bingo-cell-title G\r\n        span.bingo-cell-title O\r\n    div.bingo-row !{row_1}\r\n    div.bingo-row !{row_2}\r\n    div.bingo-row !{row_3}\r\n    div.bingo-row !{row_4}\r\n    div.bingo-row !{row_5}\r\n    footer.card-footer\r\n        button.call-bingo= !computer ? \"Yell Bingo!\" : \"Computer Opponent\"\r\n        ";
-var str_bingo_cell = "span(class=\"bingo-cell\" data-letter=letter data-number=number data-position=position) \r\n    span.bingo-num= number";
+var str_bingo_cell = "span(class=\"bingo-cell\" data-letter=letter data-number=number data-position=position) \r\n    span.bingo-num= number === 0 ? \"FREE\" : number";
 var compiled_bingo_card = pug.compile(str_bingo_card);
 var compiled_bingo_cell = pug.compile(str_bingo_cell);
 
@@ -65959,6 +65959,7 @@ exports.default = function () {
 
             // disable start button
             start_button.setAttribute("disabled", "disabled");
+            start_button.classList.add("disabled");
             start_button.removeEventListener("click", this.start_game, false);
             start_button.removeEventListener("touchend", this.start_game, false);
             start_button.removeEventListener("click", this.restart_game, false);
@@ -65993,6 +65994,7 @@ exports.default = function () {
 
             // re-enable start button
             start_button.removeAttribute("disabled");
+            start_button.classList.remove("disabled");
 
             // add start button eventlisteners            
             start_button.addEventListener("click", this.restart_game.bind(this), false);

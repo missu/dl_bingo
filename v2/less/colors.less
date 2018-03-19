@@ -9,3 +9,17 @@
 
 @warning-base-color: red;
 @warning-blend-color: tomato;
+
+
+/* Color Mixins */
+
+.background-gradient(@base-color; @blend-color){
+    background: @base-color;
+    background: -moz-linear-gradient(top, @base-color, @blend-color);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @base-color), color-stop(100%, @blend-color));
+    background: -webkit-linear-gradient(top, @base-color, @blend-color);
+    background: -o-linear-gradient(top, @base-color, @blend-color);
+    background: -ms-linear-gradient(top, @base-color, @blend-color);
+    background: linear-gradient(top, @base-color, @blend-color);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@base-color, endColorstr=@blend-color,GradientType=0);
+}
